@@ -1,0 +1,34 @@
+/* main banner slider css */
+.swiper-button-next,
+.swiper-button-prev {
+  background: rgb(255, 255, 255);
+  padding: 0.5rem;
+  border-radius: 0.2rem !important;
+  width: 2rem !important;
+  height: 3rem !important;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 2rem !important;
+  font-weight: 900;
+}
+
+.swiper-pagination-bullet {
+  background: rgb(255, 255, 255) !important;
+  color: rgb(255, 255, 255) !important;
+  width: 2rem !important;
+  border-radius: 0.1rem !important;
+}
+
+/* custom slider css */
+.sliderContainer {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.sliderContainer::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+.sliderItem {
+  scroll-snap-align: start;
+}
