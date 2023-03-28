@@ -37,6 +37,11 @@ app.get("/", (req, res) => {
   res.status(200).json({ msg: "this is the server of the fileshop project!" });
 });
 
+////\\\\ middlebanner routes and use it's middlewares
+const middleBannerRoutes = require("./routes/MiddleBannerRoutes");
+
+app.use("/api", middleBannerRoutes);
+
 // connecting to data base
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
