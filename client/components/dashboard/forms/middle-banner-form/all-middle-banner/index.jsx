@@ -6,10 +6,16 @@ import Image from "next/image";
 
 const AllMiddleBanner = () => {
   const [banners, setBanners] = useState([]);
-  const [middleBannerNumber, setMiddleBannerNumber] = useState(1);
-  const [pageNumber, setPageNumber] = useState(2);
-  const [btnNumbers, setBtnNumbers] = useState([1]);
-  console.log(btnNumbers);
+  const [btnNumbers, setBtnNumbers] = useState([-1]);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     axios
       .get(
@@ -17,13 +23,12 @@ const AllMiddleBanner = () => {
       )
       .then((d) => {
         setBanners(d.data.GoalMiddleBanners);
-        setMiddleBannerNumber(d.data.AllMiddleBannersNumber);
-        setBtnNumbers(
-          Array.from(Array(Math.ceil(d.data.AllMiddleBannersNumber / 2))).keys()
-        );
+        setBtnNumbers([
+          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / 2)).keys(),
+        ]);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [pageNumber]);
 
   return (
     <div className="p-4 flex flex-col gap-8">
@@ -41,7 +46,27 @@ const AllMiddleBanner = () => {
           banners.map((banner, i) => <Box key={i} data={banner} />)
         )}
       </div>
-      <div>{Math.ceil(middleBannerNumber / 2)}</div>
+      <div className="flex justify-center items-center gap-2">
+        {btnNumbers[0] == -1 ? (
+          <div className="flex justify-center items-center p-12">
+            <Image alt="loading" width={40} height={40} src={"/loading.svg"} />
+          </div>
+        ) : (
+          btnNumbers.map((n, i) => (
+            <button
+              className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center"
+              onClick={() => {
+                setPageNumber(n + 1);
+                setBanners([]);
+                goToTop();
+              }}
+              key={i}
+            >
+              {n + 1}
+            </button>
+          ))
+        )}
+      </div>
     </div>
   );
 };
