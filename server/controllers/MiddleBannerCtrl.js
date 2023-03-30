@@ -1,8 +1,19 @@
 const MiddleBanner = require("../models/MiddleBanner");
 const getAllMiddleBanner = async (req, res) => {
   try {
-    const AllMiddleBanners = await MiddleBanner.find();
-    res.status(200).json(AllMiddleBanners);
+    if (req.query.pn) {
+      const paginate = 2;
+      const pageNumber = req.query.pn;
+      const GoalMiddleBanners = await MiddleBanner.find()
+        .sort({ _id: -1 })
+        .skip((pageNumber - 1) * paginate)
+        .limit(paginate);
+      const AllMiddleBannersNumber = await (await MiddleBanner.find()).length;
+      res.status(200).json({ GoalMiddleBanners, AllMiddleBannersNumber });
+    } else {
+      const AllMiddleBanners = await MiddleBanner.find();
+      res.status(200).json(AllMiddleBanners);
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "error!" });
