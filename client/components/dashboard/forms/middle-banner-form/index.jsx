@@ -2,9 +2,17 @@
 import { useState, useEffect } from "react";
 import AllMiddleBanner from "./all-middle-banner";
 import NewMiddleBanner from "./new-middle-banner";
+import MiddleBannerDetails from "./middle-banner-details";
 
 const MiddleBannerAll = () => {
-  const [details, setDetails] = useState(<AllMiddleBanner />);
+  const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState("");
+  const [details, setDetails] = useState(
+    <AllMiddleBanner setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl} />
+  );
+  console.log(middleBannerDetailCtrl);
+  useEffect(() => {
+    setDetails(<MiddleBannerDetails data={middleBannerDetailCtrl} />);
+  }, [middleBannerDetailCtrl]);
 
   return (
     <div className="flex flex-col gap-8">

@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
 
-const Box = ({ data }) => {
+const Box = ({ data, setMiddleBannerDetailCtrl }) => {
   return (
-    <div className="w-full p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500">
+    <div
+      onClick={() => setMiddleBannerDetailCtrl(data._id)}
+      className="w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
+    >
       <div className="flex justify-start items-center">
         <Image
           className="rounded-lg"

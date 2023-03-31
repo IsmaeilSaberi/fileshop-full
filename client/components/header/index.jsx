@@ -120,6 +120,14 @@ const Header = () => {
                     وبلاگ
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
+                    href={"/dashboard"}
+                  >
+                    داشبورد
+                  </Link>
+                </li>
               </ul>
             </nav>
             <div className="flex flex-col gap-2 items-end">

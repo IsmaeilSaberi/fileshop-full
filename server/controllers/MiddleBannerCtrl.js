@@ -1,3 +1,4 @@
+const { deleteOne } = require("../models/MiddleBanner");
 const MiddleBanner = require("../models/MiddleBanner");
 const getAllMiddleBanner = async (req, res) => {
   try {
@@ -48,3 +49,39 @@ const newMiddleBanner = async (req, res) => {
   }
 };
 module.exports.newMiddleBanner = newMiddleBanner;
+
+const updateMiddleBanner = async (req, res) => {
+  try {
+    await MiddleBanner.updateOne(
+      { _id: req.body.goalId },
+      {
+        $set: {
+          image: req.body.image,
+          imageAlt: req.body.imageAlt,
+          situation: req.body.situation,
+          link: req.body.link,
+          date: new Date().toLocaleDateString("fa-IR", {
+            hour: "2-digit",
+            minute: "2--digit",
+          }),
+        },
+      }
+    );
+    res.status(200).json({ msg: "بنر میانی با موفقیت آپدیت شد!" });
+  } catch (error) {
+    res.status(400).json({ msg: "error!" });
+  }
+};
+
+module.exports.updateMiddleBanner = updateMiddleBanner;
+
+const removeMiddleBanner = async (req, res) => {
+  try {
+    await MiddleBanner.deleteOne({ _id: req.body.goalId });
+    res.status(200).json({ msg: "بنر میانی با موفقیت حذف شد!" });
+  } catch (error) {
+    res.status(400).json({ msg: "error!" });
+  }
+};
+
+module.exports.removeMiddleBanner = removeMiddleBanner;

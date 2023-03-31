@@ -4,7 +4,7 @@ import axios from "axios";
 import Box from "./Box";
 import Image from "next/image";
 
-const AllMiddleBanner = () => {
+const AllMiddleBanner = ({ setMiddleBannerDetailCtrl }) => {
   const [banners, setBanners] = useState([]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -43,7 +43,13 @@ const AllMiddleBanner = () => {
             />
           </div>
         ) : (
-          banners.map((banner, i) => <Box key={i} data={banner} />)
+          banners.map((banner, i) => (
+            <Box
+              key={i}
+              setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
+              data={banner}
+            />
+          ))
         )}
       </div>
       <div className="flex justify-center items-center gap-2">
