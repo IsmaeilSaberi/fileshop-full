@@ -5,14 +5,22 @@ import NewMiddleBanner from "./new-middle-banner";
 import MiddleBannerDetails from "./middle-banner-details";
 
 const MiddleBannerAll = () => {
-  const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState("");
+  const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState(1);
+  const [randNumForBannerClick, setRandNumForBannerClick] = useState(1);
   const [details, setDetails] = useState(
-    <AllMiddleBanner setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl} />
+    <AllMiddleBanner
+      setRandNumForBannerClick={setRandNumForBannerClick}
+      setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
+    />
   );
-  console.log(middleBannerDetailCtrl);
+
   useEffect(() => {
-    setDetails(<MiddleBannerDetails data={middleBannerDetailCtrl} />);
-  }, [middleBannerDetailCtrl]);
+    if (middleBannerDetailCtrl != 1) {
+      setDetails(
+        <MiddleBannerDetails middleBannerId={middleBannerDetailCtrl} />
+      );
+    }
+  }, [randNumForBannerClick]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -20,7 +28,14 @@ const MiddleBannerAll = () => {
         <h1 className="text-blue-500 text-lg">بنرهای تبلیغاتی</h1>
         <div className="flex justify-end items-center gap-2">
           <button
-            onClick={() => setDetails(<AllMiddleBanner />)}
+            onClick={() =>
+              setDetails(
+                <AllMiddleBanner
+                  setRandNumForBannerClick={setRandNumForBannerClick}
+                  setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
+                />
+              )
+            }
             className="px-3 py-1 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             همه

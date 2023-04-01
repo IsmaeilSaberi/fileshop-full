@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
 
-const Box = ({ data, setMiddleBannerDetailCtrl }) => {
+const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
   return (
     <div
-      onClick={() => setMiddleBannerDetailCtrl(data._id)}
+      onClick={() => {
+        setMiddleBannerDetailCtrl(data._id);
+        setRandNumForBannerClick(Math.ceil(Math.random() * 20));
+      }}
       className="w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
       <div className="flex justify-start items-center">

@@ -4,7 +4,10 @@ import axios from "axios";
 import Box from "./Box";
 import Image from "next/image";
 
-const AllMiddleBanner = ({ setMiddleBannerDetailCtrl }) => {
+const AllMiddleBanner = ({
+  setMiddleBannerDetailCtrl,
+  setRandNumForBannerClick,
+}) => {
   const [banners, setBanners] = useState([]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -46,6 +49,7 @@ const AllMiddleBanner = ({ setMiddleBannerDetailCtrl }) => {
           banners.map((banner, i) => (
             <Box
               key={i}
+              setRandNumForBannerClick={setRandNumForBannerClick}
               setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
               data={banner}
             />
