@@ -5,7 +5,7 @@ import NewMiddleBanner from "./new-middle-banner";
 import MiddleBannerDetails from "./middle-banner-details";
 
 const MiddleBannerAll = () => {
-  const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState(1);
+  const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState("");
   const [randNumForBannerClick, setRandNumForBannerClick] = useState(1);
   const [details, setDetails] = useState(
     <AllMiddleBanner
@@ -15,7 +15,7 @@ const MiddleBannerAll = () => {
   );
 
   useEffect(() => {
-    if (middleBannerDetailCtrl != 1) {
+    if (middleBannerDetailCtrl != "") {
       setDetails(
         <MiddleBannerDetails middleBannerId={middleBannerDetailCtrl} />
       );

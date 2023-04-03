@@ -1,5 +1,5 @@
-const { deleteOne } = require("../models/MiddleBanner");
 const MiddleBanner = require("../models/MiddleBanner");
+
 const getAllMiddleBanner = async (req, res) => {
   try {
     if (req.query.pn) {
@@ -52,8 +52,9 @@ module.exports.newMiddleBanner = newMiddleBanner;
 
 const updateMiddleBanner = async (req, res) => {
   try {
+    const id = req.body.id;
     await MiddleBanner.updateOne(
-      { _id: req.body.goalId },
+      { _id: id },
       {
         $set: {
           image: req.body.image,
@@ -62,7 +63,7 @@ const updateMiddleBanner = async (req, res) => {
           link: req.body.link,
           date: new Date().toLocaleDateString("fa-IR", {
             hour: "2-digit",
-            minute: "2--digit",
+            minute: "2-digit",
           }),
         },
       }
@@ -85,3 +86,15 @@ const removeMiddleBanner = async (req, res) => {
 };
 
 module.exports.removeMiddleBanner = removeMiddleBanner;
+
+const getOneMiddleBanner = async (req, res) => {
+  try {
+    const goalId = req.params.id;
+    const targetMiddleBanner = await MiddleBanner.findById(goalId);
+    res.status(200).json(targetMiddleBanner);
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+  }
+};
+
+module.exports.getOneMiddleBanner = getOneMiddleBanner;

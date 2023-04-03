@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 const MiddleBannerDetails = ({ middleBannerId }) => {
@@ -8,24 +8,44 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
   const imageLinkRef = useRef();
   const imageSituationRef = useRef();
 
+  // here we update a middlebanner details
   const submitter = (e) => {
     e.preventDefault();
     const formData = {
-      goalId: middleBannerId,
+      id: middleBannerId,
       image: imageUrlRef.current.value,
       imageAlt: imageAltRef.current.value,
-      situation: imageSituationRef.current.value,
       link: imageLinkRef.current.value,
+      situation: imageSituationRef.current.value,
     };
-    const url = `https://fileshop-server.iran.liara.run/api/update-middle-banner`;
     axios
-      .post(url, formData)
+      .post(
+        `https://fileshop-server.iran.liara.run/api/update-middle-banner`,
+        formData
+      )
       .then((d) => console.log("ok"))
-      .catch((err) => console.log("error"));
+      .catch((err) => console.log("error1"));
   };
-  console.log(middleBannerId);
 
-  // useEffect(() => {}, [middleBannerId]);
+  const [imageUrlS, setImageUrlS] = useState("");
+  const [imageAltS, setImageAltS] = useState("");
+  const [imageLinkS, setImageLinkS] = useState("");
+  const [imageSituationS, setImageSituationS] = useState(true);
+
+  // this part used for getting one middlebanner details for using in details component
+  useEffect(() => {
+    axios
+      .get(
+        `https://fileshop-server.iran.liara.run/api/get-middle-banner/${middleBannerId}`
+      )
+      .then((d) => {
+        setImageUrlS(d.data.image);
+        setImageAltS(d.data.imageAlt);
+        setImageLinkS(d.data.link);
+        setImageSituationS(d.data.situation);
+      })
+      .catch((err) => console.log("error"));
+  }, [middleBannerId]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -34,6 +54,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         <div className="flex flex-col gap-2">
           <div>آدرس جدید عکس</div>
           <input
+            defaultValue={imageUrlS}
             type="text"
             ref={imageUrlRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
@@ -42,6 +63,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         <div className="flex flex-col gap-2">
           <div>آلت جدید عکس</div>
           <input
+            defaultValue={imageAltS}
             type="text"
             ref={imageAltRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
@@ -50,6 +72,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         <div className="flex flex-col gap-2">
           <div>لینک جدید عکس</div>
           <input
+            defaultValue={imageLinkS}
             type="text"
             ref={imageLinkRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
@@ -61,8 +84,17 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
             ref={imageSituationRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
           >
-            <option value="true">روشن</option>
-            <option value="false">خاموش</option>
+            {imageSituationS == true ? (
+              <>
+                <option value="true">روشن</option>
+                <option value="false">خاموش</option>
+              </>
+            ) : (
+              <>
+                <option value="false">خاموش</option>
+                <option value="true">روشن</option>
+              </>
+            )}
           </select>
         </div>
         <button
