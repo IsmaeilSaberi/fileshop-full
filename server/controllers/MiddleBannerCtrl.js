@@ -78,7 +78,7 @@ module.exports.updateMiddleBanner = updateMiddleBanner;
 
 const removeMiddleBanner = async (req, res) => {
   try {
-    await MiddleBanner.deleteOne({ _id: req.body.goalId });
+    await MiddleBanner.deleteOne({ _id: req.body.id });
     res.status(200).json({ msg: "بنر میانی با موفقیت حذف شد!" });
   } catch (error) {
     res.status(400).json({ msg: "error!" });

@@ -3,13 +3,20 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 const MiddleBannerDetails = ({ middleBannerId }) => {
+  // the part for prevent for submitting with enter key
+  const formKeyNotSuber = (event) => {
+    if (event.key == "Enter") {
+      event.preventDefault();
+    }
+  };
+
   const imageUrlRef = useRef();
   const imageAltRef = useRef();
   const imageLinkRef = useRef();
   const imageSituationRef = useRef();
 
   // here we update a middlebanner details
-  const submitter = (e) => {
+  const updater = (e) => {
     e.preventDefault();
     const formData = {
       id: middleBannerId,
@@ -47,10 +54,36 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
       .catch((err) => console.log("error"));
   }, [middleBannerId]);
 
+  // this part is used to delete a middle banner
+  const remover = (e) => {
+    const formData = {
+      id: middleBannerId,
+    };
+    axios
+      .post(
+        `https://fileshop-server.iran.liara.run/api/remove-middle-banner`,
+        formData
+      )
+      .then((d) => console.log("removed"))
+      .catch((err) => console.log("error1"));
+  };
+
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-orange-500 text-lg">جزئیات بنر</h2>
-      <form onSubmit={submitter} className="flex flex-col gap-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-orange-500 text-lg">جزئیات بنر</h2>
+        <button
+          onClick={() => remover()}
+          className="bg-rose-600 text-white px-3 py-1 rounded-md text-xs"
+        >
+          حذف بنر
+        </button>
+      </div>
+      <form
+        onKeyDown={formKeyNotSuber}
+        onSubmit={updater}
+        className="flex flex-col gap-6"
+      >
         <div className="flex flex-col gap-2">
           <div>آدرس جدید عکس</div>
           <input
