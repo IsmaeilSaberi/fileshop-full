@@ -74,7 +74,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         <h2 className="text-orange-500 text-lg">جزئیات بنر</h2>
         <button
           onClick={() => remover()}
-          className="bg-rose-600 text-white px-3 py-1 rounded-md text-xs"
+          className="bg-rose-400 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-500"
         >
           حذف بنر
         </button>
@@ -88,15 +88,17 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
           <div>آدرس جدید عکس</div>
           <input
             defaultValue={imageUrlS}
+            required={true}
             type="text"
             ref={imageUrlRef}
-            className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+            className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
           />
         </div>
         <div className="flex flex-col gap-2">
           <div>آلت جدید عکس</div>
           <input
             defaultValue={imageAltS}
+            required={true}
             type="text"
             ref={imageAltRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
@@ -106,9 +108,10 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
           <div>لینک جدید عکس</div>
           <input
             defaultValue={imageLinkS}
+            required={true}
             type="text"
             ref={imageLinkRef}
-            className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+            className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
           />
         </div>
         <div className="flex flex-col gap-2">

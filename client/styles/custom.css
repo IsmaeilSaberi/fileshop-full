@@ -32,3 +32,7 @@
 .sliderItem {
   scroll-snap-align: start;
 }
+
+.inputLtr {
+  direction: ltr;
+}

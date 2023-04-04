@@ -8,9 +8,10 @@ const AllMiddleBanner = ({
   setMiddleBannerDetailCtrl,
   setRandNumForBannerClick,
 }) => {
-  const [banners, setBanners] = useState([]);
+  const [banners, setBanners] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [allMiddleBannerNumbers, setAllMiddleBannerNumbers] = useState(0);
 
   const goToTop = () => {
     window.scroll({
@@ -29,14 +30,20 @@ const AllMiddleBanner = ({
         setBtnNumbers([
           ...Array(Math.ceil(d.data.AllMiddleBannersNumber / 10)).keys(),
         ]);
+        setAllMiddleBannerNumbers(d.data.AllMiddleBannersNumber);
       })
       .catch((err) => console.log(err));
   }, [pageNumber]);
 
   return (
     <div className="p-4 flex flex-col gap-8">
+      <div className="flex justify-end items-center">
+        <div className="w-20 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
+          {allMiddleBannerNumbers} بنر
+        </div>
+      </div>
       <div className="flex flex-col gap-6">
-        {banners.length < 1 ? (
+        {banners[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -44,6 +51,10 @@ const AllMiddleBanner = ({
               height={120}
               src={"/loading.svg"}
             />
+          </div>
+        ) : banners.length < 1 ? (
+          <div className="flex justify-center items-center w-full p-8">
+            بنری موجود نیست!
           </div>
         ) : (
           banners.map((banner, i) => (

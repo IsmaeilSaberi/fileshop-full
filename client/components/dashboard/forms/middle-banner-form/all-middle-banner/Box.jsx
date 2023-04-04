@@ -8,7 +8,7 @@ const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
         setMiddleBannerDetailCtrl(data._id);
         setRandNumForBannerClick(Math.ceil(Math.random() * 20));
       }}
-      className="w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
+      className="relative flex justify-between items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
       <div className="flex justify-start items-center">
         <Image
@@ -20,7 +20,7 @@ const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
           height={200}
         />
       </div>
-      <div className="flex justify-end items-center gap-2">
+      <div className="flex items-center gap-2 absolute bottom-5 left-5">
         {data.situation == true ? (
           <div className="text-xs bg-green-500 text-white px-2 py-1 rounded">
             روشن
