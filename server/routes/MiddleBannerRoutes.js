@@ -7,5 +7,6 @@ router.post("/new-middle-banner", MiddleBannerCtrl.newMiddleBanner);
 router.post("/update-middle-banner", MiddleBannerCtrl.updateMiddleBanner);
 router.post("/remove-middle-banner", MiddleBannerCtrl.removeMiddleBanner);
 router.get("/get-middle-banner/:id", MiddleBannerCtrl.getOneMiddleBanner);
+router.get("/get-active-middle-banner", MiddleBannerCtrl.getActiveBanners);
 
 module.exports = router;

@@ -27,7 +27,7 @@ const AllMiddleBanner = ({
       .then((d) => {
         setBanners(d.data.GoalMiddleBanners);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / 2)).keys(),
+          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / 10)).keys(),
         ]);
       })
       .catch((err) => console.log(err));
@@ -64,7 +64,7 @@ const AllMiddleBanner = ({
         ) : (
           btnNumbers.map((n, i) => (
             <button
-              className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center"
+              className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               onClick={() => {
                 setPageNumber(n + 1);
                 setBanners([]);

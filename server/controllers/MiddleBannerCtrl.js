@@ -3,7 +3,7 @@ const MiddleBanner = require("../models/MiddleBanner");
 const getAllMiddleBanner = async (req, res) => {
   try {
     if (req.query.pn) {
-      const paginate = 2;
+      const paginate = 10;
       const pageNumber = req.query.pn;
       const GoalMiddleBanners = await MiddleBanner.find()
         .sort({ _id: -1 })
@@ -98,3 +98,18 @@ const getOneMiddleBanner = async (req, res) => {
 };
 
 module.exports.getOneMiddleBanner = getOneMiddleBanner;
+
+const getActiveBanners = async (req, res) => {
+  try {
+    const ActiveBanners = await MiddleBanner.find({ situation: true }).select({
+      image: 1,
+      imageAlt: 1,
+      link: 1,
+    });
+    res.status(200).json(ActiveBanners);
+  } catch (error) {
+    res.status(400).json("an error accured!");
+  }
+};
+
+module.exports.getActiveBanners = getActiveBanners;
