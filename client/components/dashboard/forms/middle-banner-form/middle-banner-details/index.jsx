@@ -24,10 +24,14 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
       imageAlt: imageAltRef.current.value,
       link: imageLinkRef.current.value,
       situation: imageSituationRef.current.value,
+      date: new Date().toLocaleDateString("fa-IR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
     axios
       .post(
-        `https://fileshop-server.iran.liara.run/api/update-middle-banner`,
+        `https://fileshop-server.iran.liara.run/api/update-middle-banner/${middleBannerId}`,
         formData
       )
       .then((d) => console.log("ok"))
@@ -58,13 +62,9 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
 
   // this part is used to delete a middle banner
   const remover = (e) => {
-    const formData = {
-      id: middleBannerId,
-    };
     axios
       .post(
-        `https://fileshop-server.iran.liara.run/api/remove-middle-banner`,
-        formData
+        `https://fileshop-server.iran.liara.run/api/remove-middle-banner/${middleBannerId}`
       )
       .then((d) => console.log("removed"))
       .catch((err) => console.log("error1"));

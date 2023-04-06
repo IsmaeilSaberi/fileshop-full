@@ -15,6 +15,10 @@ const NewMiddleBanner = () => {
       imageAlt: imageAltRef.current.value,
       situation: imageSituationRef.current.value,
       link: imageLinkRef.current.value,
+      date: new Date().toLocaleDateString("fa-IR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
     const url = `https://fileshop-server.iran.liara.run/api/new-middle-banner`;
     axios

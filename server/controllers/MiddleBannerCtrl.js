@@ -23,66 +23,94 @@ const getAllMiddleBanner = async (req, res) => {
 module.exports.getAllMiddleBanner = getAllMiddleBanner;
 
 const newMiddleBanner = async (req, res) => {
+  ////// new simple method for create a middle banner
   try {
-    const newMiddleBanner = new MiddleBanner({
-      image: req.body.image,
-      imageAlt: req.body.imageAlt,
-      situation: req.body.situation,
-      link: req.body.link,
-      date: new Date().toLocaleDateString("fa-IR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    });
-    newMiddleBanner
-      .save()
-      .then((d) => {
-        res.status(200).json({ msg: "بنر میانی با موفقیت ذخیره شد!" });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json({ msg: "خطا دز ذخیره بنر میانی!!!" });
-      });
+    await MiddleBanner.create(req.body);
+    res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت اضافه شد!" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ msg: "error" });
   }
+  /////// detailed and complex method for create a middle banner
+  // try {
+  //   const newMiddleBanner = new MiddleBanner({
+  //     image: req.body.image,
+  //     imageAlt: req.body.imageAlt,
+  //     situation: req.body.situation,
+  //     link: req.body.link,
+  //     date: new Date().toLocaleDateString("fa-IR", {
+  //       hour: "2-digit",
+  //       minute: "2-digit",
+  //     }),
+  //   });
+  //   newMiddleBanner
+  //     .save()
+  //     .then((d) => {
+  //       res.status(200).json({ msg: "بنر میانی با موفقیت ذخیره شد!" });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       res.status(400).json({ msg: "خطا دز ذخیره بنر میانی!!!" });
+  //     });
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(400).json({ msg: "error" });
+  // }
 };
 module.exports.newMiddleBanner = newMiddleBanner;
 
 const updateMiddleBanner = async (req, res) => {
+  ////// a simple method for update a middle banner
   try {
-    const id = req.body.id;
-    await MiddleBanner.updateOne(
-      { _id: id },
-      {
-        $set: {
-          image: req.body.image,
-          imageAlt: req.body.imageAlt,
-          situation: req.body.situation,
-          link: req.body.link,
-          date: new Date().toLocaleDateString("fa-IR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      }
-    );
-    res.status(200).json({ msg: "بنر میانی با موفقیت آپدیت شد!" });
+    await MiddleBanner.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت آپدیت شد!" });
   } catch (error) {
-    res.status(400).json({ msg: "error!" });
+    res.status(400).json({ msg: "error" });
   }
+
+  /////// a complex model for update a middle banner
+  // try {
+  //   const id = req.body.id;
+  //   await MiddleBanner.updateOne(
+  //     { _id: id },
+  //     {
+  //       $set: {
+  //         image: req.body.image,
+  //         imageAlt: req.body.imageAlt,
+  //         situation: req.body.situation,
+  //         link: req.body.link,
+  //         date: new Date().toLocaleDateString("fa-IR", {
+  //           hour: "2-digit",
+  //           minute: "2-digit",
+  //         }),
+  //       },
+  //     }
+  //   );
+  //   res.status(200).json({ msg: "بنر میانی با موفقیت آپدیت شد!" });
+  // } catch (error) {
+  //   res.status(400).json({ msg: "error!" });
+  // }
 };
 
 module.exports.updateMiddleBanner = updateMiddleBanner;
 
 const removeMiddleBanner = async (req, res) => {
+  ////// a simple method for remove a middle banner
   try {
-    await MiddleBanner.deleteOne({ _id: req.body.id });
-    res.status(200).json({ msg: "بنر میانی با موفقیت حذف شد!" });
+    await MiddleBanner.findByIdAndDelete(req.params.id);
+    res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت حذف شد!" });
   } catch (error) {
-    res.status(400).json({ msg: "error!" });
+    res.status(400).json({ msg: "error" });
   }
+  /////// a complex method for remove a middle banner
+  // try {
+  //   await MiddleBanner.deleteOne({ _id: req.body.id });
+  //   res.status(200).json({ msg: "بنر میانی با موفقیت حذف شد!" });
+  // } catch (error) {
+  //   res.status(400).json({ msg: "error!" });
+  // }
 };
 
 module.exports.removeMiddleBanner = removeMiddleBanner;
