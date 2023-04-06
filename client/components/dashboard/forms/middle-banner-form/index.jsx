@@ -36,13 +36,13 @@ const MiddleBannerAll = () => {
                 />
               )
             }
-            className="px-3 py-1 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
+            className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             همه
           </button>
           <button
             onClick={() => setDetails(<NewMiddleBanner />)}
-            className="px-3 py-1 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
+            className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             بنر جدید
           </button>

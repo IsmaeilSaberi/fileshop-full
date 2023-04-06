@@ -25,6 +25,41 @@ const BlogLayout = ({ children }) => {
           </p>
         </div>
         <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
+          <h3 className="text-blue-500">برچسب ها</h3>
+          <div className="flex justify-start items-center gap-2 flex-wrap">
+            <Link
+              className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+              href={""}
+            >
+              مقاله
+            </Link>
+            <Link
+              className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+              href={""}
+            >
+              مقاله
+            </Link>
+            <Link
+              className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+              href={""}
+            >
+              مقاله
+            </Link>
+            <Link
+              className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+              href={""}
+            >
+              مقاله
+            </Link>
+            <Link
+              className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+              href={""}
+            >
+              مقاله
+            </Link>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
           <h3 className="text-blue-500">پربازدیدترین مقالات</h3>
           <ul className="flex flex-col gap-2">
             <li>

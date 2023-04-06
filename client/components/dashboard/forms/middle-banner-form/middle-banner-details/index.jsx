@@ -38,6 +38,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
   const [imageAltS, setImageAltS] = useState("");
   const [imageLinkS, setImageLinkS] = useState("");
   const [imageSituationS, setImageSituationS] = useState(true);
+  const [fullData, setFullData] = useState(true);
 
   // this part used for getting one middlebanner details for using in details component
   useEffect(() => {
@@ -50,6 +51,7 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         setImageAltS(d.data.imageAlt);
         setImageLinkS(d.data.link);
         setImageSituationS(d.data.situation);
+        setFullData(d.data);
       })
       .catch((err) => console.log("error"));
   }, [middleBannerId]);
@@ -76,8 +78,16 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
           onClick={() => remover()}
           className="bg-rose-400 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-500"
         >
-          حذف بنر
+          حذف
         </button>
+      </div>
+      <div className="flex justify-between items-center">
+        <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
+          {fullData._id ? fullData._id : ""}
+        </div>
+        <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
+          {fullData.date ? fullData.date : ""}
+        </div>
       </div>
       <form
         onKeyDown={formKeyNotSuber}

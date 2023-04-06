@@ -10,7 +10,6 @@ const getData = async () => {
 
 const MiddleBanner = async () => {
   const data = await getData();
-  console.log(data);
   return (
     <section className="container mx-auto flex justify-between items-center flex-wrap gap-2">
       {data.map((d, i) => (

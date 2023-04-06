@@ -10,8 +10,10 @@ const AllMiddleBanner = ({
 }) => {
   const [banners, setBanners] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
+  const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
   const [allMiddleBannerNumbers, setAllMiddleBannerNumbers] = useState(0);
+  const paginate = 10;
 
   const goToTop = () => {
     window.scroll({
@@ -23,22 +25,40 @@ const AllMiddleBanner = ({
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/middle-banners?pn=${pageNumber}`
+        `https://fileshop-server.iran.liara.run/api/middle-banners?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
         setBanners(d.data.GoalMiddleBanners);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / 10)).keys(),
+          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / paginate)).keys(),
         ]);
         setAllMiddleBannerNumbers(d.data.AllMiddleBannersNumber);
       })
       .catch((err) => console.log(err));
   }, [pageNumber]);
 
+  useEffect(() => {
+    if (btnNumbers[0] != -1 && btnNumbers.length > 0) {
+      const arr = [];
+      btnNumbers.map((n) => {
+        if (
+          n == 0 ||
+          (n < pageNumber + 1 && n > pageNumber - 3) ||
+          n == btnNumbers.length - 1
+        ) {
+          arr.push(n);
+        }
+      });
+      setFilteredBtns(arr);
+    } else if (btnNumbers.length == 0) {
+      setFilteredBtns([]);
+    }
+  }, [btnNumbers]);
+
   return (
-    <div className="p-4 flex flex-col gap-8">
+    <div className=" flex flex-col gap-8">
       <div className="flex justify-end items-center">
-        <div className="w-20 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
+        <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
           {allMiddleBannerNumbers} بنر
         </div>
       </div>
@@ -68,12 +88,12 @@ const AllMiddleBanner = ({
         )}
       </div>
       <div className="flex justify-center items-center gap-2">
-        {btnNumbers[0] == -1 ? (
+        {filteredBtns[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image alt="loading" width={40} height={40} src={"/loading.svg"} />
           </div>
         ) : (
-          btnNumbers.map((n, i) => (
+          filteredBtns.map((n, i) => (
             <button
               className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               onClick={() => {

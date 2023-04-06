@@ -2,8 +2,8 @@ const MiddleBanner = require("../models/MiddleBanner");
 
 const getAllMiddleBanner = async (req, res) => {
   try {
-    if (req.query.pn) {
-      const paginate = 10;
+    if (req.query.pn && req.query.pgn) {
+      const paginate = req.query.pgn;
       const pageNumber = req.query.pn;
       const GoalMiddleBanners = await MiddleBanner.find()
         .sort({ _id: -1 })
