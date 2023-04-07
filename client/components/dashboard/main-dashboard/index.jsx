@@ -4,6 +4,7 @@ import DashboardCtrl from "../dashboard-ctrl";
 
 import MiddleBannerAll from "../forms/middle-banner-form";
 import SlidersAll from "../forms/sliders-form";
+import PostForms from "../forms/posts-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("middleBanner");
@@ -13,6 +14,8 @@ const MainDashboard = () => {
       setDetails(<MiddleBannerAll />);
     } else if (contentChanger == "sliders") {
       setDetails(<SlidersAll />);
+    } else if (contentChanger == "posts") {
+      setDetails(<PostForms />);
     }
   }, [contentChanger]);
   return (

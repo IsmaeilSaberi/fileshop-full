@@ -42,6 +42,11 @@ const middleBannerRoutes = require("./routes/MiddleBannerRoutes");
 
 app.use("/api", middleBannerRoutes);
 
+/////\\\\\ post routes and use it's middlewares
+const postRoutes = require("./routes/PostRoutes");
+
+app.use("/api", postRoutes);
+
 // connecting to data base
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
