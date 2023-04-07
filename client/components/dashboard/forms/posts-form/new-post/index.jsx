@@ -60,7 +60,6 @@ const NewPost = () => {
     }
     setRelatedPosts(related);
   };
-  console.log(relatedPosts);
 
   const submitter = (e) => {
     if (e.key == "Enter") {
@@ -89,12 +88,11 @@ const NewPost = () => {
       comments: [],
       relatedPosts: relatedPosts,
     };
-    console.log(formData);
     const url = `https://fileshop-server.iran.liara.run/api/new-post`;
-    // axios
-    //   .post(url, formData)
-    //   .then((d) => console.log("ok"))
-    //   .catch((err) => console.log("error"));
+    axios
+      .post(url, formData)
+      .then((d) => console.log("ok"))
+      .catch((err) => console.log("error"));
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import AllMiddleBanner from "./all-middle-banner";
+import AllPosts from "./all-posts";
 import NewPost from "./new-post";
 import MiddleBannerDetails from "./middle-banner-details";
 
@@ -8,7 +8,7 @@ const PostMain = () => {
   const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState("");
   const [randNumForBannerClick, setRandNumForBannerClick] = useState(1);
   const [details, setDetails] = useState(
-    <AllMiddleBanner
+    <AllPosts
       setRandNumForBannerClick={setRandNumForBannerClick}
       setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
     />
@@ -27,10 +27,10 @@ const PostMain = () => {
       <section className="flex justify-between items-center gap-4">
         <h1 className="text-blue-500 text-lg">پست ها</h1>
         <div className="flex justify-end items-center gap-2">
-          {/* <button
+          <button
             onClick={() =>
               setDetails(
-                <AllMiddleBanner
+                <AllPosts
                   setRandNumForBannerClick={setRandNumForBannerClick}
                   setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
                 />
@@ -39,7 +39,7 @@ const PostMain = () => {
             className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             همه
-          </button> */}
+          </button>
           <button
             onClick={() => setDetails(<NewPost />)}
             className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"

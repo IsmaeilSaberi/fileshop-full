@@ -34,7 +34,9 @@ module.exports.getRelatedPosts = getRelatedPosts;
 
 const newPost = async (req, res) => {
   try {
-    await Post.create(req.body);
+    const data = req.body;
+    data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+    await Post.create(data);
     res.status(200).json({ msg: "پست یا مقاله با موفقیت اضافه شد!" });
   } catch (error) {
     console.log(error);
@@ -45,7 +47,9 @@ module.exports.newPost = newPost;
 
 const updatePost = async (req, res) => {
   try {
-    await Post.findByIdAndUpdate(req.params.id, req.body, {
+    const data = req.body;
+    data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+    await Post.findByIdAndUpdate(req.params.id, data, {
       new: true,
     });
     res.status(200).json({ msg: "مقاله با موفقیت آپدیت شد!" });

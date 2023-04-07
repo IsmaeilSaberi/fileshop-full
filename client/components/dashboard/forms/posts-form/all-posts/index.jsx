@@ -4,15 +4,12 @@ import axios from "axios";
 import Box from "./Box";
 import Image from "next/image";
 
-const AllMiddleBanner = ({
-  setMiddleBannerDetailCtrl,
-  setRandNumForBannerClick,
-}) => {
-  const [banners, setBanners] = useState([-1]);
+const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
+  const [posts, setPosts] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [allMiddleBannerNumbers, setAllMiddleBannerNumbers] = useState(0);
+  const [allPostsNumbers, setAllPostsNumbers] = useState(0);
   const paginate = 10;
 
   const goToTop = () => {
@@ -25,14 +22,14 @@ const AllMiddleBanner = ({
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/middle-banners?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/posts?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
-        setBanners(d.data.GoalMiddleBanners);
+        setPosts(d.data.GoalMiddlePosts);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / paginate)).keys(),
+          ...Array(Math.ceil(d.data.AllMiddlePostsNumber / paginate)).keys(),
         ]);
-        setAllMiddleBannerNumbers(d.data.AllMiddleBannersNumber);
+        setAllPostsNumbers(d.data.AllMiddlePostsNumber);
       })
       .catch((err) => console.log(err));
   }, [pageNumber]);
@@ -59,11 +56,11 @@ const AllMiddleBanner = ({
     <div className=" flex flex-col gap-8">
       <div className="flex justify-end items-center">
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
-          {allMiddleBannerNumbers} بنر
+          {allPostsNumbers} مقاله
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {banners[0] == -1 ? (
+        {posts[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -72,18 +69,19 @@ const AllMiddleBanner = ({
               src={"/loading.svg"}
             />
           </div>
-        ) : banners.length < 1 ? (
+        ) : posts.length < 1 ? (
           <div className="flex justify-center items-center w-full p-8">
-            بنری موجود نیست!
+            پستی موجود نیست!
           </div>
         ) : (
-          banners.map((banner, i) => (
-            <Box
-              key={i}
-              setRandNumForBannerClick={setRandNumForBannerClick}
-              setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
-              data={banner}
-            />
+          posts.map((banner, i) => (
+            <div key={i}>1</div>
+            // <Box
+            //   key={i}
+            //   setRandNumForBannerClick={setRandNumForBannerClick}
+            //   setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
+            //   data={banner}
+            // />
           ))
         )}
       </div>
@@ -98,7 +96,7 @@ const AllMiddleBanner = ({
               className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               onClick={() => {
                 setPageNumber(n + 1);
-                setBanners([]);
+                setPosts([]);
                 goToTop();
               }}
               key={i}
@@ -112,4 +110,4 @@ const AllMiddleBanner = ({
   );
 };
 
-export default AllMiddleBanner;
+export default AllPosts;

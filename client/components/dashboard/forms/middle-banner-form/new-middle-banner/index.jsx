@@ -8,6 +8,12 @@ const NewMiddleBanner = () => {
   const imageLinkRef = useRef();
   const imageSituationRef = useRef();
 
+  const formKeyNotSuber = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   const submitter = (e) => {
     e.preventDefault();
     const formData = {
@@ -30,7 +36,11 @@ const NewMiddleBanner = () => {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-orange-500 text-lg">بنر جدید</h2>
-      <form onSubmit={submitter} className="flex flex-col gap-6">
+      <form
+        onSubmit={submitter}
+        onKeyDown={formKeyNotSuber}
+        className="flex flex-col gap-6"
+      >
         <div className="flex flex-col gap-2">
           <div>آدرس عکس</div>
           <input
