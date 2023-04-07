@@ -3,6 +3,7 @@ const router = express();
 
 const PostCtrl = require("../controllers/PostCtrl");
 router.get("/posts", PostCtrl.getAllPosts);
+router.get("/related-posts", PostCtrl.getRelatedPosts);
 router.post("/new-post", PostCtrl.newPost);
 router.post("/update-post/:id", PostCtrl.updatePost);
 router.post("/remove-post/:id", PostCtrl.removePost);

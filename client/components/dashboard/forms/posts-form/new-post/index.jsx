@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 const NewPost = () => {
   const titleRef = useRef();
@@ -37,6 +38,30 @@ const NewPost = () => {
     setTag(tag.filter((_, index) => index !== indexToRemove));
   };
 
+  const [posts, setPosts] = useState([-1]);
+  useEffect(() => {
+    const postsUrl = "https://fileshop-server.iran.liara.run/api/related-posts";
+    axios
+      .get(postsUrl)
+      .then((d) => {
+        console.log(d.data);
+        setPosts(d.data);
+      })
+      .catch((err) => console.log("error in loading posts"));
+  }, []);
+
+  const [relatedPosts, setRelatedPosts] = useState([]);
+  const relatedPostsManager = (v) => {
+    let related = [...relatedPosts];
+    if (v.target.checked) {
+      related = [...related, v.target.value];
+    } else {
+      related.splice(relatedPosts.indexOf(v.target.value), 1);
+    }
+    setRelatedPosts(related);
+  };
+  console.log(relatedPosts);
+
   const submitter = (e) => {
     if (e.key == "Enter") {
       e.preventDefault();
@@ -62,13 +87,14 @@ const NewPost = () => {
       pageView: 0,
       published: publishedRef.current.value,
       comments: [],
+      relatedPosts: relatedPosts,
     };
-    const url = `https://fileshop-server.iran.liara.run/api/new-post`;
     console.log(formData);
-    axios
-      .post(url, formData)
-      .then((d) => console.log("ok"))
-      .catch((err) => console.log("error"));
+    const url = `https://fileshop-server.iran.liara.run/api/new-post`;
+    // axios
+    //   .post(url, formData)
+    //   .then((d) => console.log("ok"))
+    //   .catch((err) => console.log("error"));
   };
 
   return (
@@ -180,6 +206,37 @@ const NewPost = () => {
               })}
             </div>
           </div>
+        </div>
+        <div className="related flex flex-col gap-2">
+          <h3>مقالات مرتبط</h3>
+          {posts[0] == -1 ? (
+            <div className="flex justify-center items-center p-12">
+              <Image
+                alt="loading"
+                width={40}
+                height={40}
+                src={"/loading.svg"}
+              />
+            </div>
+          ) : posts.length < 1 ? (
+            <div className="p-3">مقاله ای یافت نشد!</div>
+          ) : (
+            <div className="flex justify-start items center flex-wrap gap-2">
+              {posts.map((po, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-1 bg-zinc-100 px-2 py-1 rounded-md border border-indigo-400"
+                >
+                  {po.title}
+                  <input
+                    onChange={relatedPostsManager}
+                    value={po._id}
+                    type="checkbox"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <div>منتشر شود</div>

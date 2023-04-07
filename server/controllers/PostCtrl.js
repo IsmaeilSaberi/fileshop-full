@@ -22,6 +22,16 @@ const getAllPosts = async (req, res) => {
 };
 module.exports.getAllPosts = getAllPosts;
 
+const getRelatedPosts = async (req, res) => {
+  try {
+    const AllPosts = await Post.find().select({ title: 1 });
+    res.status(200).json(AllPosts);
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+  }
+};
+module.exports.getRelatedPosts = getRelatedPosts;
+
 const newPost = async (req, res) => {
   try {
     await Post.create(req.body);
@@ -43,7 +53,6 @@ const updatePost = async (req, res) => {
     res.status(400).json({ msg: "error" });
   }
 };
-
 module.exports.updatePost = updatePost;
 
 const removePost = async (req, res) => {
@@ -54,7 +63,6 @@ const removePost = async (req, res) => {
     res.status(400).json({ msg: "error" });
   }
 };
-
 module.exports.removePost = removePost;
 
 const getOnePost = async (req, res) => {
@@ -73,7 +81,6 @@ const getOnePost = async (req, res) => {
     res.status(400).json({ msg: "error" });
   }
 };
-
 module.exports.getOnePost = getOnePost;
 
 const getNewPosts = async (req, res) => {
@@ -93,5 +100,4 @@ const getNewPosts = async (req, res) => {
     res.status(400).json("an error accured!");
   }
 };
-
 module.exports.getNewPosts = getNewPosts;
