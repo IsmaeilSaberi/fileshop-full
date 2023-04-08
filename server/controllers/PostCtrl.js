@@ -61,7 +61,7 @@ module.exports.updatePost = updatePost;
 
 const removePost = async (req, res) => {
   try {
-    await MiddleBanner.findByIdAndDelete(req.params.id);
+    await Post.findByIdAndDelete(req.params.id);
     res.status(200).json({ msg: "مقاله با موفقیت حذف شد!" });
   } catch (error) {
     res.status(400).json({ msg: "error" });
@@ -86,6 +86,16 @@ const getOnePost = async (req, res) => {
   }
 };
 module.exports.getOnePost = getOnePost;
+
+const getOnePostById = async (req, res) => {
+  try {
+    const targetPost = await Post.findById(req.params.id);
+    res.status(200).json(targetPost);
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+  }
+};
+module.exports.getOnePostById = getOnePostById;
 
 const getNewPosts = async (req, res) => {
   try {

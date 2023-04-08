@@ -8,7 +8,7 @@ const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
         setMiddleBannerDetailCtrl(data._id);
         setRandNumForBannerClick(Math.random());
       }}
-      className="relative flex justify-between items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
+      className="relative flex justify-start gap-8 items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
       <div className="flex justify-start items-center">
         <Image
@@ -20,18 +20,24 @@ const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
           height={200}
         />
       </div>
-      <div className="flex items-center gap-2 absolute bottom-5 left-5">
-        {data.situation == true ? (
-          <div className="text-xs bg-green-500 text-white px-2 py-1 rounded">
-            روشن
+      <div className="flex flex-col gap-4 h-40">
+        <div className="">{data.title}</div>
+        <div className="text-xs absolute top-3 left-3 bg-blue-500 text-white px-2 py-1 rounded">
+          {data.updatedAt}
+        </div>
+        <div className="absolute bottom-3 left-3 flex justify-end items-center gap-2">
+          <div className="text-xs bg-orange-500 text-white w-24 h-6 flex items-center justify-center rounded">
+            {data.pageView} بازدید
           </div>
-        ) : (
-          <div className="text-xs bg-rose-500 text-white px-2 py-1 rounded">
-            خاموش
-          </div>
-        )}
-        <div className="text-xs bg-orange-500 text-white px-2 py-1 rounded">
-          {data.date}
+          {data.published == true ? (
+            <div className="text-xs bg-green-500 text-white px-2 py-1 rounded">
+              منتشر شده
+            </div>
+          ) : (
+            <div className="text-xs bg-red-500 text-white px-2 py-1 rounded">
+              پیش نویس
+            </div>
+          )}
         </div>
       </div>
     </div>

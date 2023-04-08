@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import AllPosts from "./all-posts";
 import NewPost from "./new-post";
-import MiddleBannerDetails from "./middle-banner-details";
+import PostDetails from "./post-details";
 
 const PostMain = () => {
   const [middleBannerDetailCtrl, setMiddleBannerDetailCtrl] = useState("");
@@ -16,9 +16,7 @@ const PostMain = () => {
 
   useEffect(() => {
     if (middleBannerDetailCtrl != "") {
-      setDetails(
-        <MiddleBannerDetails middleBannerId={middleBannerDetailCtrl} />
-      );
+      setDetails(<PostDetails postId={middleBannerDetailCtrl} />);
     }
   }, [randNumForBannerClick]);
 

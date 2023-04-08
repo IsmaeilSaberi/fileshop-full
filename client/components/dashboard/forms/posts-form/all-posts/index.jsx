@@ -25,11 +25,11 @@ const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
         `https://fileshop-server.iran.liara.run/api/posts?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
-        setPosts(d.data.GoalMiddlePosts);
+        setPosts(d.data.GoalPosts);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllMiddlePostsNumber / paginate)).keys(),
+          ...Array(Math.ceil(d.data.AllPostsNumber / paginate)).keys(),
         ]);
-        setAllPostsNumbers(d.data.AllMiddlePostsNumber);
+        setAllPostsNumbers(d.data.AllPostsNumber);
       })
       .catch((err) => console.log(err));
   }, [pageNumber]);
@@ -74,14 +74,13 @@ const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
             پستی موجود نیست!
           </div>
         ) : (
-          posts.map((banner, i) => (
-            <div key={i}>1</div>
-            // <Box
-            //   key={i}
-            //   setRandNumForBannerClick={setRandNumForBannerClick}
-            //   setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
-            //   data={banner}
-            // />
+          posts.map((post, i) => (
+            <Box
+              key={i}
+              setRandNumForBannerClick={setRandNumForBannerClick}
+              setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
+              data={post}
+            />
           ))
         )}
       </div>
