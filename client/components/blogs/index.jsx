@@ -2,7 +2,16 @@ import Link from "next/link";
 
 import BlogBox from "./blogbox";
 
-const Blogs = () => {
+const getData = async () => {
+  const data = await fetch(
+    "https://fileshop-server.iran.liara.run/api/get-new-posts"
+  );
+  return data.json();
+};
+
+const Blogs = async () => {
+  const data = await getData();
+
   return (
     <section className="container mx-auto flex flex-col gap-8">
       <header className="m-4 flex justify-between items-center">
@@ -19,10 +28,9 @@ const Blogs = () => {
         </div>
       </header>
       <div className="flex flex-wrap justify-between items-center gap-2">
-        <BlogBox />
-        <BlogBox />
-        <BlogBox />
-        <BlogBox />
+        {data.map((bl, i) => (
+          <BlogBox key={i} data={bl} />
+        ))}
       </div>
     </section>
   );

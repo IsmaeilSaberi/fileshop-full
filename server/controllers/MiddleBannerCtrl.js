@@ -12,7 +12,7 @@ const getAllMiddleBanner = async (req, res) => {
       const AllMiddleBannersNumber = await (await MiddleBanner.find()).length;
       res.status(200).json({ GoalMiddleBanners, AllMiddleBannersNumber });
     } else {
-      const AllMiddleBanners = await MiddleBanner.find();
+      const AllMiddleBanners = await MiddleBanner.find().sort({ _id: -1 });
       res.status(200).json(AllMiddleBanners);
     }
   } catch (error) {

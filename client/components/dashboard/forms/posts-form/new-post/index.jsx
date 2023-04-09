@@ -45,7 +45,6 @@ const NewPost = () => {
     axios
       .get(postsUrl)
       .then((d) => {
-        console.log(d.data);
         setPosts(d.data);
       })
       .catch((err) => console.log("error in loading posts"));
