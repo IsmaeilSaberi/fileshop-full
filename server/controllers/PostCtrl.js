@@ -152,3 +152,20 @@ const getBlogPagePosts = async (req, res) => {
   }
 };
 module.exports.getBlogPagePosts = getBlogPagePosts;
+
+const getMostPopularPosts = async (req, res) => {
+  try {
+    const GoalPosts = await Post.find({ published: true })
+      .sort({ pageView: -1 })
+      .limit(3)
+      .select({
+        title: 1,
+        slug: 1,
+      });
+    res.status(200).json(GoalPosts);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "error!" });
+  }
+};
+module.exports.getMostPopularPosts = getMostPopularPosts;

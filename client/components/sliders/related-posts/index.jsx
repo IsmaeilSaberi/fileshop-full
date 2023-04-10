@@ -39,12 +39,6 @@ const RelatedPosts = ({ title }) => {
         >
           <div className="flex justify-between itemas-center gap-2">
             <BlogBox />
-            <BlogBox />
-            <BlogBox />
-            <BlogBox />
-            <BlogBox />
-            <BlogBox />
-            <BlogBox />
           </div>
         </div>
       </div>
