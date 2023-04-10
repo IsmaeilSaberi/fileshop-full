@@ -3,7 +3,8 @@ import Link from "next/link";
 
 const getData = async () => {
   const data = await fetch(
-    "https://fileshop-server.iran.liara.run/api/get-active-middle-banner"
+    "https://fileshop-server.iran.liara.run/api/get-active-middle-banner",
+    { cache: "no-store" }
   );
   return data.json();
 };

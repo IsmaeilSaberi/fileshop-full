@@ -7,11 +7,12 @@ import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsSend } from "react-icons/bs";
 import RelatedPosts from "../../../components/sliders/related-posts";
-import SingleBlogPage from "../../../components/single-blog";
+import MostViewedPosts from "../../../components/most-viewed-posts";
 
 const getData = async (slug) => {
   const data = await fetch(
-    `https://fileshop-server.iran.liara.run/api/get-post/${slug}`
+    `https://fileshop-server.iran.liara.run/api/get-post/${slug}`,
+    { cache: "no-store" }
   );
   return data.json();
 };
@@ -62,7 +63,12 @@ const SingleBlog = async ({ params }) => {
             <h2 className="text-xl">توضیحات کامل</h2>
             <p className="leading-9 text-justify">{data.longDesc}</p>
           </section>
-          <section>{/* <RelatedPosts title={"محصولات مرتبط"} /> */}</section>
+          <section>
+            <RelatedPosts
+              relatedPosts={data.relatedPosts}
+              title={"محصولات مرتبط"}
+            />
+          </section>
           <section className="flex flex-col gap-6">
             <h2 className="text-xl">دیدگاهها</h2>
             <form className="bg-gray-100 rounded-md h-48">1</form>
@@ -98,7 +104,7 @@ const SingleBlog = async ({ params }) => {
             ))}
           </div>
         </div>
-        <SingleBlogPage />
+        <MostViewedPosts />
         <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
           <h3 className="text-blue-500">پرفروش ترین محصولات</h3>
           <ul className="flex flex-col gap-2">

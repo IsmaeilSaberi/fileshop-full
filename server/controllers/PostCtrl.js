@@ -169,3 +169,24 @@ const getMostPopularPosts = async (req, res) => {
   }
 };
 module.exports.getMostPopularPosts = getMostPopularPosts;
+
+const getRelatedPostsByIds = async (req, res) => {
+  try {
+    const goalIds = req.body.goalIds;
+    const GoalPosts = await Post.find({ _id: goalIds }).select({
+      title: 1,
+      updatedAt: 1,
+      slug: 1,
+      image: 1,
+      imageAlt: 1,
+      shortDesc: 1,
+      type: 1,
+      pageView: 1,
+    });
+    res.status(200).json(GoalPosts);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "error!" });
+  }
+};
+module.exports.getRelatedPostsByIds = getRelatedPostsByIds;

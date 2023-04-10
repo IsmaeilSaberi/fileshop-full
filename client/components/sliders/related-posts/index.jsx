@@ -2,9 +2,11 @@
 import BlogBox from "../../blogs/blogbox";
 import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineLeft } from "react-icons/ai";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import Image from "next/image";
 
-const RelatedPosts = ({ title }) => {
+const RelatedPosts = ({ relatedPosts, title }) => {
   const carouselRef = useRef();
   const carouselSwitcher = (data) => {
     if (carouselRef.current) {
@@ -15,6 +17,19 @@ const RelatedPosts = ({ title }) => {
       );
     }
   };
+
+  const [relatedPostsData, setRelatedPostsData] = useState([-1]);
+  const sendingDataForRel = { goalIds: relatedPosts };
+  useEffect(() => {
+    const url =
+      "https://fileshop-server.iran.liara.run/api/get-related-posts-by-id";
+    axios
+      .post(url, sendingDataForRel)
+      .then((d) => {
+        setRelatedPostsData(d.data);
+      })
+      .catch((e) => console.log(e));
+  }, [relatedPosts]);
 
   return (
     <div className="container mx-auto">
@@ -38,7 +53,22 @@ const RelatedPosts = ({ title }) => {
           className="sliderContainer w-full max-w-5xl overflow-x-scroll"
         >
           <div className="flex justify-between itemas-center gap-2">
-            <BlogBox />
+            {relatedPostsData[0] == -1 ? (
+              <div className="flex justify-center items-center p-12">
+                <Image
+                  alt="loading"
+                  width={120}
+                  height={120}
+                  src={"/loading.svg"}
+                />
+              </div>
+            ) : relatedPostsData.length < 1 ? (
+              <div className="flex justify-center items-center p-4">
+                مقاله مرتبطی موجود نیست!
+              </div>
+            ) : (
+              relatedPostsData.map((da, i) => <BlogBox key={i} data={da} />)
+            )}
           </div>
         </div>
       </div>

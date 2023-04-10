@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const SingleBlogPage = () => {
+const MostViewedPosts = () => {
   const [posts, setPosts] = useState([-1]);
 
   useEffect(() => {
@@ -44,4 +44,4 @@ const SingleBlogPage = () => {
   );
 };
 
-export default SingleBlogPage;
+export default MostViewedPosts;
