@@ -98,7 +98,7 @@ const AllMiddleBanner = ({
               className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               onClick={() => {
                 setPageNumber(n + 1);
-                setBanners([]);
+                setBanners([-1]);
                 goToTop();
               }}
               key={i}

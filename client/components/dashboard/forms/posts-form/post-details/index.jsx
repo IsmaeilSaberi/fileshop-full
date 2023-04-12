@@ -2,6 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PostDetails = ({ postId }) => {
   // the part for prevent for submitting with enter key
@@ -109,8 +113,43 @@ const PostDetails = ({ postId }) => {
     const url = `https://fileshop-server.iran.liara.run/api/update-post/${postId}`;
     axios
       .post(url, formData)
-      .then((d) => console.log("ok"))
-      .catch((err) => console.log("error"));
+      .then((d) => {
+        formData.published == "true"
+          ? toast.success("مقاله با موفقیت آپدیت و منتشر شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          : toast.success(
+              "مقاله با موفقیت آپدیت و به صورت پیش نویس ذخیره شد.",
+              {
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              }
+            );
+      })
+      .catch((err) => {
+        console.log(err);
+        let message = "خطایی در آپدیت و ذخیره مقاله رخ داد.";
+        if (err.response.data.msg) {
+          message = err.response.data.msg;
+        }
+        toast.error(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   // this part is used to delete a post
@@ -118,20 +157,46 @@ const PostDetails = ({ postId }) => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-post/${postId}`;
     axios
       .post(url)
-      .then((d) => console.log("removed"))
-      .catch((err) => console.log("error1"));
+      .then((d) =>
+        toast.success("مقاله با موفقیت حذف شد.", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      )
+      .catch((err) =>
+        toast.error("حذف موفقیت آمیز نبود!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      );
   };
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <h2 className="text-orange-500 text-lg">جزئیات پست</h2>
-        <button
-          onClick={() => remover()}
-          className="bg-rose-400 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-500"
-        >
-          حذف
-        </button>
+        <div className="flex justify-end items-center gap-2">
+          <Link
+            href={`/blog/${fullData.slug}`}
+            className="bg-blue-400 text-white px-3 py-1 rounded-md text-sm transition-all duration-200 hover:bg-blue-500"
+          >
+            لینک پست
+          </Link>
+          <button
+            onClick={() => remover()}
+            className="bg-rose-400 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-500"
+          >
+            حذف
+          </button>
+        </div>
       </div>
       <div className="flex justify-between items-center">
         <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
@@ -280,10 +345,12 @@ const PostDetails = ({ postId }) => {
                   key={i}
                   className="flex items-center gap-1 bg-zinc-100 px-2 py-1 rounded-md border border-indigo-400"
                 >
-                  {po.title}
+                  <label htmlFor={po._id}>{po.title}</label>
                   {fullData.relatedPosts &&
                   fullData.relatedPosts.includes(po._id) ? (
                     <input
+                      name={po._id}
+                      id={po._id}
                       onChange={relatedPostsManager}
                       value={po._id}
                       type="checkbox"
@@ -291,6 +358,8 @@ const PostDetails = ({ postId }) => {
                     />
                   ) : (
                     <input
+                      name={po._id}
+                      id={po._id}
                       onChange={relatedPostsManager}
                       value={po._id}
                       type="checkbox"
@@ -327,11 +396,24 @@ const PostDetails = ({ postId }) => {
         </div>
         <button
           type="submit"
-          className="bg-indigo-400 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
+          className="bg-indigo-500 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
         >
           بروز رسانی
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

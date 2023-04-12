@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MiddleBannerDetails = ({ middleBannerId }) => {
   // the part for prevent for submitting with enter key
@@ -34,8 +37,40 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         `https://fileshop-server.iran.liara.run/api/update-middle-banner/${middleBannerId}`,
         formData
       )
-      .then((d) => console.log("ok"))
-      .catch((err) => console.log("error1"));
+      .then((d) => {
+        formData.situation == "true"
+          ? toast.success("بنر با موفقیت آپدیت و منتشر شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          : toast.success("بنر با موفقیت آپدیت و به صورت خاموش ذخیره شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+      })
+      .catch((err) => {
+        console.log(err);
+        let message = "خطایی در آپدیت و ذخیره بنر رخ داد.";
+        if (err.response.data.msg) {
+          message = err.response.data.msg;
+        }
+        toast.error(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   const [imageUrlS, setImageUrlS] = useState("");
@@ -66,8 +101,26 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
       .post(
         `https://fileshop-server.iran.liara.run/api/remove-middle-banner/${middleBannerId}`
       )
-      .then((d) => console.log("removed"))
-      .catch((err) => console.log("error1"));
+      .then((d) =>
+        toast.success("بنر با موفقیت حذف شد.", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      )
+      .catch((err) =>
+        toast.error("حذف موفقیت آمیز نبود!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      );
   };
 
   return (
@@ -145,11 +198,24 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
         </div>
         <button
           type="submit"
-          className="bg-indigo-400 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
+          className="bg-indigo-500 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
         >
           بروز رسانی
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

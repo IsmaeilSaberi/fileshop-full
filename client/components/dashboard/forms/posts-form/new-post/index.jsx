@@ -2,6 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewPost = () => {
   const titleRef = useRef();
@@ -91,8 +94,39 @@ const NewPost = () => {
     const url = `https://fileshop-server.iran.liara.run/api/new-post`;
     axios
       .post(url, formData)
-      .then((d) => console.log("ok"))
-      .catch((err) => console.log("error"));
+      .then((d) => {
+        formData.published == "true"
+          ? toast.success("مقاله با موفقیت منتشر شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          : toast.success("مقاله با موفقیت به صورت پیش نویس ذخیره شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+      })
+      .catch((err) => {
+        let message = "خطایی در ذخیره و ایجاد مقاله رخ داد.";
+        if (err.response.data.msg) {
+          message = err.response.data.msg;
+        }
+        toast.error(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
@@ -225,8 +259,10 @@ const NewPost = () => {
                   key={i}
                   className="flex items-center gap-1 bg-zinc-100 px-2 py-1 rounded-md border border-indigo-400"
                 >
-                  {po.title}
+                  <label htmlFor={po._id}>{po.title}</label>
                   <input
+                    name={po._id}
+                    id={po._id}
                     onChange={relatedPostsManager}
                     value={po._id}
                     type="checkbox"
@@ -248,11 +284,24 @@ const NewPost = () => {
         </div>
         <button
           type="submit"
-          className="bg-indigo-400 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
+          className="bg-indigo-500 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
         >
           ارسال
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

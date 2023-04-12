@@ -33,6 +33,7 @@ const SingleBlog = async ({ params }) => {
             <Image
               className="rounded-xl"
               alt={data.imageAlt}
+              title={data.imageAlt}
               width={800}
               height={400}
               src={data.image}

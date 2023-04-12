@@ -1,6 +1,9 @@
 "use client";
 import { useRef } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewMiddleBanner = () => {
   const imageUrlRef = useRef();
@@ -29,8 +32,39 @@ const NewMiddleBanner = () => {
     const url = `https://fileshop-server.iran.liara.run/api/new-middle-banner`;
     axios
       .post(url, formData)
-      .then((d) => console.log("ok"))
-      .catch((err) => console.log("error"));
+      .then((d) => {
+        formData.situation == "true"
+          ? toast.success("بنر با موفقیت ذخیره و منتشر شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          : toast.success("مقاله با موفقیت به صورت خاموش ذخیره شد.", {
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+      })
+      .catch((err) => {
+        let message = "خطایی در ذخیره و ایجاد بنر رخ داد.";
+        if (err.response.data.msg) {
+          message = err.response.data.msg;
+        }
+        toast.error(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
@@ -80,11 +114,24 @@ const NewMiddleBanner = () => {
         </div>
         <button
           type="submit"
-          className="bg-indigo-400 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
+          className="bg-indigo-500 p-2 w-full rounded-md text-white transition-all duration-200 hover:bg-orange-500"
         >
           ارسال
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
