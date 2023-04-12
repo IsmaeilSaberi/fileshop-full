@@ -39,13 +39,15 @@ app.get("/", (req, res) => {
 
 ////\\\\ middlebanner routes and use it's middlewares
 const middleBannerRoutes = require("./routes/MiddleBannerRoutes");
-
 app.use("/api", middleBannerRoutes);
 
 /////\\\\\ post routes and use it's middlewares
 const postRoutes = require("./routes/PostRoutes");
-
 app.use("/api", postRoutes);
+
+////\\\\ slider routes and use it's middlewares
+const sliderRoutes = require("./routes/SliderRoutes");
+app.use("/api", sliderRoutes);
 
 // connecting to data base
 const PORT = process.env.PORT;

@@ -13,10 +13,8 @@ const getAllMiddleBanner = async (req, res) => {
         .select({
           image: 1,
           imageAlt: 1,
-          link: 1,
           date: 1,
           situation: 1,
-          link: 1,
         });
       const AllMiddleBannersNumber = await (await MiddleBanner.find()).length;
       res.status(200).json({ GoalMiddleBanners, AllMiddleBannersNumber });
