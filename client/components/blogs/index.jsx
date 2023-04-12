@@ -21,7 +21,7 @@ const Blogs = async () => {
         <div className="flex gap-1 items-center">
           <Link
             className="bg-orange-500 px-4 border-2 py-2 rounded-lg transition-all duration-200 hover:bg-orange-600"
-            href={`/`}
+            href={`/blog`}
           >
             مشاهده ی همه
           </Link>
