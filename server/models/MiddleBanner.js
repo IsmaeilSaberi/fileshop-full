@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const MiddleBanner = new mongoose.Schema({
+const MiddleBannerSchema = new mongoose.Schema({
   image: {
     required: true,
     type: String,
@@ -25,4 +25,4 @@ const MiddleBanner = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("MiddleBanner", MiddleBanner);
+module.exports = mongoose.model("MiddleBanner", MiddleBannerSchema);

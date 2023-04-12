@@ -1,4 +1,5 @@
 const MiddleBanner = require("../models/MiddleBanner");
+const { validationResult } = require("express-validator");
 
 const getAllMiddleBanner = async (req, res) => {
   try {
@@ -8,7 +9,15 @@ const getAllMiddleBanner = async (req, res) => {
       const GoalMiddleBanners = await MiddleBanner.find()
         .sort({ _id: -1 })
         .skip((pageNumber - 1) * paginate)
-        .limit(paginate);
+        .limit(paginate)
+        .select({
+          image: 1,
+          imageAlt: 1,
+          link: 1,
+          date: 1,
+          situation: 1,
+          link: 1,
+        });
       const AllMiddleBannersNumber = await (await MiddleBanner.find()).length;
       res.status(200).json({ GoalMiddleBanners, AllMiddleBannersNumber });
     } else {
@@ -17,7 +26,7 @@ const getAllMiddleBanner = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ msg: "error!" });
+    res.status(400).json(error);
   }
 };
 module.exports.getAllMiddleBanner = getAllMiddleBanner;
@@ -25,11 +34,26 @@ module.exports.getAllMiddleBanner = getAllMiddleBanner;
 const newMiddleBanner = async (req, res) => {
   ////// new simple method for create a middle banner
   try {
-    await MiddleBanner.create(req.body);
-    res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت اضافه شد!" });
+    /////EXPRESS VALIDATOR
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ msg: errors.errors[0].msg });
+    } else {
+      if (
+        req.body.image.endsWith(".png") ||
+        req.body.image.endsWith(".jpg") ||
+        req.body.image.endsWith(".jpeg") ||
+        req.body.image.endsWith(".webp")
+      ) {
+        await MiddleBanner.create(req.body);
+        res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت اضافه شد!" });
+      } else {
+        res.status(422).json({ msg: "فرمت عکس درست نیست!" });
+      }
+    }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ msg: "error" });
+    res.status(400).json(error);
   }
   /////// detailed and complex method for create a middle banner
   // try {
@@ -62,12 +86,28 @@ module.exports.newMiddleBanner = newMiddleBanner;
 const updateMiddleBanner = async (req, res) => {
   ////// a simple method for update a middle banner
   try {
-    await MiddleBanner.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت آپدیت شد!" });
+    /////EXPRESS VALIDATOR
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ msg: errors.errors[0].msg });
+    } else {
+      if (
+        req.body.image.endsWith(".png") ||
+        req.body.image.endsWith(".jpg") ||
+        req.body.image.endsWith(".jpeg") ||
+        req.body.image.endsWith(".webp")
+      ) {
+        await MiddleBanner.findByIdAndUpdate(req.params.id, req.body, {
+          new: true,
+        });
+        res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت آپدیت شد!" });
+      } else {
+        res.status(422).json({ msg: "فرمت عکس درست نیست!" });
+      }
+    }
   } catch (error) {
-    res.status(400).json({ msg: "error" });
+    console.log(error);
+    res.status(400).json(error);
   }
 
   /////// a complex model for update a middle banner
@@ -102,7 +142,8 @@ const removeMiddleBanner = async (req, res) => {
     await MiddleBanner.findByIdAndDelete(req.params.id);
     res.status(200).json({ msg: "بنر تبلیغاتی با موفقیت حذف شد!" });
   } catch (error) {
-    res.status(400).json({ msg: "error" });
+    console.log(error);
+    res.status(400).json(error);
   }
   /////// a complex method for remove a middle banner
   // try {
@@ -121,7 +162,8 @@ const getOneMiddleBanner = async (req, res) => {
     const targetMiddleBanner = await MiddleBanner.findById(goalId);
     res.status(200).json(targetMiddleBanner);
   } catch (error) {
-    res.status(400).json({ msg: "error" });
+    console.log(error);
+    res.status(400).json(error);
   }
 };
 
@@ -136,7 +178,8 @@ const getActiveBanners = async (req, res) => {
     });
     res.status(200).json(ActiveBanners);
   } catch (error) {
-    res.status(400).json("an error accured!");
+    console.log(error);
+    res.status(400).json(error);
   }
 };
 
