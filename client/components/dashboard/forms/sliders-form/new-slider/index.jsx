@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const NewMiddleBanner = () => {
+const NewSlider = () => {
   const imageUrlRef = useRef();
   const imageAltRef = useRef();
   const imageLinkRef = useRef();
   const imageSituationRef = useRef();
+  const sorterRef = useRef();
 
   const formKeyNotSuber = (e) => {
     if (e.key === "Enter") {
@@ -23,18 +24,19 @@ const NewMiddleBanner = () => {
       image: imageUrlRef.current.value,
       imageAlt: imageAltRef.current.value,
       situation: imageSituationRef.current.value,
+      sorter: sorterRef.current.value,
       link: imageLinkRef.current.value,
       date: new Date().toLocaleDateString("fa-IR", {
         hour: "2-digit",
         minute: "2-digit",
       }),
     };
-    const url = `https://fileshop-server.iran.liara.run/api/new-middle-banner`;
+    const url = `https://fileshop-server.iran.liara.run/api/new-slider`;
     axios
       .post(url, formData)
       .then((d) => {
         formData.situation == "true"
-          ? toast.success("بنر با موفقیت ذخیره و منتشر شد.", {
+          ? toast.success("اسلایدر با موفقیت ذخیره و منتشر شد.", {
               autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
@@ -42,7 +44,7 @@ const NewMiddleBanner = () => {
               draggable: true,
               progress: undefined,
             })
-          : toast.success("بنر با موفقیت به صورت خاموش ذخیره شد.", {
+          : toast.success("اسلایدر با موفقیت به صورت خاموش ذخیره شد.", {
               autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
@@ -52,7 +54,7 @@ const NewMiddleBanner = () => {
             });
       })
       .catch((err) => {
-        let message = "خطایی در ذخیره و ایجاد بنر رخ داد.";
+        let message = "خطایی در ذخیره و ایجاد اسلایدر رخ داد.";
         if (err.response.data.msg) {
           message = err.response.data.msg;
         }
@@ -69,7 +71,7 @@ const NewMiddleBanner = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-orange-500 text-lg">بنر جدید</h2>
+      <h2 className="text-orange-500 text-lg">اسلایدر جدید</h2>
       <form
         onSubmit={submitter}
         onKeyDown={formKeyNotSuber}
@@ -99,6 +101,15 @@ const NewMiddleBanner = () => {
             type="text"
             required={true}
             ref={imageLinkRef}
+            className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div>سورتر اسلایدر</div>
+          <input
+            type="number"
+            required={true}
+            ref={sorterRef}
             className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
           />
         </div>
@@ -136,4 +147,4 @@ const NewMiddleBanner = () => {
   );
 };
 
-export default NewMiddleBanner;
+export default NewSlider;

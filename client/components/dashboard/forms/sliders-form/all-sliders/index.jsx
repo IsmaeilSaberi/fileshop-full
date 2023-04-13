@@ -7,15 +7,12 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AllMiddleBanner = ({
-  setMiddleBannerDetailCtrl,
-  setRandNumForBannerClick,
-}) => {
-  const [banners, setBanners] = useState([-1]);
+const AllSliders = ({ setSliderDetailCtrl, setRandNumForSliderClick }) => {
+  const [sliders, setSliders] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [allMiddleBannerNumbers, setAllMiddleBannerNumbers] = useState(0);
+  const [allSlidersNumbers, setAllSlidersNumbers] = useState(0);
   const paginate = 10;
 
   const goToTop = () => {
@@ -28,14 +25,14 @@ const AllMiddleBanner = ({
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/middle-banners?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/sliders?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
-        setBanners(d.data.GoalMiddleBanners);
+        setSliders(d.data.GoalSliders);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllMiddleBannersNumber / paginate)).keys(),
+          ...Array(Math.ceil(d.data.AllSlidersNumber / paginate)).keys(),
         ]);
-        setAllMiddleBannerNumbers(d.data.AllMiddleBannersNumber);
+        setAllSlidersNumbers(d.data.AllSlidersNumber);
       })
       .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
@@ -72,11 +69,11 @@ const AllMiddleBanner = ({
     <div className=" flex flex-col gap-8">
       <div className="flex justify-end items-center">
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
-          {allMiddleBannerNumbers} بنر
+          {allSlidersNumbers} اسلایدر
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {banners[0] == -1 ? (
+        {sliders[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -85,17 +82,17 @@ const AllMiddleBanner = ({
               src={"/loading.svg"}
             />
           </div>
-        ) : banners.length < 1 ? (
+        ) : sliders.length < 1 ? (
           <div className="flex justify-center items-center w-full p-8">
-            بنری موجود نیست!
+            اسلایدری موجود نیست!
           </div>
         ) : (
-          banners.map((banner, i) => (
+          sliders.map((slider, i) => (
             <Box
               key={i}
-              setRandNumForBannerClick={setRandNumForBannerClick}
-              setMiddleBannerDetailCtrl={setMiddleBannerDetailCtrl}
-              data={banner}
+              setRandNumForSliderClick={setRandNumForSliderClick}
+              setSliderDetailCtrl={setSliderDetailCtrl}
+              data={slider}
             />
           ))
         )}
@@ -111,7 +108,7 @@ const AllMiddleBanner = ({
               className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               onClick={() => {
                 setPageNumber(n + 1);
-                setBanners([-1]);
+                setSliders([-1]);
                 goToTop();
               }}
               key={i}
@@ -138,4 +135,4 @@ const AllMiddleBanner = ({
   );
 };
 
-export default AllMiddleBanner;
+export default AllSliders;

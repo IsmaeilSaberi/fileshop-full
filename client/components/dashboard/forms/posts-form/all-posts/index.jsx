@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Box from "./Box";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
   const [posts, setPosts] = useState([-1]);
@@ -31,7 +34,17 @@ const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
         ]);
         setAllPostsNumbers(d.data.AllPostsNumber);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("خطا در لود اطلاعات!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        console.log(err);
+      });
   }, [pageNumber]);
 
   useEffect(() => {
@@ -105,6 +118,19 @@ const AllPosts = ({ setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
           ))
         )}
       </div>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
