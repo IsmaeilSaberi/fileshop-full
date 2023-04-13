@@ -22,11 +22,11 @@ const SliderDetails = ({ data }) => {
   const [slideHandler, setslideHandler] = useState(1);
 
   return (
-    <section className="container mx-auto flex flex-col gap-40 relative p-2">
+    <>
       {data.length < 1 ? (
-        <div></div>
+        <></>
       ) : (
-        <>
+        <section className="container mx-auto flex flex-col gap-40 relative p-2">
           <div className=" btns z-30 absolute left-12 top-4 flex gap-1">
             <FaChevronRight
               onClick={() => {
@@ -66,9 +66,9 @@ const SliderDetails = ({ data }) => {
               src={data[nowSlide].image}
             />
           </Link>
-        </>
+        </section>
       )}
-    </section>
+    </>
   );
 };
 
