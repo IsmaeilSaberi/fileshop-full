@@ -2,20 +2,20 @@
 import { useEffect, useState } from "react";
 import DashboardCtrl from "../dashboard-ctrl";
 
-import MiddleBannerAll from "../forms/middle-banner-form";
-import SlidersAll from "../forms/sliders-form";
-import PostForms from "../forms/posts-form";
+import MiddleBannerMain from "../forms/middle-banner-form";
+import SlidersMain from "../forms/sliders-form";
+import PostMain from "../forms/posts-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("middleBanner");
-  const [details, setDetails] = useState(<MiddleBannerAll />);
+  const [details, setDetails] = useState(<MiddleBannerMain />);
   useEffect(() => {
     if (contentChanger == "middleBanner") {
-      setDetails(<MiddleBannerAll />);
+      setDetails(<MiddleBannerMain />);
     } else if (contentChanger == "sliders") {
-      setDetails(<SlidersAll />);
+      setDetails(<SlidersMain />);
     } else if (contentChanger == "posts") {
-      setDetails(<PostForms />);
+      setDetails(<PostMain />);
     }
   }, [contentChanger]);
   return (
