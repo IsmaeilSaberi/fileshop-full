@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import DCBtn from "../btn";
+import DCBtn from "./btn";
 
 const DashboardCtrl = ({ setContentChanger }) => {
   const [colorChanger, setColorChanger] = useState("middleBanner");
@@ -24,6 +24,13 @@ const DashboardCtrl = ({ setContentChanger }) => {
         <DCBtn
           title={"پست ها"}
           content={"posts"}
+          setContentChanger={setContentChanger}
+          colorChanger={colorChanger}
+          setColorChanger={setColorChanger}
+        />
+        <DCBtn
+          title={"دسته بندی محصول"}
+          content={"categories"}
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}

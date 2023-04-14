@@ -1,6 +1,6 @@
 import Slider2 from "../components/sliders/mainSlider/slider2";
 import MiddleBanner from "../components/middle-banner";
-import GraphicCategories from "../components/grapic-cats";
+import Categories from "../components/categories";
 import GraphicSlider from "../components/sliders/graphic-slider";
 import Blogs from "../components/blogs";
 import MainSlider from "../components/sliders/mainSlider";
@@ -13,7 +13,7 @@ const Home = () => {
         <Slider2 title="دانلودها" linkComp="downloads" />
         <MiddleBanner />
         <Slider2 title="محصولات" linkComp="products" />
-        <GraphicCategories />
+        <Categories />
         <GraphicSlider />
         <Blogs />
       </main>

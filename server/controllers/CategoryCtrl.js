@@ -116,6 +116,7 @@ const getMainPageCategories = async (req, res) => {
       imageAlt: 1,
       slug: 1,
       title: 1,
+      shortDesc: 1,
     });
     res.status(200).json(MainPageCategories);
   } catch (error) {
