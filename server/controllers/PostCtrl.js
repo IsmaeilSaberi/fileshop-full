@@ -114,15 +114,18 @@ module.exports.removePost = removePost;
 const getOnePost = async (req, res) => {
   try {
     const targetPost = await Post.findOne({ slug: req.params.slug });
-
-    // ADD ONE TO PAGE VIEW
-    const newPost = {
-      pageView: targetPost.pageView + 1,
-    };
-    await Post.findByIdAndUpdate(targetPost._id, newPost, {
-      new: true,
-    });
-    res.status(200).json(targetPost);
+    if (targetPost.published == true) {
+      // ADD ONE TO PAGE VIEW
+      const newPost = {
+        pageView: targetPost.pageView + 1,
+      };
+      await Post.findByIdAndUpdate(targetPost._id, newPost, {
+        new: true,
+      });
+      res.status(200).json(targetPost);
+    } else {
+      res.status(400).json({ msg: "مقاله هنوز منتشر نشده است!" });
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json(error);

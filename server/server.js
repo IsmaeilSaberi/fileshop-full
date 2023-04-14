@@ -49,6 +49,10 @@ app.use("/api", postRoutes);
 const sliderRoutes = require("./routes/SliderRoutes");
 app.use("/api", sliderRoutes);
 
+////\\\\ category routes and use it's middlewares
+const categoryRoutes = require("./routes/CategoryRoutes");
+app.use("/api", categoryRoutes);
+
 // connecting to data base
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
