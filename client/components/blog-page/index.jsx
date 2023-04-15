@@ -28,7 +28,6 @@ const BlogPageComp = () => {
         setBtnNumbers([
           ...Array(Math.ceil(d.data.AllPostsNumber / paginate)).keys(),
         ]);
-        setAllPostsNumbers(d.data.AllPostsNumber);
       })
       .catch((err) => console.log(err));
   }, [pageNumber]);
@@ -83,10 +82,14 @@ const BlogPageComp = () => {
         ) : (
           filteredBtns.map((n, i) => (
             <button
-              className="rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
+              className={
+                n + 1 == pageNumber
+                  ? "rounded-full w-8 h-8 bg-orange-400 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
+                  : "rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
+              }
               onClick={() => {
+                n + 1 == pageNumber ? console.log("") : setPosts([-1]);
                 setPageNumber(n + 1);
-                setPosts([-1]);
                 goToTop();
               }}
               key={i}
