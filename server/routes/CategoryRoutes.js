@@ -12,8 +12,16 @@ router.post(
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
     }),
-    check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
-      min: 8,
+    check("title", "تعداد کاراکتر عنوان باید 5 تا 24 کاراکتر باشد!").isLength({
+      min: 5,
+      max: 24,
+    }),
+    check(
+      "shortDesc",
+      "تعداد کاراکتر توضیحات کوتاه باید 5 تا 40 کاراکتر باشد!"
+    ).isLength({
+      min: 5,
+      max: 40,
     }),
     check("situation", "فرمت بخش انتشار اشتباه است!").isBoolean(),
   ],
@@ -25,8 +33,16 @@ router.post(
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
     }),
-    check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
-      min: 8,
+    check("title", "تعداد کاراکتر عنوان باید 5 تا 24 کاراکتر باشد!").isLength({
+      min: 5,
+      max: 24,
+    }),
+    check(
+      "shortDesc",
+      "تعداد کاراکتر توضیحات کوتاه باید 5 تا 40 کاراکتر باشد!"
+    ).isLength({
+      min: 5,
+      max: 40,
     }),
     check("situation", "فرمت بخش انتشار اشتباه است!").isBoolean(),
   ],

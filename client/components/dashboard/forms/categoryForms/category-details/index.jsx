@@ -20,6 +20,7 @@ const CategoryDetails = ({ categoryId }) => {
   const slugRef = useRef();
   const shortDescRef = useRef();
   const situationRef = useRef();
+  const typeOfProductRef = useRef();
 
   // here we update a category details
   const updater = (e) => {
@@ -31,6 +32,7 @@ const CategoryDetails = ({ categoryId }) => {
       imageAlt: imageAltRef.current.value,
       slug: slugRef.current.value,
       situation: situationRef.current.value,
+      typeOfProduct: typeOfProductRef.current.value,
       shortDesc: shortDescRef.current.value,
       date: new Date().toLocaleDateString("fa-IR", {
         hour: "2-digit",
@@ -211,6 +213,33 @@ const CategoryDetails = ({ categoryId }) => {
                 ref={shortDescRef}
                 className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
               />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div>نوع دسته بندی محصول</div>
+              <select
+                ref={typeOfProductRef}
+                className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+              >
+                {fullData.typeOfProduct == "gr" ? (
+                  <>
+                    <option value={"gr"}>فایل گرافیکی</option>
+                    <option value={"book"}>کتاب</option>
+                    <option value={"app"}>اپلیکیشن</option>
+                  </>
+                ) : fullData.typeOfProduct == "book" ? (
+                  <>
+                    <option value={"book"}>کتاب</option>
+                    <option value={"gr"}>فایل گرافیکی</option>
+                    <option value={"app"}>اپلیکیشن</option>
+                  </>
+                ) : (
+                  <>
+                    <option value={"app"}>اپلیکیشن</option>
+                    <option value={"book"}>کتاب</option>
+                    <option value={"gr"}>فایل گرافیکی</option>
+                  </>
+                )}
+              </select>
             </div>
             <div className="flex flex-col gap-2">
               <div>انتشار یا پیش نویس</div>

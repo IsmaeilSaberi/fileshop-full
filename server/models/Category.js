@@ -20,6 +20,11 @@ const CategorySchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  typeOfProduct: {
+    required: true,
+    type: String,
+    enum: ["gr", "app", "book"],
+  },
   situation: {
     required: true,
     type: Boolean,

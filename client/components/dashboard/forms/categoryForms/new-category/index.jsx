@@ -11,6 +11,7 @@ const NewCategory = () => {
   const imageAltRef = useRef();
   const slugRef = useRef();
   const shortDescRef = useRef();
+  const typeOfProductRef = useRef();
   const situationRef = useRef();
 
   const formKeyNotSuber = (e) => {
@@ -27,6 +28,7 @@ const NewCategory = () => {
       imageAlt: imageAltRef.current.value,
       slug: slugRef.current.value,
       shortDesc: shortDescRef.current.value,
+      typeOfProduct: typeOfProductRef.current.value,
       situation: situationRef.current.value,
       date: new Date().toLocaleDateString("fa-IR", {
         hour: "2-digit",
@@ -125,13 +127,24 @@ const NewCategory = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
+          <div>نوع دسته بندی محصول</div>
+          <select
+            ref={typeOfProductRef}
+            className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+          >
+            <option value={"book"}>کتاب</option>
+            <option value={"app"}>اپلیکیشن</option>
+            <option value={"gr"}>فایل گرافیکی</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-2">
           <div>انتشار یا پیش نویس</div>
           <select
             ref={situationRef}
             className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
           >
-            <option value="true">انتشار</option>
-            <option value="false">پیش نویس</option>
+            <option value={"true"}>انتشار</option>
+            <option value={"false"}>پیش نویس</option>
           </select>
         </div>
         <button

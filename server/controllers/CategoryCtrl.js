@@ -14,6 +14,7 @@ const getAllCategories = async (req, res) => {
           image: 1,
           imageAlt: 1,
           title: 1,
+          typeOfProduct: 1,
           situation: 1,
         });
       const AllCategoriesNumber = await (await Category.find()).length;
@@ -116,6 +117,7 @@ const getMainPageCategories = async (req, res) => {
       imageAlt: 1,
       slug: 1,
       title: 1,
+      typeOfProduct: 1,
       shortDesc: 1,
     });
     res.status(200).json(MainPageCategories);
