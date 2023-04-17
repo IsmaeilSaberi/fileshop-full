@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
-  const [posts, setPosts] = useState([-1]);
+const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
+  const [products, setProducts] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [allPostsNumbers, setAllPostsNumbers] = useState(0);
+  const [allProductsNumbers, setAllProductsNumbers] = useState(0);
   const paginate = 10;
 
   const goToTop = () => {
@@ -25,14 +25,14 @@ const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/posts?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/products?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
-        setPosts(d.data.GoalPosts);
+        setProducts(d.data.GoalProducts);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllPostsNumber / paginate)).keys(),
+          ...Array(Math.ceil(d.data.AllProductsNumber / paginate)).keys(),
         ]);
-        setAllPostsNumbers(d.data.AllPostsNumber);
+        setAllProductsNumbers(d.data.AllProductsNumber);
       })
       .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
@@ -69,11 +69,11 @@ const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
     <div className=" flex flex-col gap-8">
       <div className="flex justify-end items-center">
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
-          {allPostsNumbers} مقاله
+          {allProductsNumbers} محصول
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {posts[0] == -1 ? (
+        {products[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -82,17 +82,17 @@ const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
               src={"/loading.svg"}
             />
           </div>
-        ) : posts.length < 1 ? (
+        ) : products.length < 1 ? (
           <div className="flex justify-center items-center w-full p-8">
-            پستی موجود نیست!
+            محصولی موجود نیست!
           </div>
         ) : (
-          posts.map((post, i) => (
+          products.map((product, i) => (
             <Box
               key={i}
-              setRandNumForPostClick={setRandNumForPostClick}
-              setPostDetailCtrl={setPostDetailCtrl}
-              data={post}
+              setRandNumForProductClick={setRandNumForProductClick}
+              setProductDetailCtrl={setProductDetailCtrl}
+              data={product}
             />
           ))
         )}
@@ -139,4 +139,4 @@ const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
   );
 };
 
-export default AllPosts;
+export default AllProducts;

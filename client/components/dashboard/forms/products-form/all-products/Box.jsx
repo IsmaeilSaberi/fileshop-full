@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
 
-const Box = ({ data, setPostDetailCtrl, setRandNumForPostClick }) => {
+const Box = ({ data, setProductDetailCtrl, setRandNumForProductClick }) => {
   return (
     <div
       onClick={() => {
-        setPostDetailCtrl(data._id);
-        setRandNumForPostClick(Math.random());
+        setProductDetailCtrl(data._id);
+        setRandNumForProductClick(Math.random());
       }}
       className="relative flex justify-start gap-8 items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >

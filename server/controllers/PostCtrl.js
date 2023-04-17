@@ -229,7 +229,6 @@ const getRelatedPostsByIds = async (req, res) => {
       image: 1,
       imageAlt: 1,
       shortDesc: 1,
-      type: 1,
       pageView: 1,
     });
     res.status(200).json(GoalPosts);

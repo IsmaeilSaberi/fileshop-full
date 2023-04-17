@@ -6,6 +6,7 @@ import MiddleBannerMain from "../forms/middle-banner-form";
 import SlidersMain from "../forms/sliders-form";
 import PostMain from "../forms/posts-form";
 import CategoryMain from "../forms/categoryForms";
+import ProductMain from "../forms/products-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("middleBanner");
@@ -19,6 +20,8 @@ const MainDashboard = () => {
       setDetails(<PostMain />);
     } else if (contentChanger == "categories") {
       setDetails(<CategoryMain />);
+    } else if (contentChanger == "products") {
+      setDetails(<ProductMain />);
     }
   }, [contentChanger]);
   return (
