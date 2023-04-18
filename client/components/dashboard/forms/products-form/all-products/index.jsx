@@ -13,6 +13,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
   const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
   const [allProductsNumbers, setAllProductsNumbers] = useState(0);
+  const [categoryUrl, setCategoryUrl] = useState("products");
   const paginate = 10;
 
   const goToTop = () => {
@@ -25,7 +26,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/products?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/${categoryUrl}?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
         setProducts(d.data.GoalProducts);
@@ -45,7 +46,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
         });
         console.log(err);
       });
-  }, [pageNumber]);
+  }, [pageNumber, categoryUrl]);
 
   useEffect(() => {
     if (btnNumbers[0] != -1 && btnNumbers.length > 0) {
@@ -67,7 +68,67 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
 
   return (
     <div className=" flex flex-col gap-8">
-      <div className="flex justify-end items-center">
+      <div className="flex justify-between items-center gap-2">
+        <div className="text-sm text-black flex justify-center items-center gap-4">
+          <button
+            onClick={() => {
+              categoryUrl == "products" ? console.log("") : setProducts([-1]);
+              setCategoryUrl("products");
+            }}
+            className={
+              categoryUrl == "products"
+                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+            }
+          >
+            همه دسته ها
+          </button>
+          <button
+            onClick={() => {
+              categoryUrl == "get-products-of-type/book"
+                ? console.log("")
+                : setProducts([-1]);
+              setCategoryUrl("get-products-of-type/book");
+            }}
+            className={
+              categoryUrl == "get-products-of-type/book"
+                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+            }
+          >
+            کتاب ها
+          </button>
+          <button
+            onClick={() => {
+              categoryUrl == "get-products-of-type/app"
+                ? console.log("")
+                : setProducts([-1]);
+              setCategoryUrl("get-products-of-type/app");
+            }}
+            className={
+              categoryUrl == "get-products-of-type/app"
+                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+            }
+          >
+            اپلیکیشن ها
+          </button>
+          <button
+            onClick={() => {
+              categoryUrl == "get-products-of-type/gr"
+                ? console.log("")
+                : setProducts([-1]);
+              setCategoryUrl("get-products-of-type/gr");
+            }}
+            className={
+              categoryUrl == "get-products-of-type/gr"
+                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+            }
+          >
+            فایل های گرافیکی
+          </button>
+        </div>
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
           {allProductsNumbers} محصول
         </div>

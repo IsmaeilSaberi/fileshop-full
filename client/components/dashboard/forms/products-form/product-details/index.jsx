@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PostDetails = ({ postId }) => {
+const ProductDetails = ({ productId }) => {
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -73,17 +73,18 @@ const PostDetails = ({ postId }) => {
 
   const [relatedPosts, setRelatedPosts] = useState();
 
-  // this part used for getting one post details for using in default values
+  // this part used for getting one product details for using in default values
   const [fullData, setFullData] = useState([-1]);
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-post-by-id/${postId}`
+        `https://fileshop-server.iran.liara.run/api/get-product-by-id/${productId}`
       )
       .then((d) => {
         setFullData(d.data);
         setTag(d.data.tags);
-        setRelatedPosts(d.data.relatedPosts);
+        setRelatedPosts(d.data.relatedProducts);
+        console.log(d.data);
       })
       .catch((err) =>
         toast.error("خطا در لود اطلاعات!", {
@@ -95,7 +96,7 @@ const PostDetails = ({ postId }) => {
           progress: undefined,
         })
       );
-  }, [postId]);
+  }, [productId]);
 
   const relatedPostsManager = (v) => {
     let related = [...relatedPosts];
@@ -206,13 +207,13 @@ const PostDetails = ({ postId }) => {
       ) : (
         <div className="flex flex-col gap-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-orange-500 text-lg">جزئیات پست</h2>
+            <h2 className="text-orange-500 text-lg">جزئیات محصول</h2>
             <div className="flex justify-end items-center gap-2">
               <Link
                 href={`/blog/${fullData.slug}`}
                 className="bg-blue-400 text-white px-3 py-1 rounded-md text-sm transition-all duration-200 hover:bg-blue-500"
               >
-                لینک پست
+                لینک محصول
               </Link>
               <button
                 onClick={() => remover()}
@@ -444,4 +445,4 @@ const PostDetails = ({ postId }) => {
   );
 };
 
-export default PostDetails;
+export default ProductDetails;

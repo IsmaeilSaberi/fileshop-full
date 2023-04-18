@@ -270,3 +270,46 @@ const getRelatedProductsByIds = async (req, res) => {
   }
 };
 module.exports.getRelatedProductsByIds = getRelatedProductsByIds;
+
+const getOneTypeProducts = async (req, res) => {
+  try {
+    if (req.query.pn && req.query.pgn) {
+      const paginate = req.query.pgn;
+      const pageNumber = req.query.pn;
+      const GoalProducts = await Product.find({
+        typeOfProduct: req.params.typeOfProduct,
+      })
+        .sort({ _id: -1 })
+        .skip((pageNumber - 1) * paginate)
+        .limit(paginate)
+        .select({
+          title: 1,
+          updatedAt: 1,
+          image: 1,
+          imageAlt: 1,
+          published: 1,
+          pageView: 1,
+          price: 1,
+          typeOfProduct: 1,
+          buyNumber: 1,
+        });
+      const AllProductsNumber = await (
+        await Product.find({
+          typeOfProduct: req.params.typeOfProduct,
+        })
+      ).length;
+      res.status(200).json({ GoalProducts, AllProductsNumber });
+    } else {
+      const AllProducts = await Product.find({
+        typeOfProduct: req.params.typeOfProduct,
+      })
+        .sort({ _id: -1 })
+        .select({ mainFile: false });
+      res.status(200).json(AllProducts);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getOneTypeProducts = getOneTypeProducts;

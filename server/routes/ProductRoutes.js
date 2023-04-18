@@ -42,5 +42,10 @@ router.get("/get-new-products", ProductCtrl.getNewProducts);
 router.get("/get-most-popular-products", ProductCtrl.getMostPopularProducts);
 //// THIS RELATED PRODUCTS ARE FOR SINGLE PRODUCT PAGE
 router.post("/get-related-products-by-id", ProductCtrl.getRelatedProductsByIds);
+////THIS IS USING FOR GETTING EVERY TYPE PRODUCTS IN ALLPRODUCTS COMPONENT
+router.get(
+  "/get-products-of-type/:typeOfProduct",
+  ProductCtrl.getOneTypeProducts
+);
 
 module.exports = router;

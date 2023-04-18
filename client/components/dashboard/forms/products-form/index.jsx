@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import AllProducts from "./all-products";
 import NewProduct from "./new-product";
-import PostDetails from "./product-details";
+import ProductDetails from "./product-details";
 
 const ProductMain = () => {
   const [productDetailCtrl, setProductDetailCtrl] = useState("");
@@ -16,7 +16,7 @@ const ProductMain = () => {
 
   useEffect(() => {
     if (productDetailCtrl != "") {
-      setDetails(<PostDetails postId={productDetailCtrl} />);
+      setDetails(<ProductDetails productId={productDetailCtrl} />);
     }
   }, [randNumForProductClick]);
 
