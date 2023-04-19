@@ -87,7 +87,7 @@ const NewProduct = () => {
     setRelatedCategories(related);
   };
 
-  ////RELATED POSTS
+  ////RELATED PRODUCTS
   const [products, setProducts] = useState([-1]);
   useEffect(() => {
     const productsUrl =
@@ -309,7 +309,7 @@ const NewProduct = () => {
             </div>
           </div>
         </div>
-        <div className="tags flex flex-col gap-2">
+        <div className="features flex flex-col gap-2">
           <h3>ویژگی ها</h3>
           <div className="tags w-full flex flex-col gap-4">
             <div className="input flex gap-2 items-center">
@@ -356,7 +356,7 @@ const NewProduct = () => {
             </div>
           </div>
         </div>
-        <div className="related flex flex-col gap-2">
+        <div className="categories flex flex-col gap-2">
           <h3>دسته بندی ها</h3>
           {categories[0] == -1 ? (
             <div className="flex justify-center items-center p-12">

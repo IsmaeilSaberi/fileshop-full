@@ -74,6 +74,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
             onClick={() => {
               categoryUrl == "products" ? console.log("") : setProducts([-1]);
               setCategoryUrl("products");
+              setPageNumber(1);
             }}
             className={
               categoryUrl == "products"
@@ -89,6 +90,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
                 ? console.log("")
                 : setProducts([-1]);
               setCategoryUrl("get-products-of-type/book");
+              setPageNumber(1);
             }}
             className={
               categoryUrl == "get-products-of-type/book"
@@ -104,6 +106,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
                 ? console.log("")
                 : setProducts([-1]);
               setCategoryUrl("get-products-of-type/app");
+              setPageNumber(1);
             }}
             className={
               categoryUrl == "get-products-of-type/app"
@@ -119,6 +122,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
                 ? console.log("")
                 : setProducts([-1]);
               setCategoryUrl("get-products-of-type/gr");
+              setPageNumber(1);
             }}
             className={
               categoryUrl == "get-products-of-type/gr"
