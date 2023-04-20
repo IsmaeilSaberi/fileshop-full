@@ -25,6 +25,11 @@ const NewProduct = () => {
     }
   };
 
+  //// splitter
+  const splitter = (val) => {
+    return val.split("*");
+  };
+
   //TAG MANAGING
   const tagRef = useRef();
   const [tag, setTag] = useState([]);
@@ -52,7 +57,7 @@ const NewProduct = () => {
       let featureList = [...feature];
       const data = featureRef.current.value;
       if (data.length > 0) {
-        featureList = [...feature, data.replace(/\s+/g, "_").toLowerCase()];
+        featureList = [...feature, data];
         setFeature(featureList);
       }
       featureRef.current.value = "";
@@ -80,9 +85,25 @@ const NewProduct = () => {
   const productsCategoriesManager = (v) => {
     let related = [...relatedCategories];
     if (v.target.checked) {
-      related = [...related, v.target.value];
+      const goalArr = splitter(v.target.value);
+      related = [
+        ...related,
+        {
+          _id: goalArr[0],
+          title: goalArr[1],
+          slug: goalArr[2],
+        },
+      ];
     } else {
-      related.splice(relatedCategories.indexOf(v.target.value), 1);
+      const goalArr = splitter(v.target.value);
+      related.splice(
+        relatedCategories.indexOf({
+          _id: goalArr[0],
+          title: goalArr[1],
+          slug: goalArr[2],
+        }),
+        1
+      );
     }
     setRelatedCategories(related);
   };
@@ -381,7 +402,7 @@ const NewProduct = () => {
                     name={cat._id}
                     id={cat._id}
                     onChange={productsCategoriesManager}
-                    value={cat._id}
+                    value={`${cat._id}*${cat.title}*${cat.slug}`}
                     type="checkbox"
                   />
                 </div>

@@ -176,7 +176,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
                   : "rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               }
               onClick={() => {
-                n + 1 == pageNumber ? console.log("") : setPosts([-1]);
+                n + 1 == pageNumber ? console.log("") : setProducts([-1]);
                 setPageNumber(n + 1);
                 goToTop();
               }}

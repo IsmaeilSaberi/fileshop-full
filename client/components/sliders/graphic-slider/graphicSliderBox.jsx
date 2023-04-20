@@ -5,42 +5,49 @@ import { FcSearch } from "react-icons/fc";
 import { BsBrush } from "react-icons/bs";
 import { AiOutlineTool } from "react-icons/ai";
 
-const GraphicSliderBox = () => {
+const GraphicSliderBox = ({ itemData }) => {
+  const featureSpliter = (val) => {
+    return val.split(":");
+  };
+
   return (
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
-      <div className="relative h-[32rem] w-72 bg-yellow-300 rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
+      <div className="relative h-[28rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-center p-1">
-          <Link href={"/"} target="_blank">
+          <Link href={`/shop/${itemData.slug}`} target="_blank">
             <Image
               className="p-2"
-              alt="alt"
+              alt={itemData.imageAlt}
+              title={itemData.imageAlt}
               width={288}
               height={120}
-              src={"/images/shop1.jpg"}
+              src={itemData.image}
             />
           </Link>
         </div>
         <div className="flex flex-col gap-3 ">
-          <Link href={"/"} target="_blank">
-            <h3 className="m-2 line-clamp-2">
-              عنوان محصول محصول محصول محصول محصول
-            </h3>
+          <Link href={`/shop/${itemData.slug}`} target="_blank">
+            <h3 className="m-2 line-clamp-2">{itemData.title}</h3>
           </Link>
 
           <div className="flex flex-col gap-1">
-            <div className="flex justify-between -items-center text-indigo-500 mx-1 text-base sm:text-sm">
-              <div className="flex justfiy-start items-center gap-1">
-                <BsBrush className="" />
-                <div>فرمت</div>
-              </div>
-              <div>PSD</div>
-            </div>
-            <div className="flex justify-between -items-center text-indigo-500 mx-1 text-base sm:text-sm">
-              <div className="flex justfiy-start items-center gap-1">
-                <AiOutlineTool className="" />
-                <div>ابزارها</div>
-              </div>
-              <div>Tools</div>
+            <div className="flex flex-col justify-centter items-center text-indigo-500 mx-1 text-base sm:text-sm">
+              {itemData.features.length < 1 ? (
+                <div></div>
+              ) : (
+                itemData.features.map((fe, i) => (
+                  <div
+                    key={i}
+                    className="flex justify-between items-center w-full"
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      <BsBrush className="" />
+                      {featureSpliter(fe)[0]}:
+                    </div>
+                    <div>{featureSpliter(fe)[1]}</div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
           <div className="categories flex justify-start items-center gap-1 flex-wrap">
@@ -50,22 +57,10 @@ const GraphicSliderBox = () => {
             >
               خواندنی
             </Link>
-            <Link
-              href={""}
-              className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
-            >
-              سلامت
-            </Link>
-            <Link
-              href={""}
-              className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
-            >
-              روابط
-            </Link>
           </div>
           <div className="absolute bottom-2 w-full flex justify-between items-center">
             <div className="flex gap-1">
-              <Link href={""}>
+              <Link href={`/shop/${itemData.slug}`}>
                 <FcSearch className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-zinc-400 transition-all duration-200 text-white hover:bg-orange-400" />
               </Link>
               <Link href={""}>
@@ -91,7 +86,7 @@ const GraphicSliderBox = () => {
               </Link>
 
               <div className="bg-zinc-500 rounded-tr-md rounded-br-md p-1 text-white flex justify-center items-center">
-                5000 تومان
+                {itemData.price} تومان
               </div>
             </div>
           </div>

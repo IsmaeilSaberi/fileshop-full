@@ -23,6 +23,11 @@ const ProductDetails = ({ productId }) => {
     });
   };
 
+  //// splitter
+  const splitter = (val) => {
+    return val.split("*");
+  };
+
   const titleRef = useRef();
   const slugRef = useRef();
   const mainFileRef = useRef();
@@ -60,7 +65,7 @@ const ProductDetails = ({ productId }) => {
       let featureList = [...feature];
       const data = featureRef.current.value;
       if (data.length > 0) {
-        featureList = [...feature, data.replace(/\s+/g, "_").toLowerCase()];
+        featureList = [...feature, data];
         setFeature(featureList);
       }
       featureRef.current.value = "";
@@ -84,12 +89,29 @@ const ProductDetails = ({ productId }) => {
   }, []);
 
   const [relatedCategories, setRelatedCategories] = useState([]);
+  const [thisRelatedCategoriesIds, setThisRelatedCategoriesIds] = useState([]);
   const productsCategoriesManager = (v) => {
     let related = [...relatedCategories];
     if (v.target.checked) {
-      related = [...related, v.target.value];
+      const goalArr = splitter(v.target.value);
+      related = [
+        ...related,
+        {
+          _id: goalArr[0],
+          title: goalArr[1],
+          slug: goalArr[2],
+        },
+      ];
     } else {
-      related.splice(relatedCategories.indexOf(v.target.value), 1);
+      const goalArr = splitter(v.target.value);
+      related.splice(
+        relatedCategories.indexOf({
+          _id: goalArr[0],
+          title: goalArr[1],
+          slug: goalArr[2],
+        }),
+        1
+      );
     }
     setRelatedCategories(related);
   };
@@ -131,6 +153,7 @@ const ProductDetails = ({ productId }) => {
         setFeature(d.data.features);
         setRelatedProducts(d.data.relatedProducts);
         setRelatedCategories(d.data.categories);
+        setThisRelatedCategoriesIds(d.data.categories.map((cat) => cat._id));
       })
       .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
@@ -488,13 +511,12 @@ const ProductDetails = ({ productId }) => {
                       className="flex items-center gap-1 bg-zinc-100 px-2 py-1 rounded-md border border-indigo-400"
                     >
                       <label htmlFor={cat._id}>{cat.title}</label>
-                      {fullData.categories &&
-                      fullData.categories.includes(cat._id) ? (
+                      {thisRelatedCategoriesIds.includes(cat._id) ? (
                         <input
                           name={cat._id}
                           id={cat._id}
                           onChange={productsCategoriesManager}
-                          value={cat._id}
+                          value={`${cat._id}*${cat.title}*${cat.slug}`}
                           type="checkbox"
                           defaultChecked
                         />
@@ -503,7 +525,7 @@ const ProductDetails = ({ productId }) => {
                           name={cat._id}
                           id={cat._id}
                           onChange={productsCategoriesManager}
-                          value={cat._id}
+                          value={`${cat._id}*${cat.title}*${cat.slug}`}
                           type="checkbox"
                         />
                       )}

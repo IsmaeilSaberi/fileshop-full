@@ -56,6 +56,7 @@ const getRelatedCategoriesOfProducts = async (req, res) => {
   try {
     const AllCategories = await Category.find({ situation: true }).select({
       title: 1,
+      slug: 1,
     });
     res.status(200).json(AllCategories);
   } catch (error) {
@@ -185,6 +186,7 @@ const getNewProducts = async (req, res) => {
         typeOfProduct: 1,
         pageView: 1,
         features: 1,
+        categories: 1,
         buyNumber: 1,
       });
     const newBooks = await Product.find({
@@ -202,6 +204,7 @@ const getNewProducts = async (req, res) => {
         typeOfProduct: 1,
         pageView: 1,
         features: 1,
+        categories: 1,
         buyNumber: 1,
       });
     const newGFs = await Product.find({
@@ -219,6 +222,7 @@ const getNewProducts = async (req, res) => {
         typeOfProduct: 1,
         pageView: 1,
         features: 1,
+        categories: 1,
         buyNumber: 1,
       });
     res.status(200).json({ newApps, newBooks, newGFs });
