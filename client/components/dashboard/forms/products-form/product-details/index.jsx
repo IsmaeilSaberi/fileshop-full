@@ -130,6 +130,7 @@ const ProductDetails = ({ productId }) => {
         setTag(d.data.tags);
         setFeature(d.data.features);
         setRelatedProducts(d.data.relatedProducts);
+        setRelatedCategories(d.data.categories);
       })
       .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
@@ -487,13 +488,25 @@ const ProductDetails = ({ productId }) => {
                       className="flex items-center gap-1 bg-zinc-100 px-2 py-1 rounded-md border border-indigo-400"
                     >
                       <label htmlFor={cat._id}>{cat.title}</label>
-                      <input
-                        name={cat._id}
-                        id={cat._id}
-                        onChange={productsCategoriesManager}
-                        value={cat._id}
-                        type="checkbox"
-                      />
+                      {fullData.categories &&
+                      fullData.categories.includes(cat._id) ? (
+                        <input
+                          name={cat._id}
+                          id={cat._id}
+                          onChange={productsCategoriesManager}
+                          value={cat._id}
+                          type="checkbox"
+                          defaultChecked
+                        />
+                      ) : (
+                        <input
+                          name={cat._id}
+                          id={cat._id}
+                          onChange={productsCategoriesManager}
+                          value={cat._id}
+                          type="checkbox"
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
@@ -511,7 +524,7 @@ const ProductDetails = ({ productId }) => {
                   />
                 </div>
               ) : products.length < 1 ? (
-                <div className="p-3">مقاله ای یافت نشد!</div>
+                <div className="p-3">محصولی یافت نشد!</div>
               ) : (
                 <div className="flex justify-start items center flex-wrap gap-2">
                   {products.map((pr, i) => (
@@ -544,7 +557,6 @@ const ProductDetails = ({ productId }) => {
                 </div>
               )}
             </div>
-
             <div className="flex flex-col gap-2">
               <div>نوع محصول</div>
               <select
@@ -583,11 +595,6 @@ const ProductDetails = ({ productId }) => {
                   <>
                     <option value="true">انتشار</option>
                     <option value="false">پیش نویس</option>
-                  </>
-                ) : fullData.published && fullData.published == false ? (
-                  <>
-                    <option value="false">پیش نویس</option>
-                    <option value="true">انتشار</option>
                   </>
                 ) : (
                   <>

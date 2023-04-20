@@ -405,11 +405,6 @@ const PostDetails = ({ postId }) => {
                     <option value="true">انتشار</option>
                     <option value="false">پیش نویس</option>
                   </>
-                ) : fullData.published && fullData.published == false ? (
-                  <>
-                    <option value="false">پیش نویس</option>
-                    <option value="true">انتشار</option>
-                  </>
                 ) : (
                   <>
                     <option value="false">پیش نویس</option>
