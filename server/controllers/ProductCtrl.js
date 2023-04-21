@@ -265,6 +265,7 @@ const getRelatedProductsByIds = async (req, res) => {
       typeOfProduct: 1,
       pageView: 1,
       features: 1,
+      categories: 1,
       buyNumber: 1,
     });
     res.status(200).json(GoalProducts);

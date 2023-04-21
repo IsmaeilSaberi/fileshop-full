@@ -1,12 +1,14 @@
 "use client";
 import BlogBox from "../../blogs/blogbox";
+import GraphicSliderBox from "../graphic-slider/graphicSliderBox";
+import ProductSliderBox from "../graphic-slider/graphicSliderBox";
 import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineLeft } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
-const RelatedPosts = ({ relatedPosts, title }) => {
+const RelatedPosts = ({ typeOfModel, relatedModels, title }) => {
   const carouselRef = useRef();
   const carouselSwitcher = (data) => {
     if (carouselRef.current) {
@@ -18,18 +20,21 @@ const RelatedPosts = ({ relatedPosts, title }) => {
     }
   };
 
-  const [relatedPostsData, setRelatedPostsData] = useState([-1]);
-  const sendingDataForRel = { goalIds: relatedPosts };
+  const [relatedModelsData, setRelatedModelsData] = useState([-1]);
+  const sendingDataForRel = { goalIds: relatedModels };
   useEffect(() => {
     const url =
-      "https://fileshop-server.iran.liara.run/api/get-related-posts-by-id";
+      typeOfModel == "post"
+        ? "https://fileshop-server.iran.liara.run/api/get-related-posts-by-id"
+        : "https://fileshop-server.iran.liara.run/api/get-related-products-by-id";
+
     axios
       .post(url, sendingDataForRel)
       .then((d) => {
-        setRelatedPostsData(d.data);
+        setRelatedModelsData(d.data);
       })
       .catch((e) => console.log(e));
-  }, [relatedPosts]);
+  }, [relatedModels]);
 
   return (
     <div className="container mx-auto">
@@ -52,8 +57,8 @@ const RelatedPosts = ({ relatedPosts, title }) => {
           ref={carouselRef}
           className="sliderContainer w-full max-w-5xl overflow-x-scroll"
         >
-          <div className="flex justify-between itemas-center gap-2">
-            {relatedPostsData[0] == -1 ? (
+          <div className="flex justify-between itemas-center gap-2 ">
+            {relatedModelsData[0] == -1 ? (
               <div className="flex justify-center items-center p-12">
                 <Image
                   alt="loading"
@@ -62,12 +67,20 @@ const RelatedPosts = ({ relatedPosts, title }) => {
                   src={"/loading.svg"}
                 />
               </div>
-            ) : relatedPostsData.length < 1 ? (
+            ) : relatedModelsData.length < 1 ? (
               <div className="flex justify-center items-center p-4">
-                مقاله مرتبطی موجود نیست!
+                محتوای مرتبطی موجود نیست!
               </div>
+            ) : typeOfModel == "post" ? (
+              relatedModelsData.map((da, i) => <BlogBox key={i} data={da} />)
+            ) : typeOfModel == "gr" ? (
+              relatedModelsData.map((da, i) => (
+                <GraphicSliderBox key={i} itemData={da} />
+              ))
             ) : (
-              relatedPostsData.map((da, i) => <BlogBox key={i} data={da} />)
+              relatedModelsData.map((da, i) => (
+                <ProductSliderBox key={i} itemData={da} />
+              ))
             )}
           </div>
         </div>

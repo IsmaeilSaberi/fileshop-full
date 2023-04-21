@@ -78,8 +78,9 @@ const SingleBlog = async ({ params }) => {
               </section>
               <section>
                 <RelatedPosts
-                  relatedPosts={data.relatedPosts}
-                  title={"محصولات مرتبط"}
+                  typeOfModel="post"
+                  relatedModels={data.relatedPosts}
+                  title={"مقالات مرتبط"}
                 />
               </section>
               <section className="flex flex-col gap-6">
