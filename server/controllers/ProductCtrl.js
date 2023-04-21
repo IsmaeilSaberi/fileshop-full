@@ -79,10 +79,16 @@ const newProduct = async (req, res) => {
         req.body.image.endsWith(".jpeg") ||
         req.body.image.endsWith(".webp")
       ) {
-        const data = req.body;
-        data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
-        await Product.create(data);
-        res.status(200).json({ msg: "محصول یا مقاله با موفقیت اضافه شد!" });
+        const theFeatures = req.body.features;
+        const featuresError = theFeatures.filter((fe) => !fe.includes(":"));
+        if (featuresError.length > 0) {
+          res.status(422).json({ msg: "الگوی بخش ویژگی ها رعایت نشده است!" });
+        } else {
+          const data = req.body;
+          data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+          await Product.create(data);
+          res.status(200).json({ msg: "محصول یا مقاله با موفقیت اضافه شد!" });
+        }
       } else {
         res.status(422).json({ msg: "فرمت عکس درست نیست!" });
       }
@@ -107,12 +113,18 @@ const updateProduct = async (req, res) => {
         req.body.image.endsWith(".jpeg") ||
         req.body.image.endsWith(".webp")
       ) {
-        const data = req.body;
-        data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
-        await Product.findByIdAndUpdate(req.params.id, data, {
-          new: true,
-        });
-        res.status(200).json({ msg: "محصول با موفقیت آپدیت شد!" });
+        const theFeatures = req.body.features;
+        const featuresError = theFeatures.filter((fe) => !fe.includes(":"));
+        if (featuresError.length > 0) {
+          res.status(422).json({ msg: "الگوی بخش ویژگی ها رعایت نشده است!" });
+        } else {
+          const data = req.body;
+          data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
+          await Product.findByIdAndUpdate(req.params.id, data, {
+            new: true,
+          });
+          res.status(200).json({ msg: "محصول با موفقیت آپدیت شد!" });
+        }
       } else {
         res.status(422).json({ msg: "فرمت عکس درست نیست!" });
       }
@@ -185,7 +197,6 @@ const getNewProducts = async (req, res) => {
         price: 1,
         typeOfProduct: 1,
         pageView: 1,
-        features: 1,
         categories: 1,
         buyNumber: 1,
       });
@@ -203,7 +214,6 @@ const getNewProducts = async (req, res) => {
         price: 1,
         typeOfProduct: 1,
         pageView: 1,
-        features: 1,
         categories: 1,
         buyNumber: 1,
       });
