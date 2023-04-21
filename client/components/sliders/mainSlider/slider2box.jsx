@@ -28,14 +28,19 @@ const Slider2box = ({ itemData }) => {
             {itemData.categories.length < 1 ? (
               <div></div>
             ) : (
-              itemData.categories.map((cat, i) => (
-                <div
-                  key={i}
-                  className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
-                >
-                  {cat}
-                </div>
-              ))
+              itemData.categories.map((cat, i) =>
+                i < 2 ? (
+                  <Link
+                    href={`/search/products/categories/${cat.slug}`}
+                    key={i}
+                    className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
+                  >
+                    {cat.title}
+                  </Link>
+                ) : (
+                  <div key={i}></div>
+                )
+              )
             )}
           </div>
           <div className="absolute bottom-2 w-full flex justify-between items-center">

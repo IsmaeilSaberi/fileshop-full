@@ -17,8 +17,17 @@ const getData = async (slug) => {
   return data.json();
 };
 
+const getProductsData = async () => {
+  const productsData = await fetch(
+    "https://fileshop-server.iran.liara.run/api/get-most-popular-products",
+    { cache: "no-store" }
+  );
+  return productsData.json();
+};
+
 const SingleBlog = async ({ params }) => {
   const data = await getData(params.slug);
+  const productsData = await getProductsData();
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
       {data.msg ? (
@@ -112,38 +121,20 @@ const SingleBlog = async ({ params }) => {
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">پرفروش ترین محصولات</h3>
               <ul className="flex flex-col gap-2">
-                <li>
-                  <Link
-                    className="border-r-2 p-2 flex justify-start items-center text-base sm:text-sm border-zinc-600"
-                    href={""}
-                  >
-                    محصول تستی 1
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="border-r-2 p-2 flex justify-start items-center text-base sm:text-sm border-zinc-600"
-                    href={""}
-                  >
-                    محصول تستی 1
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="border-r-2 p-2 flex justify-start items-center text-base sm:text-sm border-zinc-600"
-                    href={""}
-                  >
-                    محصول تستی 1
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="border-r-2 p-2 flex justify-start items-center text-base sm:text-sm border-zinc-600"
-                    href={""}
-                  >
-                    محصول تستی 1
-                  </Link>
-                </li>
+                {productsData.length < 1 ? (
+                  <div></div>
+                ) : (
+                  productsData.map((p, i) => (
+                    <li key={i}>
+                      <Link
+                        className="border-r-2 p-2 transition-all duration-200 hover:text-indigo-600 flex justify-start items-center text-base sm:text-sm border-zinc-600"
+                        href={`/shop/${p.slug}`}
+                      >
+                        {p.title}
+                      </Link>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           </aside>

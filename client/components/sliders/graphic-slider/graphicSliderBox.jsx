@@ -3,7 +3,6 @@ import Link from "next/link";
 import { HiShoppingBag } from "react-icons/hi";
 import { FcSearch } from "react-icons/fc";
 import { BsBrush } from "react-icons/bs";
-import { AiOutlineTool } from "react-icons/ai";
 
 const GraphicSliderBox = ({ itemData }) => {
   const featureSpliter = (val) => {
@@ -35,28 +34,44 @@ const GraphicSliderBox = ({ itemData }) => {
               {itemData.features.length < 1 ? (
                 <div></div>
               ) : (
-                itemData.features.map((fe, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center w-full"
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <BsBrush className="" />
-                      {featureSpliter(fe)[0]}:
+                itemData.features.map((fe, i) =>
+                  i < 3 ? (
+                    <div
+                      key={i}
+                      className="flex justify-between items-center w-full"
+                    >
+                      <div className="flex items-center justify-center gap-1">
+                        <BsBrush className="" />
+                        {featureSpliter(fe)[0]}:
+                      </div>
+                      <div>{featureSpliter(fe)[1]}</div>
                     </div>
-                    <div>{featureSpliter(fe)[1]}</div>
-                  </div>
-                ))
+                  ) : (
+                    <div key={i}></div>
+                  )
+                )
               )}
             </div>
           </div>
+
           <div className="categories flex justify-start items-center gap-1 flex-wrap">
-            <Link
-              href={""}
-              className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
-            >
-              خواندنی
-            </Link>
+            {itemData.categories.length < 1 ? (
+              <div></div>
+            ) : (
+              itemData.categories.map((cat, i) =>
+                i < 2 ? (
+                  <Link
+                    href={`/search/products/categories/${cat.slug}`}
+                    key={i}
+                    className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
+                  >
+                    {cat.title}
+                  </Link>
+                ) : (
+                  <div key={i}></div>
+                )
+              )
+            )}
           </div>
           <div className="absolute bottom-2 w-full flex justify-between items-center">
             <div className="flex gap-1">

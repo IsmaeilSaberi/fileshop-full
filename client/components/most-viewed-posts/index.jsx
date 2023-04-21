@@ -31,7 +31,7 @@ const MostViewedPosts = () => {
           posts.map((po, i) => (
             <li key={i}>
               <Link
-                className="border-r-2 p-2 flex justify-start items-center text-base sm:text-sm border-zinc-600"
+                className="border-r-2 p-2 transition-all duration-200 hover:text-indigo-600 flex justify-start items-center text-base sm:text-sm border-zinc-600"
                 href={`/blog/${po.slug}`}
               >
                 {po.title}
