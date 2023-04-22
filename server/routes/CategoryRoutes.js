@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express();
 const { check } = require("express-validator");
-const Category = require("../models/Category");
 
 const CategoryCtrl = require("../controllers/CategoryCtrl");
 const Category = require("../models/Category");
@@ -31,7 +30,7 @@ router.post(
         slug: value,
       }).then((category) => {
         if (category.length > 0) {
-          throw "لطفا اسلاگ دیگری را انتخاب کنید!";
+          throw new Error("لطفا اسلاگ دیگری را انتخاب کنید!");
         }
       });
     }),
@@ -60,8 +59,8 @@ router.post(
       return Category.find({
         slug: value,
       }).then((category) => {
-        if (category.length > 0) {
-          throw "لطفا اسلاگ دیگری را انتخاب کنید!";
+        if (category.length > 1) {
+          throw new Error("لطفا اسلاگ دیگری را انتخاب کنید!");
         }
       });
     }),

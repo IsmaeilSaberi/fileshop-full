@@ -154,7 +154,6 @@ const PostDetails = ({ postId }) => {
             );
       })
       .catch((err) => {
-        console.log(err);
         let message = "خطایی در آپدیت و ذخیره مقاله رخ داد.";
         if (err.response.data.msg) {
           message = err.response.data.msg;

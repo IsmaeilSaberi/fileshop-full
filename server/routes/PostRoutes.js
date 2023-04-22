@@ -21,7 +21,7 @@ router.post(
         slug: value,
       }).then((post) => {
         if (post.length > 0) {
-          throw "لطفا اسلاگ دیگری را انتخاب کنید!";
+          throw new Error("لطفا اسلاگ دیگری را انتخاب کنید!");
         }
       });
     }),
@@ -41,8 +41,8 @@ router.post(
       return Post.find({
         slug: value,
       }).then((post) => {
-        if (post.length > 0) {
-          throw "لطفا اسلاگ دیگری را انتخاب کنید!";
+        if (post.length > 1) {
+          throw new Error("لطفا اسلاگ دیگری را انتخاب کنید!");
         }
       });
     }),

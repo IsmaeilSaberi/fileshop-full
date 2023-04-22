@@ -67,7 +67,6 @@ const CategoryDetails = ({ categoryId }) => {
             );
       })
       .catch((err) => {
-        console.log(err);
         let message = "خطایی در آپدیت و ذخیره دسته محصول رخ داد.";
         if (err.response.data.msg) {
           message = err.response.data.msg;

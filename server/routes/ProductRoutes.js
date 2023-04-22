@@ -47,7 +47,7 @@ router.post(
       return Product.find({
         slug: value,
       }).then((product) => {
-        if (product.length > 0) {
+        if (product.length > 1) {
           throw new Error("لطفا اسلاگ دیگری را انتخاب کنید!");
         }
       });

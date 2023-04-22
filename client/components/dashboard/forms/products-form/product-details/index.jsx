@@ -225,7 +225,6 @@ const ProductDetails = ({ productId }) => {
             );
       })
       .catch((err) => {
-        console.log(err);
         let message = "خطایی در آپدیت و ذخیره محصول رخ داد.";
         if (err.response.data.msg) {
           message = err.response.data.msg;
