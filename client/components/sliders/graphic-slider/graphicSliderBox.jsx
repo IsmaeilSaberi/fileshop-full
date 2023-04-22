@@ -9,6 +9,20 @@ const GraphicSliderBox = ({ itemData }) => {
     return val.split(":");
   };
 
+  //// MAKE PRICE NUMBER BEAUTIFUL
+  function priceChanger(num) {
+    // Convert the number to a string
+    num = num.toString();
+    // Split the string into an array of three-digit chunks
+    let chunks = [];
+    while (num.length > 0) {
+      chunks.push(num.slice(-3));
+      num = num.slice(0, -3);
+    }
+    // Reverse the order of the chunks and join them with commas
+    return chunks.reverse().join(",");
+  }
+
   return (
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
       <div className="relative h-[28rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
@@ -101,7 +115,7 @@ const GraphicSliderBox = ({ itemData }) => {
               </Link>
 
               <div className="bg-zinc-500 rounded-tr-md rounded-br-md p-1 text-white flex justify-center items-center">
-                {itemData.price} تومان
+                {priceChanger(itemData.price)} تومان
               </div>
             </div>
           </div>

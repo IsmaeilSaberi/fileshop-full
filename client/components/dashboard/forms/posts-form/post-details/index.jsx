@@ -234,6 +234,9 @@ const PostDetails = ({ postId }) => {
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
               {fullData.pageView ? fullData.pageView : 0} بازدید
             </div>
+            <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
+              {fullData.comments ? fullData.comments.length : 0} دیدگاه
+            </div>
           </div>
           <form
             onKeyDown={formKeyNotSuber}

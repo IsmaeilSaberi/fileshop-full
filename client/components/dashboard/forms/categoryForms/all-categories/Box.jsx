@@ -2,9 +2,17 @@
 import Image from "next/image";
 
 const Box = ({ data, setCategoryDetailCtrl, setRandNumForCategoryClick }) => {
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       onClick={() => {
+        goToTop();
         setCategoryDetailCtrl(data._id);
         setRandNumForCategoryClick(Math.random());
       }}

@@ -15,14 +15,6 @@ const ProductDetails = ({ productId }) => {
     }
   };
 
-  /// go to top or scroll up smoothly function
-  const goToTop = () => {
-    window.scroll({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   //// splitter
   const splitter = (val) => {
     return val.split("*");
@@ -307,6 +299,9 @@ const ProductDetails = ({ productId }) => {
             </div>
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
               {fullData.buyNumber ? fullData.buyNumber : 0} فروش
+            </div>
+            <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
+              {fullData.comments ? fullData.comments.length : 0} دیدگاه
             </div>
           </div>
           <form

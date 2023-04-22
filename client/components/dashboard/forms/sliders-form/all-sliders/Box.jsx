@@ -2,9 +2,17 @@
 import Image from "next/image";
 
 const Box = ({ data, setSliderDetailCtrl, setRandNumForSliderClick }) => {
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       onClick={() => {
+        goToTop();
         setSliderDetailCtrl(data._id);
         setRandNumForSliderClick(Math.random());
       }}

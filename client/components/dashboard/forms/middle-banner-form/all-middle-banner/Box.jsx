@@ -2,9 +2,17 @@
 import Image from "next/image";
 
 const Box = ({ data, setMiddleBannerDetailCtrl, setRandNumForBannerClick }) => {
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       onClick={() => {
+        goToTop();
         setMiddleBannerDetailCtrl(data._id);
         setRandNumForBannerClick(Math.random());
       }}

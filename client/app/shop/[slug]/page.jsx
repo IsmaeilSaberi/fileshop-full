@@ -20,6 +20,20 @@ const SingleBlog = async ({ params }) => {
     return val.split(":");
   };
 
+  //// MAKE PRICE NUMBER BEAUTIFUL
+  function priceChanger(num) {
+    // Convert the number to a string
+    num = num.toString();
+    // Split the string into an array of three-digit chunks
+    let chunks = [];
+    while (num.length > 0) {
+      chunks.push(num.slice(-3));
+      num = num.slice(0, -3);
+    }
+    // Reverse the order of the chunks and join them with commas
+    return chunks.reverse().join(",");
+  }
+
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">
       {data.msg ? (
@@ -150,7 +164,7 @@ const SingleBlog = async ({ params }) => {
           <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
             <div className="flex flex-col gap-2">
               <button className="flex items-center justify-center text-center bg-orange-400 hover:bg-orange-500 transition-all duration-200 p-2 rounded-md w-full text-white">
-                افزودن به سبد خرید- {data.price} تومان
+                افزودن به سبد خرید- {priceChanger(data.price)} تومان
               </button>
               <button className="flex items-center justify-center text-center bg-green-400 hover:bg-green-500 transition-all duration-200 p-2 rounded-md w-full text-white">
                 افزودن به علاقه مندی ها
@@ -174,7 +188,7 @@ const SingleBlog = async ({ params }) => {
                 </li>
                 <li className="flex justify-between items-center">
                   <span>تعداد دیدگاه</span>
-                  <span>{data.comments.length}</span>
+                  <span>{data.comments ? data.comments.length : 0}</span>
                 </li>
               </ul>
             </div>

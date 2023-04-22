@@ -16,9 +16,17 @@ const Box = ({ data, setProductDetailCtrl, setRandNumForProductClick }) => {
     return chunks.reverse().join(",");
   }
 
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       onClick={() => {
+        goToTop();
         setProductDetailCtrl(data._id);
         setRandNumForProductClick(Math.random());
       }}
