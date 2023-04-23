@@ -410,8 +410,35 @@ const searchProducts = async (req, res) => {
     }
 
     ////PAGINATION AND allProductsNumber SEARCH
+    const productsNumber = allProducts.length;
+    const paginate = req.query.pgn ? req.query.pgn : 12;
+    const pageNumber = req.query.pn ? req.query.pn : 1;
+    const startNumber = (pageNumber - 1) * paginate;
+    const endNumber = paginate * pageNumber;
+    const goalPro = [];
+    if (paginate >= 0 && pageNumber >= 0) {
+      for (let i = startNumber; i < endNumber; i++) {
+        if (allProducts[i] != null) {
+          goalPro.push(allProducts[i]);
+        }
+      }
+    }
+    allProducts = goalPro;
 
-    res.status(200).json({ allProducts });
+    const number = Math.ceil(productsNumber / paginate);
+    const allBtns = [...Array(Math.ceil(number)).keys()];
+    const btns = [];
+    for (let i = 0; i < allBtns.length; i++) {
+      if (
+        i == 0 ||
+        i == allBtns.length - 1 ||
+        (i > Number(pageNumber) - 3 && i < Number(pageNumber) + 1)
+      ) {
+        btns.push(i);
+      }
+    }
+
+    res.status(200).json({ allProducts, btns });
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
