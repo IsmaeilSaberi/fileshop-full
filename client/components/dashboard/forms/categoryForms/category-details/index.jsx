@@ -190,7 +190,7 @@ const CategoryDetails = ({ categoryId }) => {
                 required={true}
                 type="text"
                 ref={imageAltRef}
-                className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+                className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -200,7 +200,7 @@ const CategoryDetails = ({ categoryId }) => {
                 required={true}
                 type="text"
                 ref={slugRef}
-                className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+                className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
               />
             </div>
             <div className="flex flex-col gap-2">

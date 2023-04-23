@@ -11,7 +11,7 @@ import AdminPannel from "../forms/admin-pannel";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("admin-pannel");
-  const [details, setDetails] = useState(<MiddleBannerMain />);
+  const [details, setDetails] = useState(<AdminPannel />);
   useEffect(() => {
     if (contentChanger == "middleBanner") {
       setDetails(<MiddleBannerMain />);

@@ -356,13 +356,12 @@ const searchProducts = async (req, res) => {
       );
       allProducts = goalPro;
     }
-
     ////ORDER BY price,buyNumber, pageView, date SEARCH
     if (req.query.orderBy) {
       let goalPro = [];
       if (req.query.orderBy == "price") {
         goalPro = allProducts.sort((a, b) =>
-          Number(a.price) > Number(b.price) ? 1 : -1
+          Number(a.price) > Number(b.price) ? -1 : 1
         );
       } else if (req.query.orderBy == "buyNumber") {
         goalPro = allProducts.sort((a, b) =>
@@ -377,12 +376,38 @@ const searchProducts = async (req, res) => {
       }
       allProducts = goalPro;
     }
-
     ////TYPE OF PRODUCT gr,book,app SEARCH
-
+    if (req.query.type) {
+      let goalPro = allProducts.filter(
+        (pro) => pro.typeOfProduct == req.query.type
+      );
+      allProducts = goalPro;
+    }
     //// MAX PRICE AND MIN PRICE SEARCH
-
+    if (req.query.maxP && req.query.minP) {
+      const goalPro = allProducts.filter(
+        (pro) =>
+          Number(pro.price) <= req.query.maxP &&
+          Number(pro.price >= req.query.minP)
+      );
+      allProducts = goalPro;
+    }
     ////CATEGORIES SEARCH
+    if (req.query.categories) {
+      const goalPro = [];
+      const categoriesSlugs = req.query.categories.split(",");
+      for (let i = 0; i < allProducts.length; i++) {
+        for (let j = 0; j < allProducts[i].categories[j]; j++) {
+          for (let t = 0; t < categoriesSlugs.length; t++) {
+            if (allProducts[i].categories[j].slug == categoriesSlugs[t]) {
+              goalPro.push(allProducts[i]);
+            }
+          }
+        }
+      }
+      let unique = (item) => [...new Set(item)];
+      allProducts = unique(goalPro);
+    }
 
     ////PAGINATION AND allProductsNumber SEARCH
 
