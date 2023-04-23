@@ -196,7 +196,9 @@ const SingleBlog = async ({ params }) => {
               <h3 className="text-blue-500">دسته بندی ها</h3>
               <div className="flex justify-start items-center gap-2 flex-wrap">
                 {data.categories.length < 1 ? (
-                  <div></div>
+                  <div className="flex justify-center items-center p-2">
+                    بدون دسته بندی
+                  </div>
                 ) : (
                   data.categories.map((cat, i) => (
                     <Link
@@ -211,10 +213,12 @@ const SingleBlog = async ({ params }) => {
               </div>
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
-              <h3 className="text-blue-500">دسته بندی ها</h3>
+              <h3 className="text-blue-500">برچسب ها</h3>
               <div className="flex justify-start items-center gap-2 flex-wrap">
                 {data.tags.length < 1 ? (
-                  <div></div>
+                  <div className="flex justify-center items-center p-2">
+                    بدون برچسب
+                  </div>
                 ) : (
                   data.tags.map((tag, i) => (
                     <Link

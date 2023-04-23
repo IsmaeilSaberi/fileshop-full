@@ -7,9 +7,10 @@ import SlidersMain from "../forms/sliders-form";
 import PostMain from "../forms/posts-form";
 import CategoryMain from "../forms/categoryForms";
 import ProductMain from "../forms/products-form";
+import AdminPannel from "../forms/admin-pannel";
 
 const MainDashboard = () => {
-  const [contentChanger, setContentChanger] = useState("middleBanner");
+  const [contentChanger, setContentChanger] = useState("admin-pannel");
   const [details, setDetails] = useState(<MiddleBannerMain />);
   useEffect(() => {
     if (contentChanger == "middleBanner") {
@@ -22,6 +23,8 @@ const MainDashboard = () => {
       setDetails(<CategoryMain />);
     } else if (contentChanger == "products") {
       setDetails(<ProductMain />);
+    } else if (contentChanger == "admin-pannel") {
+      setDetails(<AdminPannel />);
     }
   }, [contentChanger]);
   return (

@@ -59,7 +59,7 @@ const RelatedPosts = ({ typeOfModel, relatedModels, title }) => {
         >
           <div className="flex justify-between itemas-center gap-2 ">
             {relatedModelsData[0] == -1 ? (
-              <div className="flex justify-center items-center p-12">
+              <div className="w-full flex justify-center items-center p-12">
                 <Image
                   alt="loading"
                   width={120}
@@ -73,14 +73,14 @@ const RelatedPosts = ({ typeOfModel, relatedModels, title }) => {
               </div>
             ) : typeOfModel == "post" ? (
               relatedModelsData.map((da, i) => <BlogBox key={i} data={da} />)
-            ) : typeOfModel == "gr" ? (
-              relatedModelsData.map((da, i) => (
-                <GraphicSliderBox key={i} itemData={da} />
-              ))
             ) : (
-              relatedModelsData.map((da, i) => (
-                <ProductSliderBox key={i} itemData={da} />
-              ))
+              relatedModelsData.map((da, i) =>
+                da.typeOfModel == "gr" ? (
+                  <GraphicSliderBox itemData={da} key={i} />
+                ) : (
+                  <ProductSliderBox key={i} itemData={da} />
+                )
+              )
             )}
           </div>
         </div>

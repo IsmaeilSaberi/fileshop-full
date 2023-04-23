@@ -43,7 +43,7 @@ const GraphicSliderBox = ({ itemData }) => {
             <h3 className="m-2 line-clamp-2">{itemData.title}</h3>
           </Link>
 
-          <div className="flex flex-col gap-1">
+          <div className="features flex flex-col gap-1 absolute right-2 left-2 top-60">
             <div className="flex flex-col justify-centter items-center text-indigo-500 mx-1 text-base sm:text-sm">
               {itemData.features.length < 1 ? (
                 <div></div>
@@ -68,7 +68,7 @@ const GraphicSliderBox = ({ itemData }) => {
             </div>
           </div>
 
-          <div className="categories flex justify-start items-center gap-1 flex-wrap">
+          <div className="categories flex justify-start items-center gap-1 flex-wrap absolute right-2 left-2 top-80">
             {itemData.categories.length < 1 ? (
               <div></div>
             ) : (

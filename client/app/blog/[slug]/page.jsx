@@ -107,15 +107,21 @@ const SingleBlog = async ({ params }) => {
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">برچسب ها</h3>
               <div className="flex justify-start items-center gap-2 flex-wrap">
-                {data.tags.map((ta, i) => (
-                  <Link
-                    key={i}
-                    className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
-                    href={`/search/tags/${ta}`}
-                  >
-                    #{ta}
-                  </Link>
-                ))}
+                {data.tags.length < 1 ? (
+                  <div className="flex justify-center items-center p-2">
+                    بدون برچسب
+                  </div>
+                ) : (
+                  data.tags.map((ta, i) => (
+                    <Link
+                      key={i}
+                      className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
+                      href={`/search/tags/${ta}`}
+                    >
+                      #{ta}
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
             <MostViewedPosts />
