@@ -67,5 +67,6 @@ router.get(
   "/get-products-of-type/:typeOfProduct",
   ProductCtrl.getOneTypeProducts
 );
+router.get("/search-products", ProductCtrl.searchProducts);
 
 module.exports = router;

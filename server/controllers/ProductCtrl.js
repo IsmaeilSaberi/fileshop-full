@@ -328,3 +328,68 @@ const getOneTypeProducts = async (req, res) => {
   }
 };
 module.exports.getOneTypeProducts = getOneTypeProducts;
+
+const searchProducts = async (req, res) => {
+  try {
+    let allProducts = await Product.find({ published: 1 })
+      .sort({ _id: -1 })
+      .select({
+        title: 1,
+        slug: 1,
+        image: 1,
+        imageAlt: 1,
+        price: 1,
+        shortDesc: 1,
+        typeOfProduct: 1,
+        pageView: 1,
+        categories: 1,
+        features: 1,
+        buyNumber: 1,
+      });
+
+    ////KEYWORD SEARCH
+    if (req.query.keyword) {
+      const goalPro = allProducts.filter(
+        (pro) =>
+          pro.title.includes(req.query.keyword) ||
+          pro.imageAlt.includes(req.query.keyword)
+      );
+      allProducts = goalPro;
+    }
+
+    ////ORDER BY price,buyNumber, pageView, date SEARCH
+    if (req.query.orderBy) {
+      let goalPro = [];
+      if (req.query.orderBy == "price") {
+        goalPro = allProducts.sort((a, b) =>
+          Number(a.price) > Number(b.price) ? 1 : -1
+        );
+      } else if ((req.query.orderBy = "buyNumber")) {
+        goalPro = allProducts.sort((a, b) =>
+          a.buyNumber > b.buyNumber ? -1 : 1
+        );
+      } else if ((req.query.orderBy = "pageView")) {
+        goalPro = allProducts.sort((a, b) =>
+          a.pageView > b.pageView ? -1 : 1
+        );
+      } else {
+        goalPro = allProducts;
+      }
+      allProducts = goalPro;
+    }
+
+    ////TYPE OF PRODUCT gr,book,app SEARCH
+
+    //// MAX PRICE AND MIN PRICE SEARCH
+
+    ////CATEGORIES SEARCH
+
+    ////PAGINATION AND allProductsNumber SEARCH
+
+    res.status(200).json({ allProducts });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.searchProducts = searchProducts;
