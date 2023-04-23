@@ -364,11 +364,11 @@ const searchProducts = async (req, res) => {
         goalPro = allProducts.sort((a, b) =>
           Number(a.price) > Number(b.price) ? 1 : -1
         );
-      } else if ((req.query.orderBy = "buyNumber")) {
+      } else if (req.query.orderBy == "buyNumber") {
         goalPro = allProducts.sort((a, b) =>
           a.buyNumber > b.buyNumber ? -1 : 1
         );
-      } else if ((req.query.orderBy = "pageView")) {
+      } else if (req.query.orderBy == "pageView") {
         goalPro = allProducts.sort((a, b) =>
           a.pageView > b.pageView ? -1 : 1
         );
