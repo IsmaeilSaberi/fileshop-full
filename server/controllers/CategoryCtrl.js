@@ -72,6 +72,40 @@ const updateCategory = async (req, res) => {
         req.body.image.endsWith(".jpeg") ||
         req.body.image.endsWith(".webp")
       ) {
+        //// find category and update it in products categories list
+        const theCategory = await Category.findById(req.params.id).select({
+          title: 1,
+          slug: 1,
+        });
+        const allProducts = await Product.find().select({ categories: 1 });
+
+        for (let i = 0; i < allProducts.length; i++) {
+          for (let j = 0; j < allProducts[i].categories.length; j++) {
+            if (allProducts[i].categories[j]._id == theCategory.id) {
+              let updatedProductCategories = allProducts[i].categories;
+              if (j > -1) {
+                updatedProductCategories.splice(j, 1);
+              }
+              updatedProductCategories = [
+                ...updatedProductCategories,
+                {
+                  _id: req.params.id,
+                  title: req.body.title,
+                  slug: req.body.slug,
+                },
+              ];
+              const updatedProduct = { categories: updatedProductCategories };
+              await Product.findByIdAndUpdate(
+                allProducts[i]._id,
+                updatedProduct,
+                {
+                  new: true,
+                }
+              );
+            }
+          }
+        }
+
         await Category.findByIdAndUpdate(req.params.id, req.body, {
           new: true,
         });
@@ -90,6 +124,27 @@ module.exports.updateCategory = updateCategory;
 const removeCategory = async (req, res) => {
   ////// a simple method for remove a middle banner
   try {
+    //// find category and remove it from products categories list
+    const theCategory = await Category.findById(req.params.id).select({
+      title: 1,
+      slug: 1,
+    });
+    const allProducts = await Product.find().select({ categories: 1 });
+
+    for (let i = 0; i < allProducts.length; i++) {
+      for (let j = 0; j < allProducts[i].categories.length; j++) {
+        if (allProducts[i].categories[j]._id == theCategory.id) {
+          let updatedProductCategories = allProducts[i].categories;
+          if (j > -1) {
+            updatedProductCategories.splice(j, 1);
+          }
+          const updatedProduct = { categories: updatedProductCategories };
+          await Product.findByIdAndUpdate(allProducts[i]._id, updatedProduct, {
+            new: true,
+          });
+        }
+      }
+    }
     await Category.findByIdAndDelete(req.params.id);
     res.status(200).json({ msg: "دسته بندی محصول با موفقیت حذف شد!" });
   } catch (error) {
