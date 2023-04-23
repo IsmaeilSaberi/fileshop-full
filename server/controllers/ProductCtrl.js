@@ -397,7 +397,7 @@ const searchProducts = async (req, res) => {
       const goalPro = [];
       const categoriesSlugs = req.query.categories.split(",");
       for (let i = 0; i < allProducts.length; i++) {
-        for (let j = 0; j < allProducts[i].categories[j]; j++) {
+        for (let j = 0; j < allProducts[i].categories.length; j++) {
           for (let t = 0; t < categoriesSlugs.length; t++) {
             if (allProducts[i].categories[j].slug == categoriesSlugs[t]) {
               goalPro.push(allProducts[i]);

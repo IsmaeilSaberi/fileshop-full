@@ -30,7 +30,7 @@ const CategoryDetails = ({ categoryId }) => {
       title: titleRef.current.value,
       image: imageUrlRef.current.value,
       imageAlt: imageAltRef.current.value,
-      slug: slugRef.current.value,
+      slug: slugRef.current.value.replace(/\s+/g, "-").toLowerCase(),
       situation: situationRef.current.value,
       typeOfProduct: typeOfProductRef.current.value,
       shortDesc: shortDescRef.current.value,
