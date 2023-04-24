@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import {
   AiFillYoutube,
   AiFillInstagram,
@@ -16,6 +17,15 @@ import { BsFillEnvelopeOpenFill, BsPersonBoundingBox } from "react-icons/bs";
 
 const Header = () => {
   const [logoHover, setLogoHover] = useState(0);
+  const router = useRouter();
+
+  const searchRef = useRef();
+  const shopSearcher = (e) => {
+    e.preventDefault();
+    const url = `/shop?keyword=${searchRef.current.value}`;
+    router.push(url);
+  };
+
   return (
     <header className="container mx-auto py-2">
       <div className="flex justify-between items-start gap-4">
@@ -107,9 +117,9 @@ const Header = () => {
                 <li>
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={"/"}
+                    href={"/shop"}
                   >
-                    فایل ها و ویدئوها
+                    فروشگاه
                   </Link>
                 </li>
                 <li>
@@ -142,21 +152,24 @@ const Header = () => {
             </div>
           </div>
           <div className="flex justify-between items-center gap-4">
-            <div className="flex justify-start relative items-center w-full ml-1">
+            <form
+              onSubmit={shopSearcher}
+              className="flex justify-start relative items-center w-full ml-1"
+            >
               <input
+                ref={searchRef}
                 className="outline-none text-lg p-3 rounded-md  w-full shadow-[0px_0px_5px_rgba(0,0,0,0.15)] transition-all duration-200 focus:shadow-[0px_0px_10px_rgba(0,0,0,0.5)]"
-                name="productsSearch"
-                id="productsSearch"
                 type="text"
                 placeholder="جستجو بین محصولات"
               />
-              <label
-                className="w-12 absolute left-0 cursor-pointer"
-                htmlFor="productsSearch"
+              <button
+                onClick={() => shopSearcher}
+                className="w-12 absolute left-0"
+                type="submit"
               >
                 <AiOutlineSearch className="w-10 h-10" />
-              </label>
-            </div>
+              </button>
+            </form>
             <div className="flex gap-4 items-center w-[20rem] justify-end">
               <div>
                 <Link href={"/account"}>
