@@ -18,23 +18,108 @@ const ShopComponent = ({ url }) => {
   const router = useRouter();
   const [searchResult, setSearchResult] = useState([-1]);
   const [btns, setBtns] = useState([-1]);
-  const pagination = url.pn ? `pgn=${url.pgn}&pn=${url.pn}&` : "";
 
-  const keyword = url.keyword ? `keyword=${url.keyword}&` : "";
+  const [keyword, setKeyWord] = useState(
+    url.keyword ? `keyword=${url.keyword}&` : ""
+  );
+  const [orderBy, setOrderBy] = useState(
+    url.orderBy ? `orderBy=${url.orderBy}&` : ""
+  );
+  const [typeOfProduct, setTypeOfProduct] = useState(
+    url.type ? `type=${url.type}&` : ""
+  );
+  const [maxPrice, setMaxPrice] = useState(url.maxP ? `maxP=${url.maxP}&` : "");
+  const [minPrice, setMinPrice] = useState(url.minP ? `minP=${url.minP}&` : "");
+  const [categories, setCategories] = useState(
+    url.categories ? `categories=${url.categories}&` : ""
+  );
+  const [pgn, setPgn] = useState(url.pgn ? `pgn=${url.pgn}&` : "");
+  const [pn, setPn] = useState(url.pn ? `pn=${url.pn}&` : "");
+
+  const queries = `${keyword ? keyword : ""}${orderBy ? orderBy : ""}${
+    typeOfProduct ? typeOfProduct : ""
+  }${maxPrice ? maxPrice : ""}${minPrice ? minPrice : ""}${
+    categories ? categories : ""
+  }${pgn ? pgn : ""}${pn ? pn : ""}`;
+
+  const mainFrontUrl = `/shop?${queries}`;
+  const mainBackendUrl = `https://fileshop-server.iran.liara.run/api/search-products?${queries}`;
 
   useEffect(() => {
+    router.push(mainFrontUrl);
     axios
-      .get(
-        `https://fileshop-server.iran.liara.run/api/search-products?${keyword}${pagination}`
-      )
+      .get(mainBackendUrl)
       .then((d) => {
         setSearchResult(d.data.allProducts), setBtns(d.data.btns);
       })
       .catch((err) => console.log(err));
-  }, [url]);
+  }, [
+    keyword,
+    orderBy,
+    typeOfProduct,
+    maxPrice,
+    minPrice,
+    categories,
+    pgn,
+    pn,
+  ]);
+
+  //ORDER BY
+  const orderByManager = (v) => {
+    setSearchResult([-1]);
+    setOrderBy(`orderBy=${v.target.value}&`);
+  };
+
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
-      <aside className="w-80 bg-zinc-100 rounded-lg p-2">aside</aside>
+      <aside className="w-80 bg-zinc-100 rounded-lg p-2">
+        <div className="flex flex-col gap-4">
+          <div>مرتب سازی بر اساس</div>
+          <div className="flex items-center flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="date">جدیدترین</label>
+              <input
+                defaultChecked
+                onClick={orderByManager}
+                type="radio"
+                name="orderBy"
+                id="date"
+                value={"date"}
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="price">قیمت</label>
+              <input
+                onClick={orderByManager}
+                type="radio"
+                name="orderBy"
+                id="price"
+                value={"price"}
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="pageView">پربازدیدترین</label>
+              <input
+                onClick={orderByManager}
+                type="radio"
+                name="orderBy"
+                id="pageView"
+                value={"pageView"}
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="buyNumber">پرفروش ترین</label>
+              <input
+                onClick={orderByManager}
+                type="radio"
+                name="orderBy"
+                id="buyNumber"
+                value={"buyNumber"}
+              />
+            </div>
+          </div>
+        </div>
+      </aside>
       <main className="w-full bg-zinc-100 rounded-lg p-2 flex flex-col gap-8">
         <h1 className="text-xl text-indigo-600">
           محصولات <span className="text-red-500 p-2">{url.keyword}</span>{" "}
@@ -74,7 +159,8 @@ const ShopComponent = ({ url }) => {
                 <button
                   key={i}
                   onClick={() => {
-                    router.push(`/shop?${keyword}pgn=12&pn=${b + 1}`);
+                    setPgn(`pgn=12&`);
+                    setPn(`pn=${b + 1}&`);
                     goToTop();
                     setSearchResult([-1]);
                   }}
