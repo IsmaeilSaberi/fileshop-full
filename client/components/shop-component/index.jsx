@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Slider2box from "../sliders/mainSlider/slider2box";
 import GraphicSliderBox from "../sliders/graphic-slider/graphicSliderBox";
@@ -68,12 +68,41 @@ const ShopComponent = ({ url }) => {
   const orderByManager = (v) => {
     setSearchResult([-1]);
     setOrderBy(`orderBy=${v.target.value}&`);
+    goToTop();
+  };
+
+  //TYPE OF PRODUCT
+  const typeOfProductManager = (v) => {
+    setSearchResult([-1]);
+    if (v.target.value == "allProducts") {
+      setTypeOfProduct("");
+    } else {
+      setTypeOfProduct(`type=${v.target.value}&`);
+    }
+    goToTop();
+  };
+
+  //PRICE
+  const minPRef = useRef();
+  const maxPRef = useRef();
+  const priceManager = (e) => {
+    e.preventDefault();
+    setSearchResult([-1]);
+    if (maxPRef.current.value == "") {
+      maxPRef.current.value = 1000000000;
+    }
+    if (minPRef.current.value == "") {
+      minPRef.current.value = 0;
+    }
+    setMaxPrice(`maxP=${maxPRef.current.value}&`);
+    setMinPrice(`minP=${minPRef.current.value}&`);
+    goToTop();
   };
 
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
-      <aside className="w-80 bg-zinc-100 rounded-lg p-2">
-        <div className="flex flex-col gap-4">
+      <aside className="w-80  flex flex-col gap-4">
+        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
           <div>مرتب سازی بر اساس</div>
           <div className="flex items-center flex-wrap gap-2">
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
@@ -118,6 +147,80 @@ const ShopComponent = ({ url }) => {
               />
             </div>
           </div>
+        </div>
+        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+          <div>نوع محصول</div>
+          <div className="flex items-center flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="allProducts">همه</label>
+              <input
+                onClick={typeOfProductManager}
+                type="radio"
+                name="typeOfProduct"
+                id="allProducts"
+                value={"allProducts"}
+                defaultChecked
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="app">اپلیکیشن</label>
+              <input
+                onClick={typeOfProductManager}
+                type="radio"
+                name="typeOfProduct"
+                id="app"
+                value={"app"}
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="book">کتاب</label>
+              <input
+                onClick={typeOfProductManager}
+                type="radio"
+                name="typeOfProduct"
+                id="book"
+                value={"book"}
+              />
+            </div>
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+              <label htmlFor="gr">فایل گرافیکی</label>
+              <input
+                onClick={typeOfProductManager}
+                type="radio"
+                name="typeOfProduct"
+                id="gr"
+                value={"gr"}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+          <div>بازه قیمت (تومان)</div>
+          <form onSubmit={priceManager} className="flex flex-col gap-4">
+            <div className="flex items-center flex-wrap gap-2">
+              <input
+                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                type="number"
+                ref={minPRef}
+                placeholder="حداقل قیمت"
+                min={0}
+              />
+
+              <input
+                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                type="number"
+                ref={maxPRef}
+                placeholder="حداکثر قیمت"
+                min={0}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-orange-400 rounded h-10 flex justify-center items-center text-white transition-all duration-200 hover:bg-orange-500"
+            >
+              اعمال فیلتر قیمت
+            </button>
+          </form>
         </div>
       </aside>
       <main className="w-full bg-zinc-100 rounded-lg p-2 flex flex-col gap-8">

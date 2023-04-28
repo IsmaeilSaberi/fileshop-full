@@ -383,12 +383,17 @@ const searchProducts = async (req, res) => {
       );
       allProducts = goalPro;
     }
-    //// MAX PRICE AND MIN PRICE SEARCH
-    if (req.query.maxP && req.query.minP) {
+    ////MIN PRICE SEARCH
+    if (req.query.minP) {
+      const goalPro = allProducts.filter((pro) =>
+        Number(pro.price >= req.query.minP)
+      );
+      allProducts = goalPro;
+    }
+    //// MAX PRICE SEARCH
+    if (req.query.maxP) {
       const goalPro = allProducts.filter(
-        (pro) =>
-          Number(pro.price) <= req.query.maxP &&
-          Number(pro.price >= req.query.minP)
+        (pro) => Number(pro.price) <= req.query.maxP
       );
       allProducts = goalPro;
     }
