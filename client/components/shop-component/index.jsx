@@ -99,6 +99,33 @@ const ShopComponent = ({ url }) => {
     goToTop();
   };
 
+  //CATEGORIES
+  const [allCategories, setAllCategories] = useState([-1]);
+  useEffect(() => {
+    const url = "https://fileshop-server.iran.liara.run/api/product-categories";
+    axios.get(url).then((d) => {
+      setAllCategories(d.data);
+    });
+  }, []);
+
+  const allCategoriesManager = (v) => {
+    if (v.target.checked) {
+      if (categories.length > 0) {
+        setCategories(`${categories},${v.target.value}`);
+      } else {
+        setCategories(`categories=${v.target.value}`);
+      }
+    } else {
+      const a = categories;
+      categories.includes(`,${v.target.value}`)
+        ? a.replace(`,${v.target.value}`)
+        : a.replace(`${v.target.value},`);
+      setCategories(a);
+    }
+    setSearchResult([-1]);
+    goToTop();
+  };
+
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
       <aside className="w-80  flex flex-col gap-4">
@@ -221,6 +248,40 @@ const ShopComponent = ({ url }) => {
               اعمال فیلتر قیمت
             </button>
           </form>
+        </div>
+        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+          <div>دسته بندی</div>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            {allCategories[0] == -1 ? (
+              <div className="flex justify-center items-center p-12 w-full">
+                <Image
+                  alt="loading"
+                  width={40}
+                  height={40}
+                  src={"/loading.svg"}
+                />
+              </div>
+            ) : allCategories.length < 1 ? (
+              <div>دسته ای موجود نیست!</div>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {allCategories.map((cat, i) => (
+                  <div
+                    key={i}
+                    className="flex justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                  >
+                    <label htmlFor={cat.slug}>{cat.title}</label>
+                    <input
+                      onClick={allCategoriesManager}
+                      type="checkbox"
+                      id={cat.slug}
+                      value={cat.slug}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </aside>
       <main className="w-full bg-zinc-100 rounded-lg p-2 flex flex-col gap-8">
