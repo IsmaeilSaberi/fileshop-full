@@ -23,7 +23,7 @@ const ShopComponent = ({ url }) => {
     url.keyword ? `&keyword=${url.keyword}` : ""
   );
   const [orderBy, setOrderBy] = useState(
-    url.orderBy ? `&orderBy=${url.orderBy}` : ""
+    url.orderBy ? `&orderBy=${url.orderBy}` : "&orderBy=date"
   );
   const [typeOfProduct, setTypeOfProduct] = useState(
     url.type ? `&type=${url.type}` : ""
@@ -33,8 +33,8 @@ const ShopComponent = ({ url }) => {
   const [categories, setCategories] = useState(
     url.categories ? `&categories=${url.categories}` : ""
   );
-  const [pgn, setPgn] = useState(url.pgn ? `&pgn=${url.pgn}` : "");
-  const [pn, setPn] = useState(url.pn ? `&pn=${url.pn}` : "");
+  const [pgn, setPgn] = useState(url.pgn ? `&pgn=${url.pgn}` : "&pgn=12");
+  const [pn, setPn] = useState(url.pn ? `&pn=${url.pn}` : "&pn=1");
 
   const queries = `${keyword ? keyword : ""}${orderBy ? orderBy : ""}${
     typeOfProduct ? typeOfProduct : ""
@@ -123,10 +123,13 @@ const ShopComponent = ({ url }) => {
       }
       setSearchResult([-1]);
     } else {
+      const numberOfComos = categories.split(",").length - 1;
+      console.log(numberOfComos);
       const a = categories.includes(`,${v.target.value}`)
         ? categories.replace(`,${v.target.value}`, "")
-        : categories.replace(`&categories=${v.target.value},`, "");
-      console.log(categories);
+        : numberOfComos == 0
+        ? ""
+        : categories.replace(`${v.target.value},`, "");
       setCategories(a);
     }
     goToTop();
@@ -142,44 +145,87 @@ const ShopComponent = ({ url }) => {
           <div className="flex items-center flex-wrap gap-2">
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="date">جدیدترین</label>
-              <input
-                defaultChecked
-                onClick={orderByManager}
-                type="radio"
-                name="orderBy"
-                id="date"
-                value={"date"}
-              />
+              {orderBy == "&orderBy=date" ? (
+                <input
+                  defaultChecked
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="date"
+                  value={"date"}
+                />
+              ) : (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="date"
+                  value={"date"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="price">قیمت</label>
-              <input
-                onClick={orderByManager}
-                type="radio"
-                name="orderBy"
-                id="price"
-                value={"price"}
-              />
+              {orderBy == "&orderBy=price" ? (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="price"
+                  value={"price"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="price"
+                  value={"price"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
-              <input
-                onClick={orderByManager}
-                type="radio"
-                name="orderBy"
-                id="pageView"
-                value={"pageView"}
-              />
+              {orderBy == "&orderBy=pageView" ? (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="pageView"
+                  value={"pageView"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="pageView"
+                  value={"pageView"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="buyNumber">پرفروش ترین</label>
-              <input
-                onClick={orderByManager}
-                type="radio"
-                name="orderBy"
-                id="buyNumber"
-                value={"buyNumber"}
-              />
+              {orderBy == "&orderBy=buyNumber" ? (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="buyNumber"
+                  value={"buyNumber"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={orderByManager}
+                  type="radio"
+                  name="orderBy"
+                  id="buyNumber"
+                  value={"buyNumber"}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -188,44 +234,87 @@ const ShopComponent = ({ url }) => {
           <div className="flex items-center flex-wrap gap-2">
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="allProducts">همه</label>
-              <input
-                onClick={typeOfProductManager}
-                type="radio"
-                name="typeOfProduct"
-                id="allProducts"
-                value={"allProducts"}
-                defaultChecked
-              />
+              {typeOfProduct == "" ? (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="allProducts"
+                  value={"allProducts"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="allProducts"
+                  value={"allProducts"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="app">اپلیکیشن</label>
-              <input
-                onClick={typeOfProductManager}
-                type="radio"
-                name="typeOfProduct"
-                id="app"
-                value={"app"}
-              />
+              {typeOfProduct == "&type=app" ? (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="app"
+                  value={"app"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="app"
+                  value={"app"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="book">کتاب</label>
-              <input
-                onClick={typeOfProductManager}
-                type="radio"
-                name="typeOfProduct"
-                id="book"
-                value={"book"}
-              />
+              {typeOfProduct == "&type=book" ? (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="book"
+                  value={"book"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="book"
+                  value={"book"}
+                />
+              )}
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="gr">فایل گرافیکی</label>
-              <input
-                onClick={typeOfProductManager}
-                type="radio"
-                name="typeOfProduct"
-                id="gr"
-                value={"gr"}
-              />
+              {typeOfProduct == "&type=gr" ? (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="gr"
+                  value={"gr"}
+                  defaultChecked
+                />
+              ) : (
+                <input
+                  onClick={typeOfProductManager}
+                  type="radio"
+                  name="typeOfProduct"
+                  id="gr"
+                  value={"gr"}
+                />
+              )}
             </div>
           </div>
         </div>
