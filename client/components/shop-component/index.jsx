@@ -20,21 +20,21 @@ const ShopComponent = ({ url }) => {
   const [btns, setBtns] = useState([-1]);
 
   const [keyword, setKeyWord] = useState(
-    url.keyword ? `keyword=${url.keyword}&` : ""
+    url.keyword ? `&keyword=${url.keyword}` : ""
   );
   const [orderBy, setOrderBy] = useState(
-    url.orderBy ? `orderBy=${url.orderBy}&` : ""
+    url.orderBy ? `&orderBy=${url.orderBy}` : ""
   );
   const [typeOfProduct, setTypeOfProduct] = useState(
-    url.type ? `type=${url.type}&` : ""
+    url.type ? `&type=${url.type}` : ""
   );
-  const [maxPrice, setMaxPrice] = useState(url.maxP ? `maxP=${url.maxP}&` : "");
-  const [minPrice, setMinPrice] = useState(url.minP ? `minP=${url.minP}&` : "");
+  const [maxPrice, setMaxPrice] = useState(url.maxP ? `&maxP=${url.maxP}` : "");
+  const [minPrice, setMinPrice] = useState(url.minP ? `&minP=${url.minP}` : "");
   const [categories, setCategories] = useState(
-    url.categories ? `categories=${url.categories}&` : ""
+    url.categories ? `&categories=${url.categories}` : ""
   );
-  const [pgn, setPgn] = useState(url.pgn ? `pgn=${url.pgn}&` : "");
-  const [pn, setPn] = useState(url.pn ? `pn=${url.pn}&` : "");
+  const [pgn, setPgn] = useState(url.pgn ? `&pgn=${url.pgn}` : "");
+  const [pn, setPn] = useState(url.pn ? `&pn=${url.pn}` : "");
 
   const queries = `${keyword ? keyword : ""}${orderBy ? orderBy : ""}${
     typeOfProduct ? typeOfProduct : ""
@@ -67,7 +67,9 @@ const ShopComponent = ({ url }) => {
   //ORDER BY
   const orderByManager = (v) => {
     setSearchResult([-1]);
-    setOrderBy(`orderBy=${v.target.value}&`);
+    setOrderBy(`&orderBy=${v.target.value}`);
+    setPn(`&pn=1`);
+    setPgn(`&pgn=12`);
     goToTop();
   };
 
@@ -77,8 +79,10 @@ const ShopComponent = ({ url }) => {
     if (v.target.value == "allProducts") {
       setTypeOfProduct("");
     } else {
-      setTypeOfProduct(`type=${v.target.value}&`);
+      setTypeOfProduct(`&type=${v.target.value}`);
     }
+    setPn(`&pn=1`);
+    setPgn(`&pgn=12`);
     goToTop();
   };
 
@@ -94,8 +98,10 @@ const ShopComponent = ({ url }) => {
     if (minPRef.current.value == "") {
       minPRef.current.value = 0;
     }
-    setMaxPrice(`maxP=${maxPRef.current.value}&`);
-    setMinPrice(`minP=${minPRef.current.value}&`);
+    setMaxPrice(`&maxP=${maxPRef.current.value}`);
+    setMinPrice(`&minP=${minPRef.current.value}`);
+    setPn(`&pn=1`);
+    setPgn(`&pgn=12`);
     goToTop();
   };
 
@@ -113,17 +119,19 @@ const ShopComponent = ({ url }) => {
       if (categories.length > 0) {
         setCategories(`${categories},${v.target.value}`);
       } else {
-        setCategories(`categories=${v.target.value}`);
+        setCategories(`&categories=${v.target.value}`);
       }
+      setSearchResult([-1]);
     } else {
-      const a = categories;
-      categories.includes(`,${v.target.value}`)
-        ? a.replace(`,${v.target.value}`)
-        : a.replace(`${v.target.value},`);
+      const a = categories.includes(`,${v.target.value}`)
+        ? categories.replace(`,${v.target.value}`, "")
+        : categories.replace(`&categories=${v.target.value},`, "");
+      console.log(categories);
       setCategories(a);
     }
-    setSearchResult([-1]);
     goToTop();
+    setPn(`&pn=1`);
+    setPgn(`&pgn=12`);
   };
 
   return (
@@ -323,8 +331,8 @@ const ShopComponent = ({ url }) => {
                 <button
                   key={i}
                   onClick={() => {
-                    setPgn(`pgn=12&`);
-                    setPn(`pn=${b + 1}&`);
+                    setPgn(`&pgn=12`);
+                    setPn(`&pn=${b + 1}`);
                     goToTop();
                     setSearchResult([-1]);
                   }}
