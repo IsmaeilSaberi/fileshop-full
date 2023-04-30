@@ -28,8 +28,18 @@ const ShopComponent = ({ url }) => {
   const [typeOfProduct, setTypeOfProduct] = useState(
     url.type ? `&type=${url.type}` : ""
   );
-  const [maxPrice, setMaxPrice] = useState(url.maxP ? `&maxP=${url.maxP}` : "");
-  const [minPrice, setMinPrice] = useState(url.minP ? `&minP=${url.minP}` : "");
+  const [maxPrice, setMaxPrice] = useState(
+    url.maxP ? `&maxP=${url.maxP}` : "&maxP=100000000"
+  );
+  const [maxPriceInputNumber, setMaxPriceInputNumber] = useState(
+    url.maxP ? url.maxP : 100000000
+  );
+  const [minPrice, setMinPrice] = useState(
+    url.minP ? `&minP=${url.minP}` : "&minP=0"
+  );
+  const [minPriceInputNumber, setMixPriceInputNumber] = useState(
+    url.minP ? url.minP : 0
+  );
   const [categories, setCategories] = useState(
     url.categories ? `&categories=${url.categories}` : ""
   );
@@ -137,6 +147,18 @@ const ShopComponent = ({ url }) => {
     setPgn(`&pgn=12`);
   };
 
+  //DEFAULT CATEGORIES
+  const urlCategoriesSlugs = url.categories ? url.categories.split(",") : [];
+
+  const urlCategoriesIds = [];
+  urlCategoriesSlugs.map((c, i) => {
+    for (let i = 0; i < allCategories.length; i++) {
+      if (c == allCategories[i].slug) {
+        urlCategoriesIds.push(allCategories[i]._id);
+      }
+    }
+  });
+
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
       <aside className="w-80  flex flex-col gap-4">
@@ -166,24 +188,16 @@ const ShopComponent = ({ url }) => {
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="price">قیمت</label>
-              {orderBy == "&orderBy=price" ? (
+              {
                 <input
                   onClick={orderByManager}
                   type="radio"
                   name="orderBy"
                   id="price"
                   value={"price"}
-                  defaultChecked
+                  defaultChecked={orderBy == "&orderBy=price"}
                 />
-              ) : (
-                <input
-                  onClick={orderByManager}
-                  type="radio"
-                  name="orderBy"
-                  id="price"
-                  value={"price"}
-                />
-              )}
+              }
             </div>
             <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
@@ -327,6 +341,7 @@ const ShopComponent = ({ url }) => {
                 type="number"
                 ref={minPRef}
                 placeholder="حداقل قیمت"
+                defaultValue={minPriceInputNumber}
                 min={0}
               />
 
@@ -335,6 +350,7 @@ const ShopComponent = ({ url }) => {
                 type="number"
                 ref={maxPRef}
                 placeholder="حداکثر قیمت"
+                defaultValue={maxPriceInputNumber}
                 min={0}
               />
             </div>
@@ -361,21 +377,34 @@ const ShopComponent = ({ url }) => {
             ) : allCategories.length < 1 ? (
               <div>دسته ای موجود نیست!</div>
             ) : (
-              <div className="flex flex-col gap-2">
-                {allCategories.map((cat, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
-                  >
-                    <label htmlFor={cat.slug}>{cat.title}</label>
-                    <input
-                      onClick={allCategoriesManager}
-                      type="checkbox"
-                      id={cat.slug}
-                      value={cat.slug}
-                    />
-                  </div>
-                ))}
+              <div className="flex justify-center items-center">
+                <div className="flex flex-wrap gap-2">
+                  {allCategories.map((da, i) => (
+                    <div
+                      key={i}
+                      className="flex w-25 justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                    >
+                      <label htmlFor={da.slug}>{da.title}</label>
+                      {urlCategoriesIds.length < 1 ? (
+                        <input
+                          onClick={allCategoriesManager}
+                          type="checkbox"
+                          id={da.slug}
+                          value={da.slug}
+                        />
+                      ) : (
+                        <input
+                          key={i}
+                          onClick={allCategoriesManager}
+                          type="checkbox"
+                          id={da.slug}
+                          value={da.slug}
+                          defaultChecked={urlCategoriesIds.includes(da._id)}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
