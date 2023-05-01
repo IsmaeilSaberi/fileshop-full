@@ -18,8 +18,9 @@ const ShopComponent = ({ url }) => {
   const router = useRouter();
   const [searchResult, setSearchResult] = useState([-1]);
   const [btns, setBtns] = useState([-1]);
+  const [title, setTitle] = useState(url.keyword);
 
-  const [keyword, setKeyWord] = useState(
+  const [keyword, setKeyword] = useState(
     url.keyword ? `&keyword=${url.keyword}` : ""
   );
   const [orderBy, setOrderBy] = useState(
@@ -56,6 +57,10 @@ const ShopComponent = ({ url }) => {
   const mainBackendUrl = `https://fileshop-server.iran.liara.run/api/search-products?${queries}`;
 
   useEffect(() => {
+    setSearchResult([-1]);
+    setPn(`&pn=1`);
+    setPgn(`&pgn=12`);
+    goToTop();
     router.push(mainFrontUrl);
     axios
       .get(mainBackendUrl)
@@ -74,26 +79,42 @@ const ShopComponent = ({ url }) => {
     pn,
   ]);
 
+  //KEYWORD
+  useEffect(() => {
+    url.keyword == undefined ? setTitle(``) : setTitle(url.keyword);
+    url.keyword && url.keyword.length > 0
+      ? setKeyword(`&keyword=${url.keyword.replace(/\s+/g, "_")}`)
+      : console.log("");
+  }, [url.keyword]);
+
   //ORDER BY
   const orderByManager = (v) => {
-    setSearchResult([-1]);
     setOrderBy(`&orderBy=${v.target.value}`);
-    setPn(`&pn=1`);
-    setPgn(`&pgn=12`);
-    goToTop();
   };
 
   //TYPE OF PRODUCT
   const typeOfProductManager = (v) => {
-    setSearchResult([-1]);
     if (v.target.value == "allProducts") {
       setTypeOfProduct("");
+      url.keyword == undefined ? setTitle(``) : setTitle(url.keyword);
     } else {
       setTypeOfProduct(`&type=${v.target.value}`);
+      url.keyword == undefined
+        ? setTitle(
+            v.target.value == "app"
+              ? ` از اپلیکیشن ها`
+              : v.target.value == "gr"
+              ? ` از فایل های گرافیکی`
+              : ` از کتاب ها`
+          )
+        : setTitle(
+            v.target.value == "app"
+              ? `${url.keyword} از اپلیکیشن ها`
+              : v.target.value == "gr"
+              ? `${url.keyword} از فایل های گرافیکی`
+              : `${url.keyword} از کتاب ها`
+          );
     }
-    setPn(`&pn=1`);
-    setPgn(`&pgn=12`);
-    goToTop();
   };
 
   //PRICE
@@ -101,7 +122,6 @@ const ShopComponent = ({ url }) => {
   const maxPRef = useRef();
   const priceManager = (e) => {
     e.preventDefault();
-    setSearchResult([-1]);
     if (maxPRef.current.value == "") {
       maxPRef.current.value = 1000000000;
     }
@@ -110,9 +130,6 @@ const ShopComponent = ({ url }) => {
     }
     setMaxPrice(`&maxP=${maxPRef.current.value}`);
     setMinPrice(`&minP=${minPRef.current.value}`);
-    setPn(`&pn=1`);
-    setPgn(`&pgn=12`);
-    goToTop();
   };
 
   //CATEGORIES
@@ -131,10 +148,8 @@ const ShopComponent = ({ url }) => {
       } else {
         setCategories(`&categories=${v.target.value}`);
       }
-      setSearchResult([-1]);
     } else {
       const numberOfComos = categories.split(",").length - 1;
-      console.log(numberOfComos);
       const a = categories.includes(`,${v.target.value}`)
         ? categories.replace(`,${v.target.value}`, "")
         : numberOfComos == 0
@@ -142,9 +157,6 @@ const ShopComponent = ({ url }) => {
         : categories.replace(`${v.target.value},`, "");
       setCategories(a);
     }
-    goToTop();
-    setPn(`&pn=1`);
-    setPgn(`&pgn=12`);
   };
 
   //DEFAULT CATEGORIES
@@ -165,7 +177,7 @@ const ShopComponent = ({ url }) => {
         <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
           <div>مرتب سازی بر اساس</div>
           <div className="flex items-center flex-wrap gap-2">
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="date">جدیدترین</label>
               {orderBy == "&orderBy=date" ? (
                 <input
@@ -186,7 +198,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="price">قیمت</label>
               {
                 <input
@@ -199,7 +211,7 @@ const ShopComponent = ({ url }) => {
                 />
               }
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
               {orderBy == "&orderBy=pageView" ? (
                 <input
@@ -220,7 +232,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="buyNumber">پرفروش ترین</label>
               {orderBy == "&orderBy=buyNumber" ? (
                 <input
@@ -267,7 +279,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="app">اپلیکیشن</label>
               {typeOfProduct == "&type=app" ? (
                 <input
@@ -288,7 +300,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="book">کتاب</label>
               {typeOfProduct == "&type=book" ? (
                 <input
@@ -309,7 +321,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded">
               <label htmlFor="gr">فایل گرافیکی</label>
               {typeOfProduct == "&type=gr" ? (
                 <input
@@ -337,7 +349,7 @@ const ShopComponent = ({ url }) => {
           <form onSubmit={priceManager} className="flex flex-col gap-4">
             <div className="flex items-center flex-wrap gap-2">
               <input
-                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-orange-600 rounded"
                 type="number"
                 ref={minPRef}
                 placeholder="حداقل قیمت"
@@ -346,7 +358,7 @@ const ShopComponent = ({ url }) => {
               />
 
               <input
-                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-orange-600 rounded"
                 type="number"
                 ref={maxPRef}
                 placeholder="حداکثر قیمت"
@@ -382,7 +394,7 @@ const ShopComponent = ({ url }) => {
                   {allCategories.map((da, i) => (
                     <div
                       key={i}
-                      className="flex w-25 justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded"
+                      className="flex w-25 justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-orange-600 rounded"
                     >
                       <label htmlFor={da.slug}>{da.title}</label>
                       {urlCategoriesIds.length < 1 ? (
@@ -412,8 +424,8 @@ const ShopComponent = ({ url }) => {
       </aside>
       <main className="w-full bg-zinc-100 rounded-lg p-2 flex flex-col gap-8">
         <h1 className="text-xl text-indigo-600">
-          محصولات <span className="text-red-500 p-2">{url.keyword}</span>{" "}
-          فروشگاه فایل اسماعیل
+          محصولات <span className="text-red-500 p-1">{title}</span> فروشگاه فایل
+          اسماعیل
         </h1>
         <div className="flex flex-col gap-6">
           <section className="flex justify-between items-center gap-4 flex-wrap">

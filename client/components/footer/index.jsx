@@ -13,7 +13,7 @@ const Footer = () => {
   };
   return (
     <footer className="container mx-auto mt-8 flex flex-col gap-8">
-      <div className="flex justify-between items-center p-8 bg-zinc-200 rounded-md">
+      <div className="flex justify-between items-center p-2 bg-zinc-200 rounded-md">
         <div className="w-72 max-w-72 flex flex-col gap-4">
           <div className="flex justify-center items-center">
             <Image alt="logo" width={100} height={100} src="/ismaeil1.png" />
@@ -115,8 +115,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-between items-center py-6">
-        <p className="">
+      <div className="flex justify-between items-center py-1 mb-4">
+        <p className="text-center w-full">
           تمامی حقوق مادی و معنوی این وبسایت متعلق به اسماعیل صابری می باشد.
           ismaeilsaberi.com
         </p>

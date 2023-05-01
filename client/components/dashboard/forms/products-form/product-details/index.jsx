@@ -185,9 +185,7 @@ const ProductDetails = ({ productId }) => {
       tags: tag,
       features: feature,
       typeOfProduct: typeOfProductRef.current.value,
-      pageView: 0,
       published: publishedRef.current.value,
-      comments: [],
       relatedProducts: relatedProducts,
       categories: relatedCategories,
     };

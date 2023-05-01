@@ -204,7 +204,7 @@ const SingleBlog = async ({ params }) => {
                     <Link
                       key={i}
                       className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
-                      href={`/search/products/categories/${cat.slug}`}
+                      href={`/shop?&orderBy=date&maxP=100000000&minP=0&categories=${cat.slug}&pgn=12&pn=1`}
                     >
                       {cat.title}
                     </Link>
@@ -224,7 +224,7 @@ const SingleBlog = async ({ params }) => {
                     <Link
                       key={i}
                       className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
-                      href={`/search/products/categories/${tag}`}
+                      href={`/shop?keyword=${tag}`}
                     >
                       #{tag}
                     </Link>

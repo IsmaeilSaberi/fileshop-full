@@ -22,8 +22,9 @@ const Header = () => {
   const searchRef = useRef();
   const shopSearcher = (e) => {
     e.preventDefault();
-    const url = `/shop?keyword=${searchRef.current.value}`;
+    const url = `/shop?keyword=${searchRef.current.value.replace(/\s+/g, "_")}`;
     router.push(url);
+    searchRef.current.value = "";
   };
 
   return (
@@ -101,7 +102,21 @@ const Header = () => {
                 <li>
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={"/"}
+                    href={
+                      "/shop?&orderBy=date&type=app&maxP=100000000&minP=0&pgn=12&pn=1"
+                    }
+                    target="_blank"
+                  >
+                    اپلیکیشن ها
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
+                    href={
+                      "/shop?&orderBy=date&type=book&maxP=100000000&minP=0&pgn=12&pn=1"
+                    }
+                    target="_blank"
                   >
                     کتاب ها
                   </Link>
@@ -109,9 +124,12 @@ const Header = () => {
                 <li>
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={"/"}
+                    href={
+                      "/shop?&orderBy=date&type=gr&maxP=100000000&minP=0&pgn=12&pn=1"
+                    }
+                    target="_blank"
                   >
-                    اوراق امتحانی
+                    فایل های گرافیکی
                   </Link>
                 </li>
                 <li>

@@ -349,10 +349,11 @@ const searchProducts = async (req, res) => {
 
     ////KEYWORD SEARCH
     if (req.query.keyword) {
+      const theKeyword = req.query.keyword;
       const goalPro = allProducts.filter(
         (pro) =>
-          pro.title.includes(req.query.keyword) ||
-          pro.imageAlt.includes(req.query.keyword)
+          pro.title.replace(/\s+/g, "_").toLowerCase().includes(theKeyword) ||
+          pro.imageAlt.replace(/\s+/g, "_").toLowerCase().includes(theKeyword)
       );
       allProducts = goalPro;
     }
