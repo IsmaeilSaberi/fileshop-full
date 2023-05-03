@@ -80,9 +80,16 @@ const newProduct = async (req, res) => {
         req.body.image.endsWith(".webp")
       ) {
         const theFeatures = req.body.features;
+
         const featuresError = theFeatures.filter((fe) => !fe.includes(":"));
+        const featuresLengthError = theFeatures.filter((fe) => fe.length > 45);
+
         if (featuresError.length > 0) {
           res.status(422).json({ msg: "الگوی بخش ویژگی ها رعایت نشده است!" });
+        } else if (featuresLengthError.length > 0) {
+          res.status(422).json({
+            msg: "تعداد کاراکتر زیاد برای یکی از ویژگی های اضافه شده",
+          });
         } else {
           const data = req.body;
           data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
@@ -114,9 +121,16 @@ const updateProduct = async (req, res) => {
         req.body.image.endsWith(".webp")
       ) {
         const theFeatures = req.body.features;
+
         const featuresError = theFeatures.filter((fe) => !fe.includes(":"));
+        const featuresLengthError = theFeatures.filter((fe) => fe.length > 45);
+
         if (featuresError.length > 0) {
           res.status(422).json({ msg: "الگوی بخش ویژگی ها رعایت نشده است!" });
+        } else if (featuresLengthError.length > 0) {
+          res.status(422).json({
+            msg: "تعداد کاراکتر زیاد برای یکی از ویژگی های اضافه شده",
+          });
         } else {
           const data = req.body;
           data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
@@ -131,6 +145,7 @@ const updateProduct = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json(error);
+    console.log(error);
   }
 };
 module.exports.updateProduct = updateProduct;
@@ -444,7 +459,7 @@ const searchProducts = async (req, res) => {
       }
     }
 
-    res.status(200).json({ allProducts, btns });
+    res.status(200).json({ allProducts, btns, productsNumber });
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
