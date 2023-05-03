@@ -14,6 +14,9 @@ import {
   AiFillShopping,
 } from "react-icons/ai";
 import { BsFillEnvelopeOpenFill, BsPersonBoundingBox } from "react-icons/bs";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const [logoHover, setLogoHover] = useState(0);
@@ -22,9 +25,23 @@ const Header = () => {
   const searchRef = useRef();
   const shopSearcher = (e) => {
     e.preventDefault();
-    const url = `/shop?keyword=${searchRef.current.value.replace(/\s+/g, "_")}`;
-    router.push(url);
-    searchRef.current.value = "";
+    if (searchRef.current.value.length > 0) {
+      const url = `/shop?keyword=${searchRef.current.value.replace(
+        /\s+/g,
+        "_"
+      )}`;
+      router.push(url);
+      searchRef.current.value = "";
+    } else {
+      toast.error("فرم جستجو خالی است.", {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   return (
@@ -103,39 +120,8 @@ const Header = () => {
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
                     href={
-                      "/shop?orderBy=date&type=app&maxP=100000000&minP=0&pgn=12&pn=1"
+                      "/shop?&orderBy=date&maxP=100000000&minP=0&pgn=12&pn=1"
                     }
-                    target="_blank"
-                  >
-                    اپلیکیشن ها
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={
-                      "/shop?orderBy=date&type=book&maxP=100000000&minP=0&pgn=12&pn=1"
-                    }
-                    target="_blank"
-                  >
-                    کتاب ها
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={
-                      "/shop?orderBy=date&type=gr&maxP=100000000&minP=0&pgn=12&pn=1"
-                    }
-                    target="_blank"
-                  >
-                    فایل های گرافیکی
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={"/shop"}
                   >
                     فروشگاه
                   </Link>
@@ -213,6 +199,19 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </header>
   );
 };

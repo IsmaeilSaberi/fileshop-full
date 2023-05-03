@@ -59,7 +59,6 @@ const ShopComponent = ({ url }) => {
 
   useEffect(() => {
     setSearchResult([-1]);
-    setPn(`&pn=1`);
     setPgn(`&pgn=12`);
     goToTop();
     router.push(mainFrontUrl);
@@ -87,6 +86,7 @@ const ShopComponent = ({ url }) => {
     url.keyword == undefined
       ? setTitle(``)
       : setTitle(url.keyword.split("_").join(" "));
+    setPn(`&pn=1`);
     url.keyword && url.keyword.length > 0
       ? setKeyword(`&keyword=${url.keyword.replace(/\s+/g, "_")}`)
       : console.log("");
@@ -95,6 +95,7 @@ const ShopComponent = ({ url }) => {
   //ORDER BY
   const orderByManager = (v) => {
     setOrderBy(`&orderBy=${v.target.value}`);
+    setPn(`&pn=1`);
   };
 
   //TYPE OF PRODUCT
@@ -120,6 +121,7 @@ const ShopComponent = ({ url }) => {
               : `${url.keyword} از کتاب ها`
           );
     }
+    setPn(`&pn=1`);
   };
 
   //PRICE
@@ -127,14 +129,15 @@ const ShopComponent = ({ url }) => {
   const maxPRef = useRef();
   const priceManager = (e) => {
     e.preventDefault();
-    if (maxPRef.current.value == "") {
+    if (maxPRef.current.value == "" || maxPRef.current.value < 0) {
       maxPRef.current.value = 1000000000;
     }
-    if (minPRef.current.value == "") {
+    if (minPRef.current.value == "" || minPRef.current.value < 0) {
       minPRef.current.value = 0;
     }
     setMaxPrice(`&maxP=${maxPRef.current.value}`);
     setMinPrice(`&minP=${minPRef.current.value}`);
+    setPn(`&pn=1`);
   };
 
   //CATEGORIES
@@ -162,6 +165,7 @@ const ShopComponent = ({ url }) => {
         : categories.replace(`${v.target.value},`, "");
       setCategories(a);
     }
+    setPn(`&pn=1`);
   };
 
   //DEFAULT CATEGORIES
@@ -354,7 +358,7 @@ const ShopComponent = ({ url }) => {
           <form onSubmit={priceManager} className="flex flex-col gap-4">
             <div className="flex items-center flex-wrap gap-2">
               <input
-                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={minPRef}
                 placeholder="حداقل قیمت"
@@ -363,7 +367,7 @@ const ShopComponent = ({ url }) => {
               />
 
               <input
-                className="text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={maxPRef}
                 placeholder="حداکثر قیمت"
@@ -476,7 +480,11 @@ const ShopComponent = ({ url }) => {
                     goToTop();
                     setSearchResult([-1]);
                   }}
-                  className="w-8 h-8 rounded border-2 border-indigo-500 transition-all duration-200 hover:bg-indigo-100"
+                  className={
+                    pn == `&pn=${b + 1}`
+                      ? "w-8 h-8 rounded border-2 bg-indigo-400 text-white border-indigo-500 transition-all duration-200 hover:bg-indigo-200"
+                      : "w-8 h-8 rounded border-2 border-indigo-500 transition-all duration-200 hover:bg-indigo-200"
+                  }
                 >
                   {b + 1}
                 </button>
