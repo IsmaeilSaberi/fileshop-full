@@ -12,7 +12,7 @@ const getData = async (slug) => {
   return data.json();
 };
 
-const SingleBlog = async ({ params }) => {
+const SingleProduct = async ({ params }) => {
   const data = await getData(params.slug);
 
   //// splitter
@@ -239,4 +239,4 @@ const SingleBlog = async ({ params }) => {
   );
 };
 
-export default SingleBlog;
+export default SingleProduct;

@@ -103,7 +103,7 @@ const Header = () => {
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
                     href={
-                      "/shop?&orderBy=date&type=app&maxP=100000000&minP=0&pgn=12&pn=1"
+                      "/shop?orderBy=date&type=app&maxP=100000000&minP=0&pgn=12&pn=1"
                     }
                     target="_blank"
                   >
@@ -114,7 +114,7 @@ const Header = () => {
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
                     href={
-                      "/shop?&orderBy=date&type=book&maxP=100000000&minP=0&pgn=12&pn=1"
+                      "/shop?orderBy=date&type=book&maxP=100000000&minP=0&pgn=12&pn=1"
                     }
                     target="_blank"
                   >
@@ -125,7 +125,7 @@ const Header = () => {
                   <Link
                     className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
                     href={
-                      "/shop?&orderBy=date&type=gr&maxP=100000000&minP=0&pgn=12&pn=1"
+                      "/shop?orderBy=date&type=gr&maxP=100000000&minP=0&pgn=12&pn=1"
                     }
                     target="_blank"
                   >

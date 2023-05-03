@@ -27,7 +27,7 @@ const GraphicSliderBox = ({ itemData }) => {
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
       <div className="relative h-[28rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-center p-1">
-          <Link href={`/shop/${itemData.slug}`} target="_blank">
+          <Link href={`/shop/${itemData.slug}`}>
             <Image
               className="p-2"
               alt={itemData.imageAlt}
@@ -75,7 +75,8 @@ const GraphicSliderBox = ({ itemData }) => {
               itemData.categories.map((cat, i) =>
                 i < 2 ? (
                   <Link
-                    href={`/search/products/categories/${cat.slug}`}
+                    target="_blank"
+                    href={`/shop?&orderBy=date&maxP=100000000&minP=0&categories=${cat.slug}&pgn=12&pn=1`}
                     key={i}
                     className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
                   >

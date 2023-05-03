@@ -42,9 +42,10 @@ const Slider2box = ({ itemData }) => {
               <div></div>
             ) : (
               itemData.categories.map((cat, i) =>
-                i < 2 ? (
+                i < 3 ? (
                   <Link
-                    href={`/search/products/categories/${cat.slug}`}
+                    target="_blank"
+                    href={`/shop?&orderBy=date&maxP=100000000&minP=0&categories=${cat.slug}&pgn=12&pn=1`}
                     key={i}
                     className="bg-zinc-200 px-2 py-1 rounded-md transition-all duration-200 hover:bg-zinc-300"
                   >

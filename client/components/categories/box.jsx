@@ -3,7 +3,9 @@ import Link from "next/link";
 
 const CatBox = ({ data }) => {
   return (
-    <Link href={""}>
+    <Link
+      href={`/shop?&orderBy=date&maxP=100000000&minP=0&categories=${data.slug}&pgn=12&pn=1`}
+    >
       <div className="flex justify-center sm:justify-between items-center bg-gray-200 transition-all duration-200 hover:bg-gray-400 rounded-lg p-2 w-72">
         <div className="flex flex-col gap-2">
           <h3 className="text-xl">{data.title}</h3>
