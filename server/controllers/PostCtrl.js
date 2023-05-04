@@ -238,3 +238,93 @@ const getRelatedPostsByIds = async (req, res) => {
   }
 };
 module.exports.getRelatedPostsByIds = getRelatedPostsByIds;
+
+const searchPosts = async (req, res) => {
+  try {
+    let allPosts = await Post.find({ published: 1 }).sort({ _id: -1 }).select({
+      title: 1,
+      slug: 1,
+      updatedAt: 1,
+      image: 1,
+      imageAlt: 1,
+      published: 1,
+      pageView: 1,
+      shortDesc: 1,
+      tags: 1,
+    });
+
+    ////KEYWORD SEARCH
+    if (req.query.keyword) {
+      const theKeyword = req.query.keyword;
+      const goalPost = allPosts.filter(
+        (pro) =>
+          pro.title.replace(/\s+/g, "_").toLowerCase().includes(theKeyword) ||
+          pro.imageAlt
+            .replace(/\s+/g, "_")
+            .toLowerCase()
+            .includes(theKeyword) ||
+          pro.shortDesc.replace(/\s+/g, "_").toLowerCase().includes(theKeyword)
+      );
+      const relatedPostTag = [];
+      for (let i = 0; i < allPosts.length; i++) {
+        for (let j = 0; j < allPosts[i].tags.length; j++) {
+          if (allPosts[i].tags[j].includes(theKeyword)) {
+            relatedPostTag.push(allPosts[i]);
+          }
+        }
+      }
+      const postsSummer = [...goalPost, ...relatedPostTag];
+      let unique = (item) => [...new Set(item)];
+      allPosts = unique(postsSummer);
+    }
+
+    ////PAGINATION AND btns
+    const postsNumber = allPosts.length;
+    const paginate = req.query.pgn ? req.query.pgn : 12;
+    const pageNumber = req.query.pn ? req.query.pn : 1;
+    const startNumber = (pageNumber - 1) * paginate;
+    const endNumber = paginate * pageNumber;
+    const goalPo = [];
+    if (paginate >= 0 && pageNumber >= 0) {
+      for (let i = startNumber; i < endNumber; i++) {
+        if (allPosts[i] != null) {
+          goalPo.push(allPosts[i]);
+        }
+      }
+    }
+    allPosts = goalPo;
+
+    const number = Math.ceil(postsNumber / paginate);
+    const allBtns = [...Array(Math.ceil(number)).keys()];
+    const btns = [];
+    for (let i = 0; i < allBtns.length; i++) {
+      if (
+        i == 0 ||
+        i == allBtns.length - 1 ||
+        (i > Number(pageNumber) - 3 && i < Number(pageNumber) + 1)
+      ) {
+        btns.push(i);
+      }
+    }
+
+    const outputData = [];
+    for (let i = 0; i < allPosts.length; i++) {
+      const obj = {
+        _id: allPosts[i]._id,
+        title: allPosts[i].title,
+        slug: allPosts[i].slug,
+        image: allPosts[i].image,
+        imageAlt: allPosts[i].imageAlt,
+        updatedAt: allPosts[i].updatedAt,
+        pageView: allPosts[i].pageView,
+      };
+      outputData.push(obj);
+    }
+
+    res.status(200).json({ allPosts: outputData, btns, postsNumber });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.searchPosts = searchPosts;

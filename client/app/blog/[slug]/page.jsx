@@ -4,10 +4,9 @@ import { AiOutlineEye } from "react-icons/ai";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { MdDateRange } from "react-icons/md";
 import Link from "next/link";
-import { AiOutlineSearch } from "react-icons/ai";
-import { BsSend } from "react-icons/bs";
 import RelatedPosts from "../../../components/sliders/related-posts";
 import MostViewedPosts from "../../../components/most-viewed-posts";
+import SearchBlog from "../../../components/search-blog";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -90,14 +89,7 @@ const SingleBlog = async ({ params }) => {
             </div>
           </main>
           <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
-            <form className="border-zinc-700 border-2 p-2 rounded-md flex justify-between items-center">
-              <input
-                type="text"
-                className="bg-transparent px-2 py-1 text-sm outline-none"
-                placeholder="جستجو در وبلاگ ... "
-              />
-              <AiOutlineSearch className="cursor-pointer w-6 h-6" />
-            </form>
+            <SearchBlog />
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">توضیحات خلاصه</h3>
               <p className="text-base sm:text-sm text-justify leading-4">

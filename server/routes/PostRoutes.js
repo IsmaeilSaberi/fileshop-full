@@ -57,5 +57,6 @@ router.get("/get-blog-page-posts", PostCtrl.getBlogPagePosts);
 router.get("/get-most-popular-posts", PostCtrl.getMostPopularPosts);
 //// THIS RELATED POSTS ARE FOR SINGLE BLOG PAGE
 router.post("/get-related-posts-by-id", PostCtrl.getRelatedPostsByIds);
+router.get("/search-posts", PostCtrl.searchPosts);
 
 module.exports = router;

@@ -167,7 +167,7 @@ const Header = () => {
                 placeholder="جستجو بین محصولات"
               />
               <button
-                onClick={() => shopSearcher}
+                // onClick={() => shopSearcher}
                 className="w-12 absolute left-0"
                 type="submit"
               >
