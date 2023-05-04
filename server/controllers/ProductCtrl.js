@@ -360,6 +360,7 @@ const searchProducts = async (req, res) => {
         categories: 1,
         features: 1,
         buyNumber: 1,
+        tags: 1,
       });
 
     ////KEYWORD SEARCH
@@ -368,9 +369,23 @@ const searchProducts = async (req, res) => {
       const goalPro = allProducts.filter(
         (pro) =>
           pro.title.replace(/\s+/g, "_").toLowerCase().includes(theKeyword) ||
-          pro.imageAlt.replace(/\s+/g, "_").toLowerCase().includes(theKeyword)
+          pro.imageAlt
+            .replace(/\s+/g, "_")
+            .toLowerCase()
+            .includes(theKeyword) ||
+          pro.shortDesc.replace(/\s+/g, "_").toLowerCase().includes(theKeyword)
       );
-      allProducts = goalPro;
+      const relatedProductTag = [];
+      for (let i = 0; i < allProducts.length; i++) {
+        for (let j = 0; j < allProducts[i].tags.length; j++) {
+          if (allProducts[i].tags[j].includes(theKeyword)) {
+            relatedProductTag.push(allProducts[i]);
+          }
+        }
+      }
+      const productsSummer = [...goalPro, ...relatedProductTag];
+      let unique = (item) => [...new Set(item)];
+      allProducts = unique(productsSummer);
     }
     ////ORDER BY price,buyNumber, pageView, date SEARCH
     if (req.query.orderBy) {
@@ -459,7 +474,25 @@ const searchProducts = async (req, res) => {
       }
     }
 
-    res.status(200).json({ allProducts, btns, productsNumber });
+    const outputData = [];
+    for (let i = 0; i < allProducts.length; i++) {
+      const obj = {
+        _id: allProducts[i]._id,
+        title: allProducts[i].title,
+        slug: allProducts[i].slug,
+        image: allProducts[i].image,
+        imageAlt: allProducts[i].imageAlt,
+        price: allProducts[i].price,
+        typeOfProduct: allProducts[i].typeOfProduct,
+        features: allProducts[i].features,
+        categories: allProducts[i].categories,
+        buyNumber: allProducts[i].buyNumber,
+        pageView: allProducts[i].pageView,
+      };
+      outputData.push(obj);
+    }
+
+    res.status(200).json({ allProducts: outputData, btns, productsNumber });
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
