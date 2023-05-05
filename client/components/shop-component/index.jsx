@@ -60,6 +60,7 @@ const ShopComponent = ({ url }) => {
   useEffect(() => {
     setSearchResult([-1]);
     setPgn(`&pgn=12`);
+    setBtns([-1]);
     goToTop();
     router.push(mainFrontUrl);
     axios

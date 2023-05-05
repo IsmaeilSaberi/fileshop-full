@@ -24,7 +24,10 @@ const BlogPageComp = ({ url }) => {
 
   useEffect(() => {
     setResult([-1]);
-    setKeyword(`&keyword=${url.keyword}`);
+    setBtns([-1]);
+    setKeyword(
+      url.keyword && url.keyword.length > 0 ? `&keyword=${url.keyword}` : ""
+    );
   }, [url.keyword]);
 
   useEffect(() => {
@@ -43,9 +46,14 @@ const BlogPageComp = ({ url }) => {
   return (
     <div className="flex flex-col gap-8">
       <section className="flex justify-between items-center gap-8">
-        <h1 className="text-center text-xl text-indigo-600">
-          وبلاگ فروشگاه فایل اسماعیل صابری
-        </h1>
+        <div className="flex justify-start items-center gap-4">
+          <h1 className="text-center text-xl text-indigo-600">
+            وبلاگ فروشگاه فایل اسماعیل صابری
+          </h1>
+          <div className="w-20 flex justify-center items-center text-center h-8 rounded text-base sm:text-sm border-2 border-indigo-500">
+            {searchedPostsNumber} مقاله
+          </div>
+        </div>
         <SearchBlog />
       </section>
       <div className=" flex flex-col gap-8">

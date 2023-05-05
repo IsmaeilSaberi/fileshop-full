@@ -27,7 +27,7 @@ const GraphicSliderBox = ({ itemData }) => {
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
       <div className="relative h-[28rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-center p-1">
-          <Link href={`/shop/${itemData.slug}`}>
+          <Link href={`/shop/${itemData.slug}`} target="_blank">
             <Image
               className="p-2"
               alt={itemData.imageAlt}
@@ -90,7 +90,7 @@ const GraphicSliderBox = ({ itemData }) => {
           </div>
           <div className="absolute bottom-2 w-full flex justify-between items-center">
             <div className="flex gap-1">
-              <Link href={`/shop/${itemData.slug}`}>
+              <Link href={`/shop/${itemData.slug}`} target="_blank">
                 <FcSearch className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-zinc-400 transition-all duration-200 text-white hover:bg-orange-400" />
               </Link>
               <Link href={""}>

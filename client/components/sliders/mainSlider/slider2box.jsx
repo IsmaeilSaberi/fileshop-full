@@ -62,7 +62,7 @@ const Slider2box = ({ itemData }) => {
               <Link href={`/shop/${itemData.slug}`}>
                 <FcSearch className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-zinc-400 transition-all duration-200 text-white hover:bg-orange-400" />
               </Link>
-              <Link href={""}>
+              <Link href={`/shop/${itemData.slug}`}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -80,7 +80,7 @@ const Slider2box = ({ itemData }) => {
               </Link>
             </div>
             <div className="flex gap-1">
-              <Link href={""}>
+              <Link href={`/shop/${itemData.slug}`} target="_blank">
                 <HiShoppingBag className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-green-400 transition-all duration-200 text-white hover:bg-green-500" />
               </Link>
 

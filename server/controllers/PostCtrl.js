@@ -167,40 +167,6 @@ const getNewPosts = async (req, res) => {
 };
 module.exports.getNewPosts = getNewPosts;
 
-const getBlogPagePosts = async (req, res) => {
-  try {
-    if (req.query.pn && req.query.pgn) {
-      const paginate = req.query.pgn;
-      const pageNumber = req.query.pn;
-      const GoalPosts = await Post.find({ published: true })
-        .sort({ _id: -1 })
-        .skip((pageNumber - 1) * paginate)
-        .limit(paginate)
-        .select({
-          title: 1,
-          updatedAt: 1,
-          slug: 1,
-          image: 1,
-          imageAlt: 1,
-          shortDesc: 1,
-          type: 1,
-          pageView: 1,
-        });
-      const AllPostsNumber = await (
-        await Post.find({ published: true })
-      ).length;
-      res.status(200).json({ GoalPosts, AllPostsNumber });
-    } else {
-      const AllPosts = await Post.find().sort({ _id: -1 });
-      res.status(200).json(AllPosts);
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
-  }
-};
-module.exports.getBlogPagePosts = getBlogPagePosts;
-
 const getMostPopularPosts = async (req, res) => {
   try {
     const GoalPosts = await Post.find({ published: true })
