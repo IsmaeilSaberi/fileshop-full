@@ -475,10 +475,14 @@ const ShopComponent = ({ url }) => {
                 <button
                   key={i}
                   onClick={() => {
-                    setPgn(`&pgn=12`);
-                    setPn(`&pn=${b + 1}`);
-                    goToTop();
-                    setSearchResult([-1]);
+                    if (pn == `&pn=${b + 1}`) {
+                      goToTop();
+                    } else {
+                      setPn(`&pn=${b + 1}`);
+                      setPgn(`&pgn=12`);
+                      goToTop();
+                      setSearchResult([-1]);
+                    }
                   }}
                   className={
                     pn == `&pn=${b + 1}`

@@ -4,12 +4,15 @@ import axios from "axios";
 import BlogBox from "../blogs/blogbox";
 import Image from "next/image";
 
-const BlogPageComp = () => {
-  const [posts, setPosts] = useState([-1]);
-  const [btnNumbers, setBtnNumbers] = useState([-1]);
-  const [filteredBtns, setFilteredBtns] = useState([-1]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const paginate = 4;
+const BlogPageComp = ({ url }) => {
+  const [result, setResult] = useState([-1]);
+  const [btns, setBtns] = useState([-1]);
+  const [pgn, setPgn] = useState(url.pgn ? `pgn=${url.pgn}` : "pgn=2");
+  const [pn, setPn] = useState(url.pn ? `&pn=${url.pn}` : "&pn=1");
+  const [searchedPostsNumber, setSearchedPostsNumber] = useState(0);
+  const [keyword, setKeyword] = useState(
+    url.keyword ? `&keyword=${url.keyword}` : ""
+  );
 
   const goToTop = () => {
     window.scroll({
@@ -21,39 +24,20 @@ const BlogPageComp = () => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-blog-page-posts?pn=${pageNumber}&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/search-posts?${pgn}${pn}`
       )
       .then((d) => {
-        setPosts(d.data.GoalPosts);
-        setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllPostsNumber / paginate)).keys(),
-        ]);
+        setResult(d.data.allPosts);
+        setBtns(d.data.btns);
+        setSearchedPostsNumber(d.data.postsNumber);
       })
       .catch((err) => console.log(err));
-  }, [pageNumber]);
-
-  useEffect(() => {
-    if (btnNumbers[0] != -1 && btnNumbers.length > 0) {
-      const arr = [];
-      btnNumbers.map((n) => {
-        if (
-          n == 0 ||
-          (n < pageNumber + 1 && n > pageNumber - 3) ||
-          n == btnNumbers.length - 1
-        ) {
-          arr.push(n);
-        }
-      });
-      setFilteredBtns(arr);
-    } else if (btnNumbers.length == 0) {
-      setFilteredBtns([]);
-    }
-  }, [btnNumbers]);
+  }, [pn]);
 
   return (
     <div className=" flex flex-col gap-8">
       <div className="flex flex-col gap-6">
-        {posts[0] == -1 ? (
+        {result[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -62,43 +46,47 @@ const BlogPageComp = () => {
               src={"/loading.svg"}
             />
           </div>
-        ) : posts.length < 1 ? (
+        ) : result.length < 1 ? (
           <div className="flex justify-center items-center w-full p-8">
             پستی موجود نیست!
           </div>
         ) : (
           <div className="flex flex-wrap justify-between items-center gap-2">
-            {posts.map((post, i) => (
+            {result.map((post, i) => (
               <BlogBox key={i} data={post} />
             ))}
           </div>
         )}
       </div>
-      <div className="flex justify-center items-center gap-2">
-        {filteredBtns[0] == -1 ? (
-          <div className="flex justify-center items-center p-12">
-            <Image alt="loading" width={40} height={40} src={"/loading.svg"} />
+      <section className="flex justify-center items-center gap-4 flex-wrap">
+        {btns[0] == -1 ? (
+          <div className="flex justify-center items-center p-12 w-full">
+            <Image alt="loading" width={50} height={50} src={"/loading.svg"} />
           </div>
         ) : (
-          filteredBtns.map((n, i) => (
+          btns.map((b, i) => (
             <button
-              className={
-                n + 1 == pageNumber
-                  ? "rounded-full w-8 h-8 bg-orange-400 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
-                  : "rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
-              }
-              onClick={() => {
-                n + 1 == pageNumber ? console.log("") : setPosts([-1]);
-                setPageNumber(n + 1);
-                goToTop();
-              }}
               key={i}
+              onClick={() => {
+                if (pn == `&pn=${b + 1}`) {
+                  goToTop();
+                } else {
+                  setPn(`&pn=${b + 1}`);
+                  goToTop();
+                  setResult([-1]);
+                }
+              }}
+              className={
+                pn == `&pn=${b + 1}`
+                  ? "w-8 h-8 rounded border-2 bg-indigo-400 text-white border-indigo-500 transition-all duration-200 hover:bg-indigo-200"
+                  : "w-8 h-8 rounded border-2 border-indigo-500 transition-all duration-200 hover:bg-indigo-200"
+              }
             >
-              {n + 1}
+              {b + 1}
             </button>
           ))
         )}
-      </div>
+      </section>
     </div>
   );
 };

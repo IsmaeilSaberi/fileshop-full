@@ -317,6 +317,7 @@ const searchPosts = async (req, res) => {
         imageAlt: allPosts[i].imageAlt,
         updatedAt: allPosts[i].updatedAt,
         pageView: allPosts[i].pageView,
+        shortDesc: allPosts[i].shortDesc,
       };
       outputData.push(obj);
     }
