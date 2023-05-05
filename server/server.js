@@ -37,6 +37,10 @@ app.get("/", (req, res) => {
   res.status(200).json({ msg: "this is the server of the fileshop project!" });
 });
 
+/////\\\\\ user routes and use it's middlewares
+const userRoutes = require("./routes/UserRoutes");
+app.use("/api", userRoutes);
+
 ////\\\\ middlebanner routes and use it's middlewares
 const middleBannerRoutes = require("./routes/MiddleBannerRoutes");
 app.use("/api", middleBannerRoutes);
