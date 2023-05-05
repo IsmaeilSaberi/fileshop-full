@@ -40,7 +40,7 @@ const SearchBlog = () => {
         <input
           type="text"
           ref={searchRef}
-          className="bg-transparent px-2 py-1 text-sm outline-none"
+          className="bg-transparent px-2 py-1 text-sm outline-none w-60"
           placeholder="جستجو در وبلاگ ... "
         />
         <button className="w-12 absolute left-6" type="submit">
