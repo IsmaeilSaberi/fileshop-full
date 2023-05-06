@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -31,34 +33,85 @@ const getAllUsers = async (req, res) => {
 };
 module.exports.getAllUsers = getAllUsers;
 
-//REGISTER
-// const newUser = async (req, res) => {
-//   try {
-//     /////EXPRESS VALIDATOR
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       res.status(422).json({ msg: errors.errors[0].msg });
-//     } else {
-//       if (
-//         req.body.image.endsWith(".png") ||
-//         req.body.image.endsWith(".jpg") ||
-//         req.body.image.endsWith(".jpeg") ||
-//         req.body.image.endsWith(".webp")
-//       ) {
-//         const data = req.body;
-//         data.slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
-//         await User.create(data);
-//         res.status(200).json({ msg: "پست یا مقاله با موفقیت اضافه شد!" });
-//       } else {
-//         res.status(422).json({ msg: "فرمت عکس درست نیست!" });
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).json(error);
-//   }
-// };
-// module.exports.newUser = newUser;
+//REGISTER USER
+const registerUser = async (req, res) => {
+  try {
+    /////EXPRESS VALIDATOR
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ msg: errors.errors[0].msg });
+    } else {
+      //CHECKING OF EQUATION OF PASSWORD AND CONFIRM PASSWORD
+      if (req.body.password == req.body.rePassword) {
+        //CHECKING OF EXISTANCE OF DUPLICATE EMAIL
+        const emailExist = await User.find({ email: req.body.email });
+        if (emailExist.length < 1) {
+          //CHECKING OF EXISTANCE OF DUPLICATE USERNAME
+          const usernameExist = await User.find({
+            username: req.body.username,
+          });
+          if (usernameExist.length < 1) {
+            //MAKING NEW USER
+            const data = req.body;
+            data.username = req.body.username
+              .replace(/\s+/g, "_")
+              .toLowerCase();
+            data.displayname = req.body.displayname
+              .replace(/\s+/g, "_")
+              .toLowerCase();
+            data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
+            data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
+            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            //CREATE 8 DIGITS RANDOM NUMBER
+            const userActiveCode = Math.floor(
+              Math.random() * 90000000 + 10000000
+            );
+            const newUser = new User({
+              username: data.username,
+              displayname: data.displayname,
+              email: data.email,
+              password: hashedPassword,
+              favoriteProducts: [],
+              userProducts: [],
+              comments: [],
+              payments: [],
+              cart: [],
+              viewed: false,
+              activateCode: userActiveCode,
+              userIsActive: false,
+              emailSend: true,
+              createdAt: new Date().toLocaleDateString("fa-IR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+              updatedAt: new Date().toLocaleDateString("fa-IR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            });
+            await newUser
+              .save()
+              .then((d) => {})
+              .catch((err) => {
+                console.log(error);
+                res.status(400).json(error);
+              });
+          } else {
+            res.status(422).json({ msg: "لطفا نام کاربری دیگری وارد کنید!" });
+          }
+        } else {
+          res.status(422).json({ msg: "لطفا ایمیل دیگری وارد کنید!" });
+        }
+      } else {
+        res.status(422).json({ msg: "تکرار رمز عبور اشتباه است!" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.registerUser = registerUser;
 
 const updateUser = async (req, res) => {
   try {
