@@ -2,6 +2,7 @@ const User = require("../models/User");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -63,7 +64,7 @@ const registerUser = async (req, res) => {
             data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
             //CREATE 8 DIGITS RANDOM NUMBER
-            const userActiveCode = Math.floor(
+            const userActivateCode = Math.floor(
               Math.random() * 90000000 + 10000000
             );
             const newUser = new User({
@@ -89,9 +90,52 @@ const registerUser = async (req, res) => {
                 minute: "2-digit",
               }),
             });
-            await newUser
+            newUser
               .save()
-              .then((d) => {})
+              .then((d) => {
+                //MAKING AUTH COOKIE
+                const token = jwt.sign(
+                  {
+                    _id: newUser._id,
+                    username: newUser.username,
+                  },
+                  process.env.TOKEN_SECRET
+                );
+                //SENDING SECURITY EMAIL TO USER ACCOUNT
+                const MAIL_HOST = process.env.MAIL_HOST;
+                const MAIL_PORT = process.env.MAIL_PORT;
+                const MAIL_USER = process.env.MAIL_USER;
+                const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+                const MAIL_MAIN_ADDRESS = process.env.MAIL_MAIN_ADDRESS;
+
+                const transporter = nodemailer.createTransport({
+                  host: MAIL_HOST,
+                  port: MAIL_PORT,
+                  tls: true,
+                  auth: {
+                    user: MAIL_USER,
+                    pass: MAIL_PASSWORD,
+                  },
+                });
+                transporter
+                  .sendMail({
+                    from: MAIL_MAIN_ADDRESS,
+                    to: newUser.email,
+                    subject: "تایید حساب کاربری فروشگاه فایل اسماعیل!",
+                    html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>احراز هویت فروشگاه فایل اسماعیل</h1><div>کد احراز هویت:<strong>${userActivateCode}</strong></div></body></html>`,
+                  })
+                  .then((d) => {
+                    res
+                      .status(200)
+                      .json({ msg: "ثبت نام موفقست آمیز بود!", auth: token });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    res
+                      .status(400)
+                      .json({ msg: "خطا در ثبت نام!", errorMessage: error });
+                  });
+              })
               .catch((err) => {
                 console.log(error);
                 res.status(400).json(error);
