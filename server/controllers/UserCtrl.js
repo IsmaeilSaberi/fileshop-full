@@ -78,7 +78,7 @@ const registerUser = async (req, res) => {
               payments: [],
               cart: [],
               viewed: false,
-              activateCode: userActiveCode,
+              activateCode: userActivateCode,
               userIsActive: false,
               emailSend: true,
               createdAt: new Date().toLocaleDateString("fa-IR", {
@@ -127,7 +127,7 @@ const registerUser = async (req, res) => {
                   .then((d) => {
                     res
                       .status(200)
-                      .json({ msg: "ثبت نام موفقست آمیز بود!", auth: token });
+                      .json({ msg: "ثبت نام موفقیت آمیز بود!", auth: token });
                   })
                   .catch((error) => {
                     console.log(error);

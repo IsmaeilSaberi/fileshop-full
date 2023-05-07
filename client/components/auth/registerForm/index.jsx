@@ -1,6 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const RegisterForm = () => {
   const {
@@ -16,9 +21,47 @@ const RegisterForm = () => {
       displayname: watch("displayname"),
       email: watch("email"),
       password: watch("password"),
-      repassword: watch("repassword"),
+      rePassword: watch("repassword"),
+      favoriteProducts: [],
+      userProducts: [],
+      comments: [],
+      payments: [],
+      cart: [],
+      viewed: false,
+      userIsActive: false,
+      emailSend: true,
     };
-    console.log(formData);
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/register-user`;
+    axios
+      .post(backendUrl, formData)
+      .then((d) => {
+        Cookies.set("auth", d.data.auth);
+        const message = d.data.msg
+          ? d.data.msg
+          : "ثبت نام شما با موفقیت انجام شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
@@ -28,11 +71,11 @@ const RegisterForm = () => {
         className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-8"
       >
         <div className="flex justify-center items-center gap-6 ">
-          <h1 className="text-lg text-center text-blue-500 ">
+          <h1 className="text-lg text-center text-blue-600 ">
             ثبت نام در سایت
           </h1>
           <Link
-            className="bg-blue-400 rounded-md text-white px-2 py-1 transition-all duration-200 hover:bg-blue-500"
+            className="bg-blue-600 rounded-md text-white px-2 py-1 transition-all duration-200 hover:bg-blue-700"
             href={"/login"}
           >
             ورود به حساب
@@ -47,7 +90,7 @@ const RegisterForm = () => {
             {...register("username", {
               required: true,
               maxLength: 20,
-              minLength: 6,
+              minLength: 8,
             })}
           />
           {errors.username && errors.username.type == "required" && (
@@ -62,7 +105,7 @@ const RegisterForm = () => {
           )}
           {errors.username && errors.username.type == "minLength" && (
             <div className="text-rose-500 text-sm">
-              نام کاربری باید بیشتر از 6 کاراکتر باشد!
+              نام کاربری باید بیشتر از 8 کاراکتر باشد!
             </div>
           )}
         </div>
@@ -75,7 +118,7 @@ const RegisterForm = () => {
             {...register("displayname", {
               required: true,
               maxLength: 20,
-              minLength: 6,
+              minLength: 8,
             })}
           />
           {errors.displayname && errors.displayname.type == "required" && (
@@ -90,7 +133,7 @@ const RegisterForm = () => {
           )}
           {errors.displayname && errors.displayname.type == "minLength" && (
             <div className="text-rose-500 text-sm">
-              نام نمایشی باید بیشتر از 6 کاراکتر باشد!
+              نام نمایشی باید بیشتر از 8 کاراکتر باشد!
             </div>
           )}
         </div>
@@ -128,7 +171,7 @@ const RegisterForm = () => {
             {...register("password", {
               required: true,
               maxLength: 20,
-              minLength: 6,
+              minLength: 8,
             })}
           />
           {errors.password && errors.password.type == "required" && (
@@ -141,7 +184,7 @@ const RegisterForm = () => {
           )}
           {errors.password && errors.password.type == "minLength" && (
             <div className="text-rose-500 text-sm">
-              رمز عبور باید بیشتر از 6 کاراکتر باشد!
+              رمز عبور باید بیشتر از 8 کاراکتر باشد!
             </div>
           )}
         </div>
@@ -167,11 +210,24 @@ const RegisterForm = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-blue-600"
+          className="bg-blue-600 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-blue-700"
         >
           ثبت نام در سایت
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </section>
   );
 };
