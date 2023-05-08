@@ -157,6 +157,49 @@ const registerUser = async (req, res) => {
 };
 module.exports.registerUser = registerUser;
 
+//LOGIN USER
+const loginUser = async (req, res) => {
+  try {
+    /////EXPRESS VALIDATOR
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ msg: errors.errors[0].msg });
+    } else {
+      //CHECKING OF EXISTANCE OF DUPLICATE EMAIL
+      const emailExist = await User.find({ email: req.body.email });
+      if (emailExist.length < 1) {
+        const theUser = emailExist[0];
+        const data = req.body;
+        data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
+        data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
+
+        const validPassword = await bcrypt.compare(
+          data.password,
+          theUser.password
+        );
+        if (validPassword == false) {
+          res.status(422).json({ msg: "ایمیل یا رمز عبور اشتباه است!" });
+        } else {
+          // MAKING AUTH TOKEN
+          const token = jwt.sign(
+            { _id: theUser._id, username: theUser.username },
+            process.env.TOKEN_SECRET
+          );
+          res
+            .status(200)
+            .json({ msg: "با موفقیت وارد حساب کاربری شدید!", auth: token });
+        }
+      } else {
+        res.status(422).json({ msg: "عملیات موفقیت آمیز نبود!" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.loginUser = loginUser;
+
 const updateUser = async (req, res) => {
   try {
     /////EXPRESS VALIDATOR

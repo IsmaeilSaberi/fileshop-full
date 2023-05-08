@@ -15,17 +15,6 @@ router.post(
       min: 8,
       max: 20,
     }),
-    check("username", "لطفا نام کاربری دیگری را انتخاب کنید!").custom(
-      (value) => {
-        return User.find({
-          username: value,
-        }).then((user) => {
-          if (user.length > 1) {
-            throw new Error("لطفا نام کاربری دیگری را انتخاب کنید!");
-          }
-        });
-      }
-    ),
     check(
       "displayname",
       "تعداد کاراکتر نام نمایشی باید بیشتر از  8 و تا 20 کاراکتر باشد!"
@@ -41,15 +30,6 @@ router.post(
       max: 20,
     }),
     check("email", "فرمت ایمیل اشتباه است!").isEmail(),
-    check("email", "لطفا ایمیل دیگری را انتخاب کنید!").custom((value) => {
-      return User.find({
-        email: value,
-      }).then((user) => {
-        if (user.length > 1) {
-          throw new Error("لطفا ایمیل دیگری را انتخاب کنید!");
-        }
-      });
-    }),
     check(
       "favoriteProducts",
       "فرمت یکی از ورودی های ثبت نام کاربر اشتباه است!"
@@ -77,6 +57,20 @@ router.post(
     ).isBoolean(),
   ],
   UserCtrl.registerUser
+);
+router.post(
+  "/login-user",
+  [
+    check(
+      "password",
+      "تعداد کاراکتر رمز عبور باید بیشتر از  8 و تا 20 کاراکتر باشد!"
+    ).isLength({
+      min: 8,
+      max: 20,
+    }),
+    check("email", "فرمت ایمیل اشتباه است!").isEmail(),
+  ],
+  UserCtrl.loginUser
 );
 router.post(
   "/update-user/:id",

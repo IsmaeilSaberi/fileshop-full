@@ -1,6 +1,11 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const {
@@ -15,7 +20,37 @@ const LoginForm = () => {
       email: watch("email"),
       password: watch("password"),
     };
-    console.log(formData);
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/login-user`;
+    axios
+      .post(backendUrl, formData)
+      .then((d) => {
+        Cookies.set("auth", d.data.auth);
+        const message = d.data.msg
+          ? d.data.msg
+          : "ورود شما به حساب کاربری با موفقیت انجام شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
   };
 
   return (
@@ -91,6 +126,19 @@ const LoginForm = () => {
           ورود به حساب کاربری
         </button>
       </form>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </section>
   );
 };
