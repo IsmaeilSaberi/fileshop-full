@@ -4,6 +4,8 @@ const { check } = require("express-validator");
 const User = require("../models/User");
 
 const UserCtrl = require("../controllers/UserCtrl");
+const UserExist = require("../middlewares/userExist");
+
 router.get("/users", UserCtrl.getAllUsers);
 router.post(
   "/register-user",
@@ -141,7 +143,10 @@ router.post(
   UserCtrl.updateMiniUser
 );
 router.post("/remove-user/:id", UserCtrl.removeUser);
+// FOR ADMIN
 router.get("/get-user/:id", UserCtrl.getOneUserById);
+// FOR USER
+router.get("/get-user-data", UserExist, UserCtrl.getUserDataAccount);
 router.post(
   "/search-user",
   [check("email", "فرمت ایمیل اشتباه است!").isEmail()],

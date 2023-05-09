@@ -62,7 +62,7 @@ const registerUser = async (req, res) => {
               .toLowerCase();
             data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
             data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
-            const hashedPassword = await bcrypt.hash(req.body.password, 10);
+            const hashedPassword = await bcrypt.hash(data.password, 10);
             //CREATE 8 DIGITS RANDOM NUMBER
             const userActivateCode = Math.floor(
               Math.random() * 90000000 + 10000000
@@ -213,7 +213,8 @@ const updateUser = async (req, res) => {
         .replace(/\s+/g, "_")
         .toLowerCase();
       data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
-      data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
+      const newPass = req.body.password.replace(/\s+/g, "").toLowerCase();
+      data.password = await bcrypt.hash(newPass, 10);
       await User.findByIdAndUpdate(req.params.id, data, {
         new: true,
       });
@@ -247,7 +248,12 @@ const updateMiniUser = async (req, res) => {
         data.displayname = req.body.displayname
           .replace(/\s+/g, "_")
           .toLowerCase();
-        data.password = req.body.password.replace(/\s+/g, "").toLowerCase();
+        const newPass = req.body.password.replace(/\s+/g, "").toLowerCase();
+        data.password = await bcrypt.hash(newPass, 10);
+        data.updatedAt = new Date().toLocaleDateString("fa-IR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
         await User.findByIdAndUpdate(req.params.id, data, {
           new: true,
         });
@@ -281,6 +287,17 @@ const getOneUserById = async (req, res) => {
   }
 };
 module.exports.getOneUserById = getOneUserById;
+
+const getUserDataAccount = async (req, res) => {
+  try {
+    const targetUser = await User.findById(req.user._id);
+    res.status(200).json(targetUser);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getUserDataAccount = getUserDataAccount;
 
 const searchUsers = async (req, res) => {
   try {
