@@ -167,7 +167,7 @@ const loginUser = async (req, res) => {
     } else {
       //CHECKING OF EXISTANCE OF DUPLICATE EMAIL
       const emailExist = await User.find({ email: req.body.email });
-      if (emailExist.length < 1) {
+      if (emailExist.length > 0) {
         const theUser = emailExist[0];
         const data = req.body;
         data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
@@ -190,7 +190,7 @@ const loginUser = async (req, res) => {
             .json({ msg: "با موفقیت وارد حساب کاربری شدید!", auth: token });
         }
       } else {
-        res.status(422).json({ msg: "عملیات موفقیت آمیز نبود!" });
+        res.status(422).json({ msg: "لطفا ثبت نام کنید!" });
       }
     }
   } catch (error) {

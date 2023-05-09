@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const LoginForm = () => {
   const {
@@ -14,6 +16,21 @@ const LoginForm = () => {
     formState: { errors },
     watch,
   } = useForm({});
+
+  const router = useRouter();
+
+  // IF USER HAD TOKEN SHOULD BE REDIRECTED TO ACCOUNT PAGE
+  const [authCookie, setAuthCookie] = useState(Cookies.get("auth"));
+
+  useEffect(() => {
+    setAuthCookie(Cookies.get("auth"));
+  }, [Cookies.get("auth")]);
+
+  useEffect(() => {
+    if (authCookie != undefined && authCookie.length > 0) {
+      router.push("/account");
+    }
+  }, [authCookie]);
 
   const formSubmitter = () => {
     const formData = {
@@ -36,6 +53,7 @@ const LoginForm = () => {
           draggable: true,
           progress: undefined,
         });
+        router.push("/account");
       })
       .catch((err) => {
         const errorMsg =
