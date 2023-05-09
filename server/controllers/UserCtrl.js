@@ -291,6 +291,7 @@ module.exports.getOneUserById = getOneUserById;
 const getUserDataAccount = async (req, res) => {
   try {
     const targetUser = await User.findById(req.user._id);
+    console.log(targetUser);
     res.status(200).json(targetUser);
   } catch (error) {
     console.log(error);
