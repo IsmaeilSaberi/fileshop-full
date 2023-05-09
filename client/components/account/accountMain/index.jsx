@@ -7,17 +7,18 @@ import { useEffect, useState } from "react";
 const AccountMainComponent = () => {
   const router = useRouter();
 
-  const [authCookie, setAuthCookie] = useState(Cookies.get("auth"));
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+  const [auth_cookie2, setauth_cookie2] = useState(Cookies.get("auth_cookie"));
 
   useEffect(() => {
-    setAuthCookie(Cookies.get("auth"));
-  }, [Cookies.get("auth")]);
-
-  useEffect(() => {
-    if (authCookie == undefined || authCookie.length < 1) {
+    if (auth_cookie != auth_cookie2) {
       router.push("/login");
     }
-  }, [authCookie]);
+  }, [Cookies.get("auth_cookie")]);
+
+  useEffect(() => {
+    setauth_cookie2(Cookies.get("auth_cookie"));
+  }, [Cookies.get("auth_cookie")]);
 
   return <div>Enter</div>;
 };
