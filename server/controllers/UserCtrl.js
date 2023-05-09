@@ -292,6 +292,7 @@ const getUserDataAccount = async (req, res) => {
   try {
     const targetUser = await User.findById(req.user._id);
     res.status(200).json(targetUser);
+    console.log(targetUser);
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
