@@ -1,6 +1,6 @@
-import AccountMainComponent from "../../components/account/accountMain";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import AccountMainComponent from "../../../components/account";
 
 const getAuthData = async (cookieValue) => {
   const data = await fetch(
@@ -11,7 +11,7 @@ const getAuthData = async (cookieValue) => {
   return data.json();
 };
 
-const AccountPage = async () => {
+const AccountPage = async ({ params }) => {
   const cookieStore = cookies();
   const auth_cookie = cookieStore.get("auth_cookie");
   const cookieValue =
@@ -22,11 +22,8 @@ const AccountPage = async () => {
   }
 
   return (
-    <section className="container mx-auto flex justify-center items-center p-12">
-      <div className="px-8 py-4 rounded-md bg-orange-500 text-white">
-        حساب کاربری
-      </div>
-      <AccountMainComponent />
+    <section className="container mx-auto flex justify-center items-center">
+      <AccountMainComponent items={params} />
     </section>
   );
 };

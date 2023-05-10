@@ -176,7 +176,7 @@ const Header = () => {
             </form>
             <div className="flex gap-4 items-center w-[20rem] justify-end">
               <div>
-                <Link href={"/account"}>
+                <Link href={"/account/info"}>
                   <BsPersonBoundingBox className="bg-zinc-400 text-white rounded p-2 w-12 h-12 " />
                 </Link>
               </div>
