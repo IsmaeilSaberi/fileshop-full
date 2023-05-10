@@ -45,7 +45,7 @@ const AccountMainComponent = ({ items }) => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-start gap-2">
         <div className="w-72 bg-zinc-100 p-6 rounded-md">
           <nav className="flex justify-center items-center ">
             <ul className="flex flex-col gap-4 w-full">
