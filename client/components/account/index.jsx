@@ -26,20 +26,20 @@ const AccountMainComponent = ({ items }) => {
   }, [Cookies.get("auth_cookie")]);
 
   //TAB
-  const [details, setDetails] = useState(<Info />);
+  const [details, setDetails] = useState(<Info cookie={auth_cookie} />);
   useEffect(() => {
     if (items.slug[0] == "info") {
-      setDetails(<Info />);
+      setDetails(<Info cookie={auth_cookie} />);
     } else if (items.slug[0] == "comments") {
-      setDetails(<Comments />);
+      setDetails(<Comments cookie={auth_cookie} />);
     } else if (items.slug[0] == "files") {
-      setDetails(<Files />);
+      setDetails(<Files cookie={auth_cookie} />);
     } else if (items.slug[0] == "favorites") {
-      setDetails(<Favorites />);
+      setDetails(<Favorites cookie={auth_cookie} />);
     } else if (items.slug[0] == "payments") {
       setDetails(<Payments />);
     } else {
-      setDetails(<Info />);
+      setDetails(<Info cookie={auth_cookie} />);
     }
   }, [items.slug[0]]);
 

@@ -266,6 +266,19 @@ const updateMiniUser = async (req, res) => {
 };
 module.exports.updateMiniUser = updateMiniUser;
 
+const emailSendChanger = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.user._id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ msg: "وضعیت ارسال ایمیل تغییر کرد!" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.emailSendChanger = emailSendChanger;
+
 const removeUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -299,6 +312,48 @@ const getUserDataAccount = async (req, res) => {
   }
 };
 module.exports.getUserDataAccount = getUserDataAccount;
+
+const getPartOfUserData = async (req, res) => {
+  try {
+    const theSlug = req.params.slug;
+    if (theSlug == "info") {
+      const targetUser = await User.findById(req.user._id).select({
+        username: 1,
+        displayname: 1,
+        email: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
+      res.status(200).json(targetUser);
+    } else if (theSlug == "favorites") {
+      const targetUser = await User.findById(req.user._id).select({
+        favoriteProducts: 1,
+      });
+      res.status(200).json(targetUser);
+    } else if (theSlug == "files") {
+      const targetUser = await User.findById(req.user._id).select({
+        userProducts: 1,
+      });
+      res.status(200).json(targetUser);
+    } else if (theSlug == "comments") {
+      const targetUser = await User.findById(req.user._id).select({
+        comments: 1,
+      });
+      res.status(200).json(targetUser);
+    } else if (theSlug == "payments") {
+      const targetUser = await User.findById(req.user._id).select({
+        payments: 1,
+      });
+      res.status(200).json(targetUser);
+    } else {
+      res.status(200).json({ msg: "عدم تعیین بخش مورد نیاز!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getPartOfUserData = getPartOfUserData;
 
 const searchUsers = async (req, res) => {
   try {
