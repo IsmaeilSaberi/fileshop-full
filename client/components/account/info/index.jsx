@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
@@ -84,6 +84,47 @@ const Info = ({ cookie }) => {
       });
   };
 
+  // CONFIRM EMAIL FOR ACTIVATE USER WITH CODE
+  const ActiveCodeRef = useRef();
+  const userEmailConfirmer = (e) => {
+    e.preventDefault();
+    const formData = {
+      activateCode: ActiveCodeRef.current.value,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/confirm-user-email`;
+    axios
+      .post(backendUrl, formData, {
+        headers: { auth_cookie: cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg
+          ? d.data.msg
+          : "تغییر اطلاعات با موفقیت انجام شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   return (
     <div>
       <div>
@@ -98,25 +139,32 @@ const Info = ({ cookie }) => {
           </div>
         ) : (
           <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-8 bg-zinc-200 w-full text-sm rounded-md p-8 my-8">
-              <form className="flex flex-col  gap-8 items-center">
-                <div>کد تایید حساب کاربری</div>
-                <input
-                  type="text"
-                  placeholder="لطفا کدی را که از طریق ایمیل برایتان ارسال شده را وارد کنید تا حساب کاربری فعال شود!"
-                  autoComplete="off"
-                  required={true}
-                  className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
-                />
-                <button
-                  type="submit"
-                  className="bg-orange-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-indigo-700"
+            {data.userIsActive == false ? (
+              <div className="flex flex-col gap-8 bg-zinc-200 w-full text-sm rounded-md p-8 my-8">
+                <form
+                  onSubmit={userEmailConfirmer}
+                  className="flex flex-col  gap-8 items-center"
                 >
-                  فعال کردن حساب
-                </button>
-              </form>
-            </div>
-
+                  <div>کد تایید حساب کاربری</div>
+                  <input
+                    ref={ActiveCodeRef}
+                    type="text"
+                    placeholder="لطفا کدی را که از طریق ایمیل برایتان ارسال شده را وارد کنید تا حساب کاربری فعال شود!"
+                    autoComplete="off"
+                    required={true}
+                    className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
+                  />
+                  <button
+                    type="submit"
+                    className="bg-orange-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-indigo-700"
+                  >
+                    فعال کردن حساب
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <div className="flex justify-between items-center gap-4">
               <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ ثبت نام:</div>

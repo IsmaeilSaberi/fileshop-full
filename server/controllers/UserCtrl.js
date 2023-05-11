@@ -283,6 +283,31 @@ const emailSendChanger = async (req, res) => {
 };
 module.exports.emailSendChanger = emailSendChanger;
 
+const confirmEmail = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+    if (theUser.activateCode == req.body.activateCode) {
+      const newUser = {
+        updatedAt: new Date().toLocaleDateString("fa-IR", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        userIsActive: true,
+      };
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "حساب کاربری با موفقیت فعال شد!" });
+    } else {
+      res.status(401).json({ msg: "کد فعالسازی اشتباه است!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.confirmEmail = confirmEmail;
+
 const removeUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -328,6 +353,7 @@ const getPartOfUserData = async (req, res) => {
         createdAt: 1,
         updatedAt: 1,
         emailSend: 1,
+        userIsActive: 1,
       });
       res.status(200).json(targetUser);
     } else if (theSlug == "favorites") {
