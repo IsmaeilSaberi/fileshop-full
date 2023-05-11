@@ -272,7 +272,14 @@ module.exports.updateMiniUser = updateMiniUser;
 
 const emailSendChanger = async (req, res) => {
   try {
-    await User.findByIdAndUpdate(req.user._id, req.body, {
+    const newUser = {
+      updatedAt: new Date().toLocaleDateString("fa-IR", {
+        hour: "2-digit",
+        min: "2-digit",
+      }),
+      emailSend: req.body.emailSend,
+    };
+    await User.findByIdAndUpdate(req.user._id, newUser, {
       new: true,
     });
     res.status(200).json({ msg: "وضعیت ارسال ایمیل تغییر کرد!" });

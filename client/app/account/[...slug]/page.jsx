@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import AccountMainComponent from "../../../components/account";
+import AccountMainComponent from "../../../components/account/accountMain";
 
 const getAuthData = async (cookieValue) => {
   const data = await fetch(

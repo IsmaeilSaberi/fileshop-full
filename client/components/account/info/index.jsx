@@ -6,6 +6,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
+import { FiRefreshCcw } from "react-icons/fi";
+import { HiOutlineMail } from "react-icons/hi";
+import { BiLogOut } from "react-icons/bi";
+
 //FOR UPDATING MINI DATA
 import { useForm } from "react-hook-form";
 
@@ -24,6 +31,8 @@ const Info = ({ cookie }) => {
         )
         .then((d) => {
           setData(d.data);
+          setNeedRefresh(0);
+          setBulkEmailSituation(d.data.emailSend);
         })
         .catch((err) => {
           toast.error("خطا در لود اطلاعات!", {
@@ -36,7 +45,7 @@ const Info = ({ cookie }) => {
           });
         });
     }
-  }, [cookie]);
+  }, [cookie, needRefresh]);
 
   //FOR UPDATING MINI DATA
   const {
@@ -125,6 +134,52 @@ const Info = ({ cookie }) => {
       });
   };
 
+  const [bulkEmailSituation, setBulkEmailSituation] = useState(true);
+  const bulkEmailChanger = () => {
+    const formData = {
+      emailSend: bulkEmailSituation,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/update-email-user`;
+    axios
+      .post(backendUrl, formData, {
+        headers: { auth_cookie: cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg
+          ? d.data.msg
+          : "تغییر اطلاعات با موفقیت انجام شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
+  const router = useRouter();
+  // LOGOUT
+  const logouter = () => {
+    Cookies.set("auth_cookie", "", { expires: 0 });
+    router.push("/login");
+  };
+
   return (
     <div>
       <div>
@@ -138,7 +193,17 @@ const Info = ({ cookie }) => {
             />
           </div>
         ) : (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 relative pt-8">
+            <div
+              onClick={() => {
+                setNeedRefresh(1);
+                setData([-1]);
+              }}
+              className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+            >
+              <FiRefreshCcw />
+              به روز رسانی
+            </div>
             {data.userIsActive == false ? (
               <div className="flex flex-col gap-8 bg-zinc-200 w-full text-sm rounded-md p-8 my-8">
                 <form
@@ -285,6 +350,41 @@ const Info = ({ cookie }) => {
                   به روز رسانی
                 </button>
               </form>
+            </div>
+            <div className="flex justify-between items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
+              <div className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200">
+                <div>اطلاع رسانی رویدادها</div>
+                {data.emailSend == true ? (
+                  <button
+                    onClick={() => {
+                      setBulkEmailSituation(false);
+                      bulkEmailChanger();
+                    }}
+                    className="flex justify-center items-center bg-rose-600 text-white w-20 h-6 rounded"
+                  >
+                    خاموش
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setBulkEmailSituation(true);
+                      bulkEmailChanger();
+                    }}
+                    className="flex justify-center items-center bg-green-600 text-white w-20 h-6 rounded"
+                  >
+                    روشن
+                  </button>
+                )}
+              </div>
+              <div>
+                <div
+                  onClick={logouter}
+                  className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200"
+                >
+                  خروج از حساب کاربری
+                  <BiLogOut className="w-8 h-8 text-indigo-500" />
+                </div>
+              </div>
             </div>
           </div>
         )}
