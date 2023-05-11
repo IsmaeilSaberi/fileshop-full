@@ -244,19 +244,23 @@ const updateMiniUser = async (req, res) => {
       ) {
         res.status(400).json({ msg: "خطا در اطلاعات فرستاده شده!" });
       } else {
-        const data = req.body;
-        data.displayname = req.body.displayname
-          .replace(/\s+/g, "_")
-          .toLowerCase();
-        const newPass = req.body.password.replace(/\s+/g, "").toLowerCase();
-        data.password = await bcrypt.hash(newPass, 10);
-        data.updatedAt = new Date().toLocaleDateString("fa-IR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-        await User.findByIdAndUpdate(req.params.id, data, {
-          new: true,
-        });
+        if (req.body.password == req.body.rePassword) {
+          const data = req.body;
+          data.displayname = req.body.displayname
+            .replace(/\s+/g, "_")
+            .toLowerCase();
+          const newPass = req.body.password.replace(/\s+/g, "").toLowerCase();
+          data.password = await bcrypt.hash(newPass, 10);
+          data.updatedAt = new Date().toLocaleDateString("fa-IR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          await User.findByIdAndUpdate(req.params.id, data, {
+            new: true,
+          });
+        } else {
+          res.status(422).json({ msg: "تکرار رمز عبور اشتباه است!" });
+        }
       }
       res.status(200).json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
     }
@@ -323,6 +327,7 @@ const getPartOfUserData = async (req, res) => {
         email: 1,
         createdAt: 1,
         updatedAt: 1,
+        emailSend: 1,
       });
       res.status(200).json(targetUser);
     } else if (theSlug == "favorites") {

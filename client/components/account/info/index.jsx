@@ -46,7 +46,7 @@ const Info = ({ cookie }) => {
     watch,
   } = useForm({});
 
-  const formSubmitter = () => {
+  const miniUpdater = () => {
     const formData = {
       displayname: watch("displayname"),
       password: watch("password"),
@@ -98,6 +98,25 @@ const Info = ({ cookie }) => {
           </div>
         ) : (
           <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 bg-zinc-200 w-full text-sm rounded-md p-8 my-8">
+              <form className="flex flex-col  gap-8 items-center">
+                <div>کد تایید حساب کاربری</div>
+                <input
+                  type="text"
+                  placeholder="لطفا کدی را که از طریق ایمیل برایتان ارسال شده را وارد کنید تا حساب کاربری فعال شود!"
+                  autoComplete="off"
+                  required={true}
+                  className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
+                />
+                <button
+                  type="submit"
+                  className="bg-orange-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-indigo-700"
+                >
+                  فعال کردن حساب
+                </button>
+              </form>
+            </div>
+
             <div className="flex justify-between items-center gap-4">
               <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ ثبت نام:</div>
@@ -122,98 +141,103 @@ const Info = ({ cookie }) => {
                 <div>{data.email}</div>
               </div>
             </div>
-            <form
-              onSubmit={handleSubmit(formSubmitter)}
-              className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-8"
-            >
-              <div className="flex flex-col gap-1">
-                <input
-                  type="text"
-                  autoComplete="off"
-                  placeholder="نام نمایشی"
-                  className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
-                  {...register("displayname", {
-                    required: true,
-                    maxLength: 20,
-                    minLength: 8,
-                  })}
-                />
-                {errors.displayname &&
-                  errors.displayname.type == "required" && (
-                    <div className="text-rose-500 text-sm">
-                      نام نمایشی وارد نشده است!
-                    </div>
-                  )}
-                {errors.displayname &&
-                  errors.displayname.type == "maxLength" && (
-                    <div className="text-rose-500 text-sm">
-                      نام نمایشی باید کمتر از 20 کاراکتر باشد!
-                    </div>
-                  )}
-                {errors.displayname &&
-                  errors.displayname.type == "minLength" && (
-                    <div className="text-rose-500 text-sm">
-                      نام نمایشی باید بیشتر از 8 کاراکتر باشد!
-                    </div>
-                  )}
-              </div>
-              <div className="flex flex-col gap-1">
-                <input
-                  type="password"
-                  autoComplete="off"
-                  placeholder="رمز عبور"
-                  className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
-                  {...register("password", {
-                    required: true,
-                    maxLength: 20,
-                    minLength: 8,
-                  })}
-                />
-                {errors.password && errors.password.type == "required" && (
-                  <div className="text-rose-500 text-sm">
-                    رمز عبور وارد نشده است!
-                  </div>
-                )}
-                {errors.password && errors.password.type == "maxLength" && (
-                  <div className="text-rose-500 text-sm">
-                    رمز عبور باید کمتر از 20 کاراکتر باشد!
-                  </div>
-                )}
-                {errors.password && errors.password.type == "minLength" && (
-                  <div className="text-rose-500 text-sm">
-                    رمز عبور باید بیشتر از 8 کاراکتر باشد!
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-col gap-1">
-                <input
-                  type="password"
-                  autoComplete="off"
-                  placeholder="تکرار رمز عبور"
-                  className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
-                  {...register("repassword", {
-                    required: true,
-                    validate: (val) => val === watch("password"),
-                  })}
-                />
-                {errors.repassword && errors.repassword.type == "required" && (
-                  <div className="text-rose-500 text-sm">
-                    رمز عبور وارد نشده است!
-                  </div>
-                )}
-                {errors.repassword && errors.repassword.type == "validate" && (
-                  <div className="text-rose-500 text-sm">
-                    رمز عبور وارد شده مطابقت ندارد!
-                  </div>
-                )}
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-600 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-blue-700"
+            <div className="flex flex-col items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
+              <div>به روز رسانی اطلاعات</div>
+              <form
+                onSubmit={handleSubmit(miniUpdater)}
+                className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-6"
               >
-                به روز رسانی
-              </button>
-            </form>
+                <div className="flex flex-col gap-1">
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    placeholder="نام نمایشی"
+                    className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
+                    {...register("displayname", {
+                      required: true,
+                      maxLength: 20,
+                      minLength: 8,
+                    })}
+                  />
+                  {errors.displayname &&
+                    errors.displayname.type == "required" && (
+                      <div className="text-rose-500 text-sm">
+                        نام نمایشی وارد نشده است!
+                      </div>
+                    )}
+                  {errors.displayname &&
+                    errors.displayname.type == "maxLength" && (
+                      <div className="text-rose-500 text-sm">
+                        نام نمایشی باید کمتر از 20 کاراکتر باشد!
+                      </div>
+                    )}
+                  {errors.displayname &&
+                    errors.displayname.type == "minLength" && (
+                      <div className="text-rose-500 text-sm">
+                        نام نمایشی باید بیشتر از 8 کاراکتر باشد!
+                      </div>
+                    )}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    placeholder="رمز عبور"
+                    className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
+                    {...register("password", {
+                      required: true,
+                      maxLength: 20,
+                      minLength: 8,
+                    })}
+                  />
+                  {errors.password && errors.password.type == "required" && (
+                    <div className="text-rose-500 text-sm">
+                      رمز عبور وارد نشده است!
+                    </div>
+                  )}
+                  {errors.password && errors.password.type == "maxLength" && (
+                    <div className="text-rose-500 text-sm">
+                      رمز عبور باید کمتر از 20 کاراکتر باشد!
+                    </div>
+                  )}
+                  {errors.password && errors.password.type == "minLength" && (
+                    <div className="text-rose-500 text-sm">
+                      رمز عبور باید بیشتر از 8 کاراکتر باشد!
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    placeholder="تکرار رمز عبور"
+                    className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
+                    {...register("repassword", {
+                      required: true,
+                      validate: (val) => val === watch("password"),
+                    })}
+                  />
+                  {errors.repassword &&
+                    errors.repassword.type == "required" && (
+                      <div className="text-rose-500 text-sm">
+                        رمز عبور وارد نشده است!
+                      </div>
+                    )}
+                  {errors.repassword &&
+                    errors.repassword.type == "validate" && (
+                      <div className="text-rose-500 text-sm">
+                        رمز عبور وارد شده مطابقت ندارد!
+                      </div>
+                    )}
+                </div>
+                <button
+                  type="submit"
+                  className="bg-orange-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-indigo-700"
+                >
+                  به روز رسانی
+                </button>
+              </form>
+            </div>
           </div>
         )}
       </div>

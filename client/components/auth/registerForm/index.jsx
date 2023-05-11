@@ -58,7 +58,7 @@ const RegisterForm = () => {
           draggable: true,
           progress: undefined,
         });
-        router.push("/account");
+        router.push("/account/info");
       })
       .catch((err) => {
         const errorMsg =
