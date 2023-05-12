@@ -170,5 +170,6 @@ router.get(
 //EMAIL SEND CHANGER
 router.post("/update-email-user", UserExist, UserCtrl.emailSendChanger);
 router.post("/confirm-user-email", UserExist, UserCtrl.confirmEmail);
+router.post("/favorite-product", UserExist, UserCtrl.favoriteProductManage);
 
 module.exports = router;

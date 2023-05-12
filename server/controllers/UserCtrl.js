@@ -406,4 +406,42 @@ const searchUsers = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+const favoriteProductManage = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+    if (req.body.method == "push") {
+      const newUserFavoriteProducts = [
+        ...theUser.favoriteProducts,
+        req.body.newFavProduct,
+      ];
+
+      const newUser = {
+        favoriteProducts: newUserFavoriteProducts,
+      };
+      await User.findByIdAndUpdate(req.user._id, newUser, {
+        new: true,
+      });
+      res.status(200).json({ msg: "به علاقه مندی ها اضافه شد!" });
+    } else if (req.body.method == "remove") {
+      const oldFavoriteProducts = theUser.favoriteProducts;
+      for (let i = 0; i < oldFavoriteProducts.length; i++) {
+        if (oldFavoriteProducts[i]._id == goalFavProductId) {
+          let updatedUserFav = oldFavoriteProducts;
+          if (i > -1) {
+            updatedUserFav.splice(i, 1);
+          }
+          const updatedFavPro = { favoriteProducts: updatedUserFav };
+        }
+      }
+    } else {
+      res.status(401).json({ msg: "کد فعالسازی اشتباه است!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.favoriteProductManage = favoriteProductManage;
+
 module.exports.searchUsers = searchUsers;

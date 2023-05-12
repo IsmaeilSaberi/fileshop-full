@@ -135,9 +135,9 @@ const Info = ({ cookie }) => {
   };
 
   const [bulkEmailSituation, setBulkEmailSituation] = useState(true);
-  const bulkEmailChanger = () => {
+  const bulkEmailChanger = (input) => {
     const formData = {
-      emailSend: bulkEmailSituation,
+      emailSend: input,
     };
     const backendUrl = `https://fileshop-server.iran.liara.run/api/update-email-user`;
     axios
@@ -156,6 +156,7 @@ const Info = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setBulkEmailSituation(input);
       })
       .catch((err) => {
         const errorMsg =
@@ -354,11 +355,10 @@ const Info = ({ cookie }) => {
             <div className="flex justify-between items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
               <div className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200">
                 <div>اطلاع رسانی رویدادها</div>
-                {data.emailSend == true ? (
+                {bulkEmailSituation == true ? (
                   <button
                     onClick={() => {
-                      setBulkEmailSituation(false);
-                      bulkEmailChanger();
+                      bulkEmailChanger(false);
                     }}
                     className="flex justify-center items-center bg-rose-600 text-white w-20 h-6 rounded"
                   >
@@ -367,8 +367,7 @@ const Info = ({ cookie }) => {
                 ) : (
                   <button
                     onClick={() => {
-                      setBulkEmailSituation(true);
-                      bulkEmailChanger();
+                      bulkEmailChanger(true);
                     }}
                     className="flex justify-center items-center bg-green-600 text-white w-20 h-6 rounded"
                   >
