@@ -432,10 +432,14 @@ const favoriteProductManage = async (req, res) => {
             updatedUserFav.splice(i, 1);
           }
           const updatedFavPro = { favoriteProducts: updatedUserFav };
+          await User.findByIdAndUpdate(req.user._id, updatedFavPro, {
+            new: true,
+          });
         }
       }
+      res.status(200).json({ msg: "از علاقه مندی ها حذف شد!" });
     } else {
-      res.status(401).json({ msg: "کد فعالسازی اشتباه است!" });
+      res.status(401).json({ msg: "خطا در ارسال اطلاعات محصولات مورد علاقه!" });
     }
   } catch (error) {
     console.log(error);
