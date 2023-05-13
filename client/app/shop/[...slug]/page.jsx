@@ -3,7 +3,7 @@ import Link from "next/link";
 import BreadCrumb from "../../../components/breadCrumb";
 import { TiTickOutline } from "react-icons/ti";
 import RelatedPosts from "../../../components/sliders/related-posts";
-import axios from "axios";
+import SingleProductFavPro from "../../../components/single-product-fav-pro";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -34,21 +34,6 @@ const SingleProduct = async ({ params }) => {
     // Reverse the order of the chunks and join them with commas
     return chunks.reverse().join(",");
   }
-
-  // USER FAV PRODUCTS
-  const favAdder = () => {
-    const productData = {
-      title: data.title,
-      price: data.price,
-      image: data.image,
-      slug: data.slug,
-      shortDesc: data.shortDesc,
-      typeOfProduct: data.typeOfProduct,
-      features: data.features,
-      buyNumber: data.buyNumber,
-      features: data.features,
-    };
-  };
 
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">
@@ -182,12 +167,7 @@ const SingleProduct = async ({ params }) => {
               <button className="flex items-center justify-center text-center bg-orange-400 hover:bg-orange-500 transition-all duration-200 p-2 rounded-md w-full text-white">
                 افزودن به سبد خرید- {priceChanger(data.price)} تومان
               </button>
-              <button
-                onClick={favAdder}
-                className="flex items-center justify-center text-center bg-green-400 hover:bg-green-500 transition-all duration-200 p-2 rounded-md w-full text-white"
-              >
-                افزودن به علاقه مندی ها
-              </button>
+              <SingleProductFavPro data={data} />
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">معرفی کوتاه</h3>
