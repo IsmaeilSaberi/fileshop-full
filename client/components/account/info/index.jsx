@@ -10,7 +10,6 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 import { FiRefreshCcw } from "react-icons/fi";
-import { HiOutlineMail } from "react-icons/hi";
 import { BiLogOut } from "react-icons/bi";
 
 //FOR UPDATING MINI DATA
@@ -174,8 +173,8 @@ const Info = ({ cookie }) => {
       });
   };
 
-  const router = useRouter();
   // LOGOUT
+  const router = useRouter();
   const logouter = () => {
     Cookies.set("auth_cookie", "", { expires: 0 });
     router.push("/login");

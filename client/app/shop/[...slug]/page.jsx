@@ -167,7 +167,7 @@ const SingleProduct = async ({ params }) => {
               <button className="flex items-center justify-center text-center bg-orange-400 hover:bg-orange-500 transition-all duration-200 p-2 rounded-md w-full text-white">
                 افزودن به سبد خرید- {priceChanger(data.price)} تومان
               </button>
-              <SingleProductFavPro data={data} />
+              <SingleProductFavPro data={data._id} />
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">معرفی کوتاه</h3>

@@ -13,18 +13,7 @@ const SingleProductFavPro = ({ data, cookie }) => {
   const favAdder = () => {
     const productData = {
       method: "push",
-      newFavProduct: {
-        _id: data._id,
-        title: data.title,
-        price: data.price,
-        image: data.image,
-        slug: data.slug,
-        shortDesc: data.shortDesc,
-        typeOfProduct: data.typeOfProduct,
-        features: data.features,
-        buyNumber: data.buyNumber,
-        features: data.features,
-      },
+      newFavProduct: data,
     };
     const backendUrl = `https://fileshop-server.iran.liara.run/api/favorite-product`;
     axios

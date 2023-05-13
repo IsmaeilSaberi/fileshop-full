@@ -1,10 +1,20 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { HiShoppingBag } from "react-icons/hi";
 import { FcSearch } from "react-icons/fc";
 import { BsBrush } from "react-icons/bs";
+//PRODUCT FAVORITE
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
+import { useState } from "react";
 
 const GraphicSliderBox = ({ itemData }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const featureSpliter = (val) => {
     return val.split(":");
   };
@@ -22,6 +32,46 @@ const GraphicSliderBox = ({ itemData }) => {
     // Reverse the order of the chunks and join them with commas
     return chunks.reverse().join(",");
   }
+
+  // USER FAV PRODUCTS
+  const favAdder = () => {
+    const productData = {
+      method: "push",
+      newFavProduct: itemData._id,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/favorite-product`;
+    axios
+      .post(backendUrl, productData, {
+        headers: { auth_cookie: auth_cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg
+          ? d.data.msg
+          : "تغییر اطلاعات با موفقیت انجام شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
 
   return (
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
@@ -93,7 +143,7 @@ const GraphicSliderBox = ({ itemData }) => {
               <Link href={`/shop/${itemData.slug}`} target="_blank">
                 <FcSearch className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-zinc-400 transition-all duration-200 text-white hover:bg-orange-400" />
               </Link>
-              <Link href={""}>
+              <div onClick={favAdder}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -108,7 +158,7 @@ const GraphicSliderBox = ({ itemData }) => {
                     d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
                   />
                 </svg>
-              </Link>
+              </div>
             </div>
             <div className="flex gap-1">
               <Link href={""}>
@@ -122,6 +172,19 @@ const GraphicSliderBox = ({ itemData }) => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </article>
   );
 };

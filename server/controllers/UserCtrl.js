@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Product = require("../models/Product");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -340,7 +341,6 @@ module.exports.getOneUserById = getOneUserById;
 const getUserDataAccount = async (req, res) => {
   try {
     const targetUser = await User.findById(req.user._id);
-    console.log(targetUser);
     res.status(200).json(targetUser);
   } catch (error) {
     console.log(error);
@@ -367,7 +367,18 @@ const getPartOfUserData = async (req, res) => {
       const targetUser = await User.findById(req.user._id).select({
         favoriteProducts: 1,
       });
-      res.status(200).json(targetUser);
+      const goalProducts = await Product.find({
+        _id: { $in: targetUser.favoriteProducts },
+      }).select({
+        title: 1,
+        slug: 1,
+        image: 1,
+        price: 1,
+        shortDesc: 1,
+        typeOfProduct: 1,
+        buyNumber: 1,
+      });
+      res.status(200).json(goalProducts);
     } else if (theSlug == "files") {
       const targetUser = await User.findById(req.user._id).select({
         userProducts: 1,
