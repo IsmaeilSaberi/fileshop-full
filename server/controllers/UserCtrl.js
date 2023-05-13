@@ -338,9 +338,10 @@ const getOneUserById = async (req, res) => {
 };
 module.exports.getOneUserById = getOneUserById;
 
+// FOR LOGIN REGISTER AND REDIRECT
 const getUserDataAccount = async (req, res) => {
   try {
-    const targetUser = await User.findById(req.user._id);
+    const targetUser = await User.findById(req.user._id).select({ _id: 1 });
     res.status(200).json(targetUser);
   } catch (error) {
     console.log(error);
@@ -421,36 +422,54 @@ const searchUsers = async (req, res) => {
 const favoriteProductManage = async (req, res) => {
   try {
     const theUser = await User.findById(req.user._id);
-    if (req.body.method == "push") {
-      const newUserFavoriteProducts = [
-        ...theUser.favoriteProducts,
-        req.body.newFavProduct,
-      ];
-
-      const newUser = {
-        favoriteProducts: newUserFavoriteProducts,
-      };
-      await User.findByIdAndUpdate(req.user._id, newUser, {
-        new: true,
-      });
-      res.status(200).json({ msg: "به علاقه مندی ها اضافه شد!" });
-    } else if (req.body.method == "remove") {
-      const oldFavoriteProducts = theUser.favoriteProducts;
-      for (let i = 0; i < oldFavoriteProducts.length; i++) {
-        if (oldFavoriteProducts[i]._id == goalFavProductId) {
-          let updatedUserFav = oldFavoriteProducts;
-          if (i > -1) {
-            updatedUserFav.splice(i, 1);
+    if (theUser.userIsActive == true) {
+      if (req.body.method == "push") {
+        const newUserFavoriteProducts = [
+          ...theUser.favoriteProducts,
+          req.body.newFavProduct,
+        ];
+        let userHaveProduct = 0;
+        for (let i = 0; i < theUser.favoriteProducts.length; i++) {
+          if (req.body.newFavProduct == theUser.favoriteProducts[i]) {
+            userHaveProduct = 1;
+            break;
           }
-          const updatedFavPro = { favoriteProducts: updatedUserFav };
-          await User.findByIdAndUpdate(req.user._id, updatedFavPro, {
+        }
+        if (userHaveProduct == 0) {
+          const newUser = {
+            favoriteProducts: newUserFavoriteProducts,
+          };
+          await User.findByIdAndUpdate(req.user._id, newUser, {
             new: true,
           });
+          res.status(200).json({ msg: "به علاقه مندی ها اضافه شد!" });
+        } else {
+          res
+            .status(401)
+            .json({ msg: "قبلا به محصولات مورد علاقه اضافه شده است!" });
         }
+      } else if (req.body.method == "remove") {
+        const oldFavoriteProducts = theUser.favoriteProducts;
+        for (let i = 0; i < oldFavoriteProducts.length; i++) {
+          if (oldFavoriteProducts[i]._id == req.body.goalFavProductId) {
+            let updatedUserFav = oldFavoriteProducts;
+            if (i > -1) {
+              updatedUserFav.splice(i, 1);
+            }
+            const updatedFavPro = { favoriteProducts: updatedUserFav };
+            await User.findByIdAndUpdate(req.user._id, updatedFavPro, {
+              new: true,
+            });
+          }
+        }
+        res.status(200).json({ msg: "از علاقه مندی ها حذف شد!" });
+      } else {
+        res
+          .status(401)
+          .json({ msg: "خطا در ارسال اطلاعات محصولات مورد علاقه!" });
       }
-      res.status(200).json({ msg: "از علاقه مندی ها حذف شد!" });
     } else {
-      res.status(401).json({ msg: "خطا در ارسال اطلاعات محصولات مورد علاقه!" });
+      res.status(401).json({ msg: "لطفا ایمیل خود را تایید کنید!" });
     }
   } catch (error) {
     console.log(error);
