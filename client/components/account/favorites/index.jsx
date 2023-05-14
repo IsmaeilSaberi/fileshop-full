@@ -24,7 +24,6 @@ const Favorites = ({ cookie }) => {
         )
         .then((d) => {
           setData(d.data);
-          setNeedRefresh(0);
         })
         .catch((err) => {
           toast.error("خطا در لود اطلاعات!", {
@@ -36,6 +35,7 @@ const Favorites = ({ cookie }) => {
             progress: undefined,
           });
         });
+      setNeedRefresh(0);
     }
   }, [cookie, needRefresh]);
 
@@ -64,7 +64,9 @@ const Favorites = ({ cookie }) => {
               به روز رسانی
             </div>
             {data.length < 1 ? (
-              <div>محصولی موجود نیست!</div>
+              <div className="flex justify-center items-center p-8 w-full">
+                محصولی موجود نیست!
+              </div>
             ) : (
               <div className="w-full flex flex-col gap-8">
                 {data.map((da, i) => (

@@ -13,7 +13,11 @@ import {
   AiOutlineSearch,
   AiFillShopping,
 } from "react-icons/ai";
-import { BsFillEnvelopeOpenFill, BsPersonBoundingBox } from "react-icons/bs";
+import {
+  BsFillEnvelopeOpenFill,
+  BsPersonBoundingBox,
+  BsCalendar2HeartFill,
+} from "react-icons/bs";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -174,10 +178,13 @@ const Header = () => {
                 <AiOutlineSearch className="w-10 h-10" />
               </button>
             </form>
-            <div className="flex gap-4 items-center w-[20rem] justify-end">
-              <div>
+            <div className="flex gap-4 items-center w-[26rem] justify-end">
+              <div className="flex justify-between items-center gap-2">
+                <Link href={"/account/favorites"}>
+                  <BsCalendar2HeartFill className="bg-zinc-400 text-white rounded hover:bg-indigo-500 transition-all duration-200 p-2 w-12 h-12 " />
+                </Link>
                 <Link href={"/account/info"}>
-                  <BsPersonBoundingBox className="bg-zinc-400 text-white rounded p-2 w-12 h-12 " />
+                  <BsPersonBoundingBox className="bg-zinc-400 text-white rounded hover:bg-indigo-500 transition-all duration-200 p-2 w-12 h-12 " />
                 </Link>
               </div>
 

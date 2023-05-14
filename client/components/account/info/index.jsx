@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
@@ -30,7 +29,6 @@ const Info = ({ cookie }) => {
         )
         .then((d) => {
           setData(d.data);
-          setNeedRefresh(0);
           setBulkEmailSituation(d.data.emailSend);
         })
         .catch((err) => {
@@ -43,6 +41,7 @@ const Info = ({ cookie }) => {
             progress: undefined,
           });
         });
+      setNeedRefresh(0);
     }
   }, [cookie, needRefresh]);
 
@@ -75,6 +74,7 @@ const Info = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setNeedRefresh(1);
       })
       .catch((err) => {
         const errorMsg =
@@ -116,6 +116,7 @@ const Info = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setNeedRefresh(1);
       })
       .catch((err) => {
         const errorMsg =
@@ -264,7 +265,7 @@ const Info = ({ cookie }) => {
                   <input
                     type="text"
                     autoComplete="off"
-                    placeholder="نام نمایشی"
+                    placeholder="نام نمایشی جدید"
                     className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
                     {...register("displayname", {
                       required: true,
@@ -295,7 +296,7 @@ const Info = ({ cookie }) => {
                   <input
                     type="password"
                     autoComplete="off"
-                    placeholder="رمز عبور"
+                    placeholder="رمز عبور جدید"
                     className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
                     {...register("password", {
                       required: true,
@@ -323,7 +324,7 @@ const Info = ({ cookie }) => {
                   <input
                     type="password"
                     autoComplete="off"
-                    placeholder="تکرار رمز عبور"
+                    placeholder="تکرار رمز عبور جدید"
                     className="p-2 w-full outline-none border-zinc-400 border-2 rounded-md focus:border-orange-400 "
                     {...register("repassword", {
                       required: true,
@@ -387,19 +388,6 @@ const Info = ({ cookie }) => {
           </div>
         )}
       </div>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

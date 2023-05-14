@@ -8,6 +8,7 @@ import Favorites from "../favorites";
 import Comments from "../comments";
 import Payments from "../payments";
 import Files from "../files";
+import axios from "axios";
 
 const AccountMainComponent = ({ items }) => {
   const router = useRouter();
@@ -15,9 +16,25 @@ const AccountMainComponent = ({ items }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
   const [auth_cookie2, setauth_cookie2] = useState(Cookies.get("auth_cookie"));
 
+  // NO COOKIE REDIRECT
   useEffect(() => {
     if (auth_cookie != auth_cookie2) {
       router.push("/login");
+    } else if (!auth_cookie || auth_cookie == "") {
+      router.push("/login");
+    } else {
+      axios
+        .get("https://fileshop-server.iran.liara.run/api/get-user-data", {
+          headers: { auth_cookie: auth_cookie },
+        })
+        .then((d) => {
+          if (!d.data._id) {
+            router.push("/login");
+          }
+        })
+        .catch((err) => {
+          router.push("/login");
+        });
     }
   }, [Cookies.get("auth_cookie")]);
 
@@ -61,8 +78,8 @@ const AccountMainComponent = ({ items }) => {
                   onClick={goToTop}
                   className={
                     items.slug[0] == "info"
-                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
-                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
+                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
+                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
                   }
                   href={"/account/info"}
                 >
@@ -74,8 +91,8 @@ const AccountMainComponent = ({ items }) => {
                   onClick={goToTop}
                   className={
                     items.slug[0] == "favorites"
-                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
-                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
+                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
+                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
                   }
                   href={"/account/favorites"}
                 >
@@ -87,8 +104,8 @@ const AccountMainComponent = ({ items }) => {
                   onClick={goToTop}
                   className={
                     items.slug[0] == "files"
-                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
-                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
+                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
+                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
                   }
                   href={"/account/files"}
                 >
@@ -100,8 +117,8 @@ const AccountMainComponent = ({ items }) => {
                   onClick={goToTop}
                   className={
                     items.slug[0] == "comments"
-                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
-                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
+                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
+                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
                   }
                   href={"/account/comments"}
                 >
@@ -113,8 +130,8 @@ const AccountMainComponent = ({ items }) => {
                   onClick={goToTop}
                   className={
                     items.slug[0] == "payments"
-                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
-                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-orange-600 hover:text-white flex justify-center items-center w-full h-12"
+                      ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
+                      : "rounded-md text-white bg-orange-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
                   }
                   href={"/account/payments"}
                 >
