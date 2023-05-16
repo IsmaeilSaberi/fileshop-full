@@ -285,13 +285,13 @@ const PostDetails = ({ userId }) => {
               >
                 {fullData.emailSend && fullData.emailSend == true ? (
                   <>
-                    <option value="true">ارسال شود</option>
-                    <option value="false">ارسال نشود</option>
+                    <option value="true">ارسال می شود</option>
+                    <option value="false">ارسال نمی شود</option>
                   </>
                 ) : (
                   <>
-                    <option value="false">ارسال نشود</option>
-                    <option value="true">ارسال شود</option>
+                    <option value="false">ارسال نمی شود</option>
+                    <option value="true">ارسال می شود</option>
                   </>
                 )}
               </select>

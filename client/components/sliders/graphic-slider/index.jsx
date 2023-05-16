@@ -42,7 +42,7 @@ const GraphicSlider = ({ goalData }) => {
                   />
                   <Link
                     className="bg-orange-500 px-4 border-2 py-2 rounded-lg transition-all duration-200 hover:bg-orange-600"
-                    href={`/`}
+                    href={`/shop?&orderBy=date&type=gr&maxP=100000000&minP=0&pgn=12&pn=1`}
                   >
                     مشاهده ی همه
                   </Link>

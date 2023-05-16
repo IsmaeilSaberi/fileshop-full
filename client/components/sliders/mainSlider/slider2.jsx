@@ -41,7 +41,7 @@ const Slider2 = ({ linkComp, title, goalData }) => {
                   />
                   <Link
                     className="bg-orange-500 px-4 border-2 py-2 rounded-lg transition-all duration-200 hover:bg-orange-600"
-                    href={`/${linkComp}`}
+                    href={`/shop?&orderBy=date&type=${linkComp}&maxP=100000000&minP=0&pgn=12&pn=1`}
                   >
                     مشاهده ی همه {`${title}`}
                   </Link>

@@ -19,13 +19,9 @@ const Home = async () => {
     <div>
       <main className="flex flex-col gap-2">
         <MainSlider />
-        <Slider2
-          goalData={data.newApps}
-          title="اپلیکیشن ها"
-          linkComp="applications"
-        />
+        <Slider2 goalData={data.newApps} title="اپلیکیشن ها" linkComp="app" />
         <MiddleBanner />
-        <Slider2 goalData={data.newBooks} title="کتاب ها" linkComp="books" />
+        <Slider2 goalData={data.newBooks} title="کتاب ها" linkComp="book" />
         <Categories />
         <GraphicSlider goalData={data.newGFs} />
         <Blogs />

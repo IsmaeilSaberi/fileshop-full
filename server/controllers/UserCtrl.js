@@ -25,7 +25,9 @@ const getAllUsers = async (req, res) => {
       const AllUsersNumber = await (await User.find()).length;
       res.status(200).json({ GoalUsers, AllUsersNumber });
     } else {
-      const AllUsers = await User.find().sort({ _id: -1 });
+      const AllUsers = await User.find()
+        .sort({ _id: -1 })
+        .select({ password: false });
       res.status(200).json(AllUsers);
     }
   } catch (error) {
@@ -327,7 +329,9 @@ module.exports.removeUser = removeUser;
 
 const getOneUserById = async (req, res) => {
   try {
-    const targetUser = await User.findById(req.params.id);
+    const targetUser = await User.findById(req.params.id).select({
+      password: false,
+    });
 
     const targetUserFavProducts = await Product.find({
       _id: { $in: targetUser.favoriteProducts },
@@ -413,7 +417,9 @@ module.exports.getPartOfUserData = getPartOfUserData;
 
 const searchUsers = async (req, res) => {
   try {
-    const theUser = await User.find({ email: req.body.email });
+    const theUser = await User.find({ email: req.body.email }).select({
+      password: false,
+    });
     if (theUser.length > 0) {
       res.status(200).json({ userData: theUser[0] });
     } else {

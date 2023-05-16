@@ -142,11 +142,17 @@ const Favorites = ({ cookie }) => {
                         />
                       </div>
                       <div className="relative w-full flex flex-col gap-4">
-                        <div className="absolute top-1 left-1 bg-indigo-500 text-white rounded-sm text-xs flex justify-center items-center w-12 h-6">
-                          {da.typeOfProduct}
+                        <div className="absolute top-1 left-1 bg-indigo-500 text-white rounded-sm text-xs flex justify-center items-center w-20 h-6">
+                          {da.typeOfProduct == "gr" ? (
+                            <div>فایل گرافیکی</div>
+                          ) : da.typeOfProduct == "app" ? (
+                            <div>اپلیکیشن</div>
+                          ) : (
+                            <div>کتاب</div>
+                          )}
                         </div>
                         <Link
-                          className="absolute top-1 left-16 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
+                          className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
                           href={`/shop/${da.slug}`}
                           target="_blank"
                         >
