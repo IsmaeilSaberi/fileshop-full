@@ -378,6 +378,7 @@ const getPartOfUserData = async (req, res) => {
         shortDesc: 1,
         typeOfProduct: 1,
         buyNumber: 1,
+        features: 1,
       });
       res.status(200).json(goalProducts);
     } else if (theSlug == "files") {
