@@ -92,7 +92,7 @@ const Favorites = ({ cookie }) => {
           progress: undefined,
         });
       });
-    setNeedRefresh(0);
+    setNeedRefresh(1);
   };
 
   return (

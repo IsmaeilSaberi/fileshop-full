@@ -452,7 +452,7 @@ const favoriteProductManage = async (req, res) => {
       } else if (req.body.method == "remove") {
         const oldFavoriteProducts = theUser.favoriteProducts;
         for (let i = 0; i < oldFavoriteProducts.length; i++) {
-          if (oldFavoriteProducts[i]._id == req.body.goalFavProductId) {
+          if (oldFavoriteProducts[i] == req.body.goalFavProductId) {
             let updatedUserFav = oldFavoriteProducts;
             if (i > -1) {
               updatedUserFav.splice(i, 1);

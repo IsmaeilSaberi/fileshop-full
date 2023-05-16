@@ -8,6 +8,7 @@ import PostMain from "../forms/posts-form";
 import CategoryMain from "../forms/categoryForms";
 import ProductMain from "../forms/products-form";
 import AdminPannel from "../forms/admin-pannel";
+import UserMain from "../forms/users-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("admin-pannel");
@@ -23,6 +24,8 @@ const MainDashboard = () => {
       setDetails(<CategoryMain />);
     } else if (contentChanger == "products") {
       setDetails(<ProductMain />);
+    } else if (contentChanger == "users") {
+      setDetails(<UserMain />);
     } else if (contentChanger == "admin-pannel") {
       setDetails(<AdminPannel />);
     }
