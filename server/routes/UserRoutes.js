@@ -94,13 +94,6 @@ router.post(
       min: 8,
       max: 20,
     }),
-    check(
-      "password",
-      "تعداد کاراکتر رمز عبور باید بیشتر از  8 و تا 20 کاراکتر باشد!"
-    ).isLength({
-      min: 8,
-      max: 20,
-    }),
     check("email", "فرمت ایمیل اشتباه است!").isEmail(),
     check("username", "لطفا نام کاربری دیگری را انتخاب کنید!").custom(
       (value) => {

@@ -214,8 +214,6 @@ const updateUser = async (req, res) => {
         .replace(/\s+/g, "_")
         .toLowerCase();
       data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
-      const newPass = req.body.password.replace(/\s+/g, "").toLowerCase();
-      data.password = await bcrypt.hash(newPass, 10);
       await User.findByIdAndUpdate(req.params.id, data, {
         new: true,
       });
@@ -330,6 +328,13 @@ module.exports.removeUser = removeUser;
 const getOneUserById = async (req, res) => {
   try {
     const targetUser = await User.findById(req.params.id);
+
+    const targetUserFavProducts = await Product.find({
+      _id: { $in: targetUser.favoriteProducts },
+    }).select({ title: 1, slug: 1 });
+
+    targetUser.favoriteProducts = targetUserFavProducts;
+
     res.status(200).json(targetUser);
   } catch (error) {
     console.log(error);

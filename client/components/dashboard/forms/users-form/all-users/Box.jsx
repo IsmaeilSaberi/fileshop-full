@@ -7,7 +7,6 @@ const Box = ({ data, setUserDetailCtrl, setRandNumForUserClick }) => {
       behavior: "smooth",
     });
   };
-  console.log(data);
   return (
     <div
       onClick={() => {
