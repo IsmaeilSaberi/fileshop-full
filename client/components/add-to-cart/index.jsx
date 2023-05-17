@@ -5,8 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
+// USING CONTEXT
+import { useAppContext } from "../../context/app-context";
+
 const AddToCart = ({ data, cookie }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
+  // CONTEXT OF CARTnUMBER
+  const { cartNumber, setCartNumber } = useAppContext();
 
   // ADD CART PRODUCTS
   const cartAdder = () => {
@@ -31,6 +37,7 @@ const AddToCart = ({ data, cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setCartNumber(cartNumber + 1);
       })
       .catch((err) => {
         const errorMsg =

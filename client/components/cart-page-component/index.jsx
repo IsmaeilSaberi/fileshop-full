@@ -10,10 +10,16 @@ import { FiRefreshCcw } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { AiOutlineHeart } from "react-icons/ai";
 
+// USING CONTEXT
+import { useAppContext } from "../../context/app-context";
+
 const CartPageComponent = ({ cookie }) => {
   const [data, setData] = useState([-1]);
   const [needRefresh, setNeedRefresh] = useState(0);
   const [priceSum, setPriceSum] = useState(0);
+
+  // CONTEXT OF CARTNUMBER
+  const { cartNumber, setCartNumber } = useAppContext();
 
   useEffect(() => {
     if (cookie && cookie.length > 0) {
@@ -93,6 +99,7 @@ const CartPageComponent = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setCartNumber(cartNumber - 1);
         setNeedRefresh(1);
       })
       .catch((err) => {
@@ -144,6 +151,48 @@ const CartPageComponent = ({ cookie }) => {
           progress: undefined,
         });
       });
+  };
+
+  // PAYMENT FUNCTION
+  const paymentManager = () => {
+    // const formData = {
+    //   method: "remove",
+    //   goalCartProductId: id,
+    // };
+    console.log("yes");
+    // axios
+    //   .post(
+    //     `https://fileshop-server.iran.liara.run/api/cart-manager`,
+    //     formData,
+    //     {
+    //       headers: { auth_cookie: cookie },
+    //     }
+    //   )
+    //   .then((d) => {
+    //     const message =
+    //       d.data && d.data.msg ? d.data.msg : "محصول از سبد خرید حذف شد!";
+    //     toast.success(message, {
+    //       autoClose: 3000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     });
+    //     setCartNumber(cartNumber - 1);
+    //     setNeedRefresh(1);
+    //   })
+    //   .catch((err) => {
+    //     toast.error("خطا در حذف محصول!", {
+    //       autoClose: 3000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     });
+    //   });
+    // setNeedRefresh(1);
   };
 
   return (
@@ -268,7 +317,10 @@ const CartPageComponent = ({ cookie }) => {
                     <div>{priceChanger(priceSum)}</div> <div>تومان</div>
                   </div>
                 </div>
-                <button className="bg-green-500 text-white rounded w-full h-10 flex justify-center items-center hover:bg-green-600 transition-all duration-200">
+                <button
+                  onClick={paymentManager}
+                  className="bg-green-500 text-white rounded w-full h-10 flex justify-center items-center hover:bg-green-600 transition-all duration-200"
+                >
                   پرداخت
                 </button>
               </div>

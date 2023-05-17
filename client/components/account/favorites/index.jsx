@@ -10,9 +10,15 @@ import { FiRefreshCcw } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import { HiShoppingBag } from "react-icons/hi";
 
+// USING CONTEXT
+import { useAppContext } from "../../../context/app-context";
+
 const Favorites = ({ cookie }) => {
   const [data, setData] = useState([-1]);
   const [needRefresh, setNeedRefresh] = useState(0);
+
+  // CONTEXT OF CARTNUMBER
+  const { cartNumber, setCartNumber } = useAppContext();
 
   useEffect(() => {
     if (cookie && cookie.length > 0) {
@@ -118,6 +124,7 @@ const Favorites = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
+        setCartNumber(cartNumber + 1);
       })
       .catch((err) => {
         const errorMsg =
