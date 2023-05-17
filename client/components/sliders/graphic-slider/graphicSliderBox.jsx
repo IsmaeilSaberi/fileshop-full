@@ -13,8 +13,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
+// USING CONTEXT
+import { useAppContext } from "../../../context/app-context";
+
 const GraphicSliderBox = ({ itemData }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
+  // CONTEXT OF CARTnUMBER
+  const { cartNumber, setCartNumber } = useAppContext();
 
   const featureSpliter = (val) => {
     return val.split(":");
@@ -97,6 +103,7 @@ const GraphicSliderBox = ({ itemData }) => {
           draggable: true,
           progress: undefined,
         });
+        setCartNumber(cartNumber + 1);
       })
       .catch((err) => {
         const errorMsg =

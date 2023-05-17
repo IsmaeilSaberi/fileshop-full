@@ -441,6 +441,34 @@ const getPartOfUserData = async (req, res) => {
 };
 module.exports.getPartOfUserData = getPartOfUserData;
 
+//HEADER CART NUMBER
+const cartNumber = async (req, res) => {
+  try {
+    let token = req.cookies.auth_cookie;
+    if (!token) {
+      token = req.headers.auth_cookie;
+    }
+    if (!token) {
+      res.status(200).json({ number: 0 });
+    } else {
+      try {
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        const targetUser = await User.findById(verified._id).select({
+          cart: 1,
+        });
+        res.status(200).json({ number: targetUser.cart.length });
+      } catch (error) {
+        console.log(error);
+        res.status(200).json({ number: 0 });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.cartNumber = cartNumber;
+
 const searchUsers = async (req, res) => {
   try {
     const theUser = await User.find({ email: req.body.email }).select({

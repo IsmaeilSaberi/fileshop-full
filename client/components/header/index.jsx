@@ -1,8 +1,7 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   AiFillYoutube,
@@ -22,8 +21,15 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// USING CONTEXT
+import { useAppContext } from "../../context/app-context";
+
 const Header = () => {
   const [logoHover, setLogoHover] = useState(0);
+
+  // CONTEXT OF CARTnUMBER
+  const { cartNumber } = useAppContext();
+
   const router = useRouter();
 
   const searchRef = useRef();
@@ -192,8 +198,19 @@ const Header = () => {
                 href={"/cart"}
                 className="flex gap-2 justify-center items-center bg-orange-400 p-2 rounded-md"
               >
-                <div className="text-orange-500 flex items-center justify-center bg-white rounded-full w-8 h-8">
-                  2
+                <div className="text-green-800 flex items-center justify-center bg-white rounded-full w-8 h-8">
+                  {cartNumber == -1 ? (
+                    <div className="flex justify-center items-center p-1">
+                      <Image
+                        alt="loading"
+                        width={15}
+                        height={15}
+                        src={"/loading.svg"}
+                      />
+                    </div>
+                  ) : (
+                    cartNumber
+                  )}
                 </div>
                 <div className="text-white flex justify-center items-center">
                   سبد خرید

@@ -165,5 +165,6 @@ router.post("/update-email-user", UserExist, UserCtrl.emailSendChanger);
 router.post("/confirm-user-email", UserExist, UserCtrl.confirmEmail);
 router.post("/favorite-product", UserExist, UserCtrl.favoriteProductManage);
 router.post("/cart-manager", UserExist, UserCtrl.cartManager);
+router.get("/cart-number", UserCtrl.cartNumber);
 
 module.exports = router;
