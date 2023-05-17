@@ -333,11 +333,17 @@ const getOneUserById = async (req, res) => {
       password: false,
     });
 
+    // FOR ADDING FAVORITE PRODUCTS TO TARGET USER
     const targetUserFavProducts = await Product.find({
       _id: { $in: targetUser.favoriteProducts },
     }).select({ title: 1, slug: 1 });
-
     targetUser.favoriteProducts = targetUserFavProducts;
+
+    // FOR ADDING CART PRODUCTS TO TARGET USER
+    const targetUserCartProducts = await Product.find({
+      _id: { $in: targetUser.cart },
+    }).select({ title: 1, slug: 1 });
+    targetUser.cart = targetUserCartProducts;
 
     res.status(200).json(targetUser);
   } catch (error) {
@@ -359,6 +365,7 @@ const getUserDataAccount = async (req, res) => {
 };
 module.exports.getUserDataAccount = getUserDataAccount;
 
+// ACCOUNT AND CART PAGE
 const getPartOfUserData = async (req, res) => {
   try {
     const theSlug = req.params.slug;
@@ -379,6 +386,25 @@ const getPartOfUserData = async (req, res) => {
       });
       const goalProducts = await Product.find({
         _id: { $in: targetUser.favoriteProducts },
+      }).select({
+        title: 1,
+        slug: 1,
+        image: 1,
+        price: 1,
+        shortDesc: 1,
+        typeOfProduct: 1,
+        buyNumber: 1,
+        features: 1,
+      });
+      res.status(200).json(goalProducts);
+    }
+    // FOR CART
+    else if (theSlug == "cart") {
+      const targetUser = await User.findById(req.user._id).select({
+        cart: 1,
+      });
+      const goalProducts = await Product.find({
+        _id: { $in: targetUser.cart },
       }).select({
         title: 1,
         slug: 1,
@@ -489,5 +515,56 @@ const favoriteProductManage = async (req, res) => {
   }
 };
 module.exports.favoriteProductManage = favoriteProductManage;
+const cartManager = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+    if (theUser.userIsActive == true) {
+      if (req.body.method == "push") {
+        const newUserCartProducts = [...theUser.cart, req.body.newCartProduct];
+        let userHaveProduct = 0;
+        for (let i = 0; i < theUser.cart.length; i++) {
+          if (req.body.newCartProduct == theUser.cart[i]) {
+            userHaveProduct = 1;
+            break;
+          }
+        }
+        if (userHaveProduct == 0) {
+          const newUser = {
+            cart: newUserCartProducts,
+          };
+          await User.findByIdAndUpdate(req.user._id, newUser, {
+            new: true,
+          });
+          res.status(200).json({ msg: "به سبد خرید اضافه شد!" });
+        } else {
+          res.status(401).json({ msg: "قبلا به سبد خرید اضافه شده است!" });
+        }
+      } else if (req.body.method == "remove") {
+        const oldCartProducts = theUser.cart;
+        for (let i = 0; i < oldCartProducts.length; i++) {
+          if (oldCartProducts[i] == req.body.goalCartProductId) {
+            let updatedUserCart = oldCartProducts;
+            if (i > -1) {
+              updatedUserCart.splice(i, 1);
+            }
+            const updatedCartPro = { cart: updatedUserCart };
+            await User.findByIdAndUpdate(req.user._id, updatedCartPro, {
+              new: true,
+            });
+          }
+        }
+        res.status(200).json({ msg: "از سبد خرید حذف شد!" });
+      } else {
+        res.status(401).json({ msg: "خطا در ارسال اطلاعات سبد خرید!" });
+      }
+    } else {
+      res.status(401).json({ msg: "لطفا ایمیل خود را تایید کنید!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.cartManager = cartManager;
 
 module.exports.searchUsers = searchUsers;
