@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import BreadCrumb from "../../../components/breadCrumb";
+import BreadCrumb from "../../../components/bread-crumb";
 import { TiTickOutline } from "react-icons/ti";
 import RelatedPosts from "../../../components/sliders/related-posts";
 import SingleProductFavPro from "../../../components/single-product-fav-pro";
+import AddToCart from "../../../components/add-to-cart";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -164,9 +165,7 @@ const SingleProduct = async ({ params }) => {
           </main>
           <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
             <div className="flex flex-col gap-2">
-              <button className="flex items-center justify-center text-center bg-orange-400 hover:bg-orange-500 transition-all duration-200 p-2 rounded-md w-full text-white">
-                افزودن به سبد خرید- {priceChanger(data.price)} تومان
-              </button>
+              <AddToCart data={data._id} />
               <SingleProductFavPro data={data._id} />
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">

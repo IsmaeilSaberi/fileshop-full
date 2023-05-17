@@ -1,7 +1,6 @@
 "use client";
 import BlogBox from "../../blogs/blogbox";
 import GraphicSliderBox from "../graphic-slider/graphicSliderBox";
-import ProductSliderBox from "../graphic-slider/graphicSliderBox";
 import { AiOutlineRight } from "react-icons/ai";
 import { AiOutlineLeft } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
@@ -74,13 +73,9 @@ const RelatedPosts = ({ typeOfModel, relatedModels, title }) => {
             ) : typeOfModel == "post" ? (
               relatedModelsData.map((da, i) => <BlogBox key={i} data={da} />)
             ) : (
-              relatedModelsData.map((da, i) =>
-                da.typeOfModel == "gr" ? (
-                  <GraphicSliderBox itemData={da} key={i} />
-                ) : (
-                  <ProductSliderBox key={i} itemData={da} />
-                )
-              )
+              relatedModelsData.map((da, i) => (
+                <GraphicSliderBox itemData={da} key={i} />
+              ))
             )}
           </div>
         </div>

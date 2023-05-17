@@ -74,6 +74,46 @@ const GraphicSliderBox = ({ itemData }) => {
       });
   };
 
+  // ADD CART PRODUCTS
+  const cartAdder = () => {
+    const productData = {
+      method: "push",
+      newCartProduct: itemData._id,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/cart-manager`;
+    axios
+      .post(backendUrl, productData, {
+        headers: { auth_cookie: auth_cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg
+          ? d.data.msg
+          : "با موفقیت به سبد خرید افزوده شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   return (
     <article className="sliderItem p-2 transition-all duration-200 hover:mt-1">
       <div className="relative h-[28rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
@@ -149,10 +189,10 @@ const GraphicSliderBox = ({ itemData }) => {
               </div>
             </div>
             <div className="flex gap-1">
-              <Link href={""}>
-                <HiShoppingBag className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-green-400 transition-all duration-200 text-white hover:bg-green-500" />
-              </Link>
-
+              <HiShoppingBag
+                onClick={() => cartAdder()}
+                className="w-10 h-10 p-1 mr-1 rounded-lg cursor-pointer bg-green-400 transition-all duration-200 text-white hover:bg-green-500"
+              />
               <div className="bg-zinc-500 rounded-tr-md rounded-br-md p-1 text-white flex justify-center items-center">
                 {priceChanger(itemData.price)} تومان
               </div>

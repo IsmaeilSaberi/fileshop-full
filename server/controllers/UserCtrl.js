@@ -515,6 +515,7 @@ const favoriteProductManage = async (req, res) => {
   }
 };
 module.exports.favoriteProductManage = favoriteProductManage;
+
 const cartManager = async (req, res) => {
   try {
     const theUser = await User.findById(req.user._id);

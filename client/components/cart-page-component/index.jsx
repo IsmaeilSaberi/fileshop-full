@@ -9,7 +9,7 @@ import Link from "next/link";
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 
-const Favorites = ({ cookie }) => {
+const CartPageComponent = ({ cookie }) => {
   const [data, setData] = useState([-1]);
   const [needRefresh, setNeedRefresh] = useState(0);
 
@@ -203,4 +203,4 @@ const Favorites = ({ cookie }) => {
   );
 };
 
-export default Favorites;
+export default CartPageComponent;

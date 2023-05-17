@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PostDetails = ({ userId }) => {
+const UserDetails = ({ userId }) => {
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -38,6 +38,7 @@ const PostDetails = ({ userId }) => {
       .get(`https://fileshop-server.iran.liara.run/api/get-user/${userId}`)
       .then((d) => {
         setFullData(d.data);
+        goToTop();
       })
       .catch((err) =>
         toast.error("خطا در لود اطلاعات!", {
@@ -227,6 +228,39 @@ const PostDetails = ({ userId }) => {
               )}
             </div>
             <div className="flex flex-col gap-2">
+              <div>سبد خرید</div>
+              {fullData.cart.length < 1 ? (
+                <div>محصولی در سبد خرید وجود ندارد!</div>
+              ) : (
+                <div className="flex justify-start items-center gap-4 text-xs flex-wrap">
+                  {fullData.cart.map((da, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4"
+                    >
+                      <div className="flex justify-between items-center gap-2">
+                        <div>آیدی :</div>
+                        <div>{da._id}</div>
+                      </div>
+                      <div className="flex justify-between items-center gap-2">
+                        <div>عنوان :</div>
+                        <div>{da.title}</div>
+                      </div>
+                      <div className="flex justify-end">
+                        <Link
+                          href={`/shop/${da.slug}`}
+                          target={"_blank"}
+                          className="flex justify-center items-center rounded w-12 h-6 text-xs text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200"
+                        >
+                          لینک
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
               <div>نام کاربری (username)</div>
               <input
                 defaultValue={fullData.username ? fullData.username : ""}
@@ -322,4 +356,4 @@ const PostDetails = ({ userId }) => {
   );
 };
 
-export default PostDetails;
+export default UserDetails;

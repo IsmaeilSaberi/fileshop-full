@@ -5,16 +5,16 @@ import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
-const SingleProductFavPro = ({ data, cookie }) => {
+const AddToCart = ({ data, cookie }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
 
-  // USER FAV PRODUCTS
-  const favAdder = () => {
+  // ADD CART PRODUCTS
+  const cartAdder = () => {
     const productData = {
       method: "push",
-      newFavProduct: data,
+      newCartProduct: data,
     };
-    const backendUrl = `https://fileshop-server.iran.liara.run/api/favorite-product`;
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/cart-manager`;
     axios
       .post(backendUrl, productData, {
         headers: { auth_cookie: auth_cookie },
@@ -22,7 +22,7 @@ const SingleProductFavPro = ({ data, cookie }) => {
       .then((d) => {
         const message = d.data.msg
           ? d.data.msg
-          : "با موفقیت به علاقه مندی ها افزوده شد!";
+          : "با موفقیت به سبد خرید افزوده شد!";
         toast.success(message, {
           autoClose: 3000,
           hideProgressBar: false,
@@ -51,13 +51,13 @@ const SingleProductFavPro = ({ data, cookie }) => {
   return (
     <div>
       <button
-        onClick={favAdder}
-        className="flex items-center justify-center text-center bg-green-400 hover:bg-green-500 transition-all duration-200 p-2 rounded-md w-full text-white"
+        onClick={() => cartAdder()}
+        className="flex items-center justify-center text-center bg-orange-500 hover:bg-orange-600 transition-all duration-200 p-2 rounded-md w-full text-white"
       >
-        افزودن به علاقه مندی ها
+        افزودن به سبد خرید
       </button>
     </div>
   );
 };
 
-export default SingleProductFavPro;
+export default AddToCart;

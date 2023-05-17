@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BreadCrumb from "../../../components/breadCrumb";
+import BreadCrumb from "../../../components/bread-crumb";
 import { AiOutlineEye } from "react-icons/ai";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { MdDateRange } from "react-icons/md";
