@@ -11,7 +11,7 @@ const getAuthData = async (cookieValue) => {
   return data.json();
 };
 
-const CartPage = async ({ params }) => {
+const CartPage = async () => {
   const cookieStore = cookies();
   const auth_cookie = cookieStore.get("auth_cookie");
   const cookieValue =
@@ -23,7 +23,7 @@ const CartPage = async ({ params }) => {
 
   return (
     <section className="container mx-auto">
-      <CartPageComponent items={params} />
+      <CartPageComponent cookie={cookieValue} />
     </section>
   );
 };
