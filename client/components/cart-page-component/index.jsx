@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const CartPageComponent = ({ cookie }) => {
   const [data, setData] = useState([-1]);
@@ -107,8 +108,59 @@ const CartPageComponent = ({ cookie }) => {
     setNeedRefresh(1);
   };
 
+  // USER FAV PRODUCTS
+  const favAdder = (id) => {
+    const productData = {
+      method: "push",
+      newFavProduct: id,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/favorite-product`;
+    axios
+      .post(backendUrl, productData, {
+        headers: { auth_cookie: cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg ? d.data.msg : "به علاقه مندی ها اضافه شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   return (
-    <div>
+    <div className="flex flex-col gap-8">
+      <div className="flex justify-between items-start">
+        <h1 className="text-indigo-600 text-lg ">سبد خرید</h1>
+        <div
+          onClick={() => {
+            setNeedRefresh(1);
+            setData([-1]);
+          }}
+          className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+        >
+          <FiRefreshCcw />
+          به روز رسانی
+        </div>
+      </div>
       <div>
         {data[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
@@ -120,20 +172,7 @@ const CartPageComponent = ({ cookie }) => {
             />
           </div>
         ) : (
-          <div className="flex flex-col gap-8">
-            <div className="flex justify-between items-start">
-              <h1 className="text-indigo-600 text-lg ">سبد خرید</h1>
-              <div
-                onClick={() => {
-                  setNeedRefresh(1);
-                  setData([-1]);
-                }}
-                className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
-              >
-                <FiRefreshCcw />
-                به روز رسانی
-              </div>
-            </div>
+          <div>
             <div className="flex justify-between items-start gap-2 ">
               <div className="w-full rounded-md bg-zinc-100 p-4">
                 {data.length < 1 ? (
@@ -144,7 +183,7 @@ const CartPageComponent = ({ cookie }) => {
                   <div className="w-full flex flex-col gap-8">
                     {data.map((da, i) => (
                       <div
-                        className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4"
+                        className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                         key={i}
                       >
                         <div className="flex justify-between items-start gap-4">
@@ -200,6 +239,13 @@ const CartPageComponent = ({ cookie }) => {
                                   </div>
                                 ))
                               )}
+                            </div>
+                            <div
+                              onClick={() => favAdder(da._id)}
+                              className="absolute bottom-2 left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-blue-600 bg-blue-500 w-44 h-8 rounded gap-2"
+                            >
+                              <AiOutlineHeart className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
+                              افزودن به علاقه مندی ها
                             </div>
                             <div
                               onClick={() => productRemover(da._id)}

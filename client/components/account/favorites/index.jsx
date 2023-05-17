@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { FiRefreshCcw } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
+import { HiShoppingBag } from "react-icons/hi";
 
 const Favorites = ({ cookie }) => {
   const [data, setData] = useState([-1]);
@@ -94,6 +95,46 @@ const Favorites = ({ cookie }) => {
     setNeedRefresh(1);
   };
 
+  // ADD CART PRODUCTS
+  const cartAdder = (id) => {
+    const productData = {
+      method: "push",
+      newCartProduct: id,
+    };
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/cart-manager`;
+    axios
+      .post(backendUrl, productData, {
+        headers: { auth_cookie: cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg
+          ? d.data.msg
+          : "با موفقیت به سبد خرید افزوده شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   return (
     <div>
       <div>
@@ -126,7 +167,7 @@ const Favorites = ({ cookie }) => {
               <div className="w-full flex flex-col gap-8">
                 {data.map((da, i) => (
                   <div
-                    className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4"
+                    className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                     key={i}
                   >
                     <div className="flex justify-between items-start gap-4">
@@ -141,6 +182,13 @@ const Favorites = ({ cookie }) => {
                         />
                       </div>
                       <div className="relative w-full flex flex-col gap-4">
+                        <Link
+                          className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
+                          href={`/shop/${da.slug}`}
+                          target="_blank"
+                        >
+                          لینک محصول
+                        </Link>
                         <div className="absolute top-1 left-1 bg-indigo-500 text-white rounded-sm text-xs flex justify-center items-center w-20 h-6">
                           {da.typeOfProduct == "gr" ? (
                             <div>فایل گرافیکی</div>
@@ -150,13 +198,7 @@ const Favorites = ({ cookie }) => {
                             <div>کتاب</div>
                           )}
                         </div>
-                        <Link
-                          className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
-                          href={`/shop/${da.slug}`}
-                          target="_blank"
-                        >
-                          لینک محصول
-                        </Link>
+
                         <h3 className="text-base">{da.title}</h3>
                         <p>{da.shortDesc}</p>
                         <div className="flex justify-start items-center gap-4">
@@ -182,6 +224,13 @@ const Favorites = ({ cookie }) => {
                               </div>
                             ))
                           )}
+                        </div>
+                        <div
+                          onClick={() => cartAdder(da._id)}
+                          className="absolute bottom-2 left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-green-600 bg-green-500 w-32 h-8 rounded gap-2"
+                        >
+                          <HiShoppingBag className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
+                          افزودن به سبد
                         </div>
                         <div
                           onClick={() => productRemover(da._id)}
