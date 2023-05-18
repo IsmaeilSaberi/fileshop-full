@@ -469,22 +469,6 @@ const cartNumber = async (req, res) => {
 };
 module.exports.cartNumber = cartNumber;
 
-const searchUsers = async (req, res) => {
-  try {
-    const theUser = await User.find({ email: req.body.email }).select({
-      password: false,
-    });
-    if (theUser.length > 0) {
-      res.status(200).json({ userData: theUser[0] });
-    } else {
-      res.status(200).json({ userData: 0 });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
-  }
-};
-
 const favoriteProductManage = async (req, res) => {
   try {
     const theUser = await User.findById(req.user._id);
@@ -596,4 +580,19 @@ const cartManager = async (req, res) => {
 };
 module.exports.cartManager = cartManager;
 
+const searchUsers = async (req, res) => {
+  try {
+    const theUser = await User.find({ email: req.body.email }).select({
+      password: false,
+    });
+    if (theUser.length > 0) {
+      res.status(200).json({ userData: theUser[0] });
+    } else {
+      res.status(200).json({ userData: 0 });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
 module.exports.searchUsers = searchUsers;

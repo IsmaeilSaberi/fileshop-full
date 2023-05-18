@@ -61,6 +61,10 @@ app.use("/api", categoryRoutes);
 const productRoutes = require("./routes/ProductRoutes");
 app.use("/api", productRoutes);
 
+////\\\\ payment routes and use it's middlewares
+const paymentRoutes = require("./routes/PaymentRoutes");
+app.use("/api", paymentRoutes);
+
 // connecting to data base
 const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
