@@ -3,6 +3,7 @@ const router = express();
 const { check } = require("express-validator");
 
 const PaymentCtrl = require("../controllers/PaymentCtrl");
+const UserExist = require("../middlewares/userExist");
 
 router.get("/payments", PaymentCtrl.getAllPayments);
 
@@ -35,5 +36,8 @@ router.post("/remove-payment/:id", PaymentCtrl.removePayment);
 
 // FOR ADMIN
 router.get("/get-payment/:id", PaymentCtrl.getOnePaymentById);
+
+// MAIN PAYMENT
+router.post("/new-payment", UserExist, PaymentCtrl.newPayment);
 
 module.exports = router;

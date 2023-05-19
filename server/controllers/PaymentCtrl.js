@@ -2,7 +2,70 @@ const User = require("../models/User");
 const Payment = require("../models/Payment");
 const Product = require("../models/Product");
 const { validationResult } = require("express-validator");
+const axios = require("axios");
+const qs = require("qs");
 const nodemailer = require("nodemailer");
+
+const newPayment = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+    if (!theUser) {
+      res.status(401).json({ msg: "کاربر یافت نشد!" });
+    } else {
+      if (req.body.amount && req.body.amount > 0) {
+        let data = {
+          // api_key: process.env.MERCHANT_CODE,
+          api_key: "f626bc04-05dc-4dc1-88c2-b0610050fa74",
+          amount: req.body.amount,
+          // description: "پرداخت فروشگاه فایل اسماعیل",
+          callback_uri: "http://localhost:3000/payment-result",
+          custom_json_fields: '{ "productName":"Shoes752" , "id":52 }',
+          order_id: theUser.email,
+          // metadata: {
+          //   email: theUser.email,
+          //   username: theUser.username,
+          // },
+        };
+        //REQUEST TO PAYMENT PROVIDER
+        const response = await axios.post(
+          "https://nextpay.org/nx/gateway/token",
+          data
+        );
+        if (response.data.code == -1) {
+          const newPayment = {
+            username: theUser.username,
+            email: theUser.email,
+            amount: req.body.amount,
+            resnumber: response.data.trans_id,
+            payed: false,
+            products: req.body.products,
+            viewed: false,
+            createdAt: new Date().toLocaleDateString("fa-IR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            updatedAt: new Date().toLocaleDateString("fa-IR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          await Payment.create(newPayment);
+          res.status(200).json({
+            link: `https://nextpay.org/nx/gateway/payment/${response.data.trans_id}`,
+          });
+        } else {
+          res.status(401).json({ msg: "خطا در ارتباط با درگاه پرداخت!" });
+        }
+      } else {
+        res.status(401).json({ msg: "سبد خرید خالی است!" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.newPayment = newPayment;
 
 const getAllPayments = async (req, res) => {
   try {
