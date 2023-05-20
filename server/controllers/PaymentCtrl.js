@@ -13,11 +13,25 @@ const newPayment = async (req, res) => {
       res.status(401).json({ msg: "کاربر یافت نشد!" });
     } else {
       if (req.body.amount && req.body.amount > 0) {
+        // FOR GENERATE RANDOM IDS TO ORDER ID OF PAYMENT PROVIDER
+        function generateRandomId(length) {
+          let result = "";
+          const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+          const charactersLength = characters.length;
+          for (let i = 0; i < length; i++) {
+            result += characters.charAt(
+              Math.floor(Math.random() * charactersLength)
+            );
+          }
+          return result;
+        }
+        let orderId = generateRandomId(8);
         let data = {
           api_key: process.env.MERCHANT_CODE,
           amount: req.body.amount,
           callback_uri: "http://localhost:3000/payment-result",
-          order_id: theUser.email,
+          order_id: orderId,
           payer_desc: "پرداخت فروشگاه فایل اسماعیل",
           // custom_json_fields: req.user.cart,
           // metadata: {
@@ -36,6 +50,7 @@ const newPayment = async (req, res) => {
             email: theUser.email,
             amount: req.body.amount,
             resnumber: response.data.trans_id,
+            orderid: orderId,
             payed: false,
             products: req.body.products,
             viewed: false,

@@ -17,6 +17,7 @@ const CartPageComponent = ({ cookie }) => {
   const [data, setData] = useState([-1]);
   const [needRefresh, setNeedRefresh] = useState(0);
   const [priceSum, setPriceSum] = useState(0);
+  const [cartProductsIds, setCartProductsIds] = useState([-1]);
 
   // CONTEXT OF CARTNUMBER
   const { cartNumber, setCartNumber } = useAppContext();
@@ -42,6 +43,9 @@ const CartPageComponent = ({ cookie }) => {
             }
             setPriceSum(i);
           }
+          // JUST PRODUCTS IDS
+          const ids = d.data.map((da) => da._id);
+          setCartProductsIds(ids);
         })
         .catch((err) => {
           toast.error("خطا در لود اطلاعات!", {
@@ -155,44 +159,54 @@ const CartPageComponent = ({ cookie }) => {
 
   // PAYMENT FUNCTION
   const paymentManager = () => {
-    // const formData = {
-    //   method: "remove",
-    //   goalCartProductId: id,
-    // };
-    console.log("yes");
-    // axios
-    //   .post(
-    //     `https://fileshop-server.iran.liara.run/api/cart-manager`,
-    //     formData,
-    //     {
-    //       headers: { auth_cookie: cookie },
-    //     }
-    //   )
-    //   .then((d) => {
-    //     const message =
-    //       d.data && d.data.msg ? d.data.msg : "محصول از سبد خرید حذف شد!";
-    //     toast.success(message, {
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     });
-    //     setCartNumber(cartNumber - 1);
-    //     setNeedRefresh(1);
-    //   })
-    //   .catch((err) => {
-    //     toast.error("خطا در حذف محصول!", {
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     });
-    //   });
-    // setNeedRefresh(1);
+    toast.info("لطفا صبر کنید!", {
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    const formData = {
+      amount: Number(priceSum),
+      products: cartProductsIds,
+    };
+    axios
+      .post(
+        `https://fileshop-server.iran.liara.run/api/new-payment`,
+        formData,
+        {
+          headers: { auth_cookie: cookie },
+        }
+      )
+      .then((d) => {
+        const message =
+          d.data && d.data.msg ? d.data.msg : "در حال انتقال به درگاه پرداخت!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        window.location.assign(d.data.link);
+      })
+      .catch((err) => {
+        const message =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا در انتقال به درگاه پرداخت!";
+        toast.error(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+    setNeedRefresh(1);
   };
 
   return (
