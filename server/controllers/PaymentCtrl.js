@@ -14,13 +14,12 @@ const newPayment = async (req, res) => {
     } else {
       if (req.body.amount && req.body.amount > 0) {
         let data = {
-          // api_key: process.env.MERCHANT_CODE,
-          api_key: "f626bc04-05dc-4dc1-88c2-b0610050fa74",
+          api_key: process.env.MERCHANT_CODE,
           amount: req.body.amount,
-          // description: "پرداخت فروشگاه فایل اسماعیل",
           callback_uri: "http://localhost:3000/payment-result",
-          custom_json_fields: '{ "productName":"Shoes752" , "id":52 }',
           order_id: theUser.email,
+          payer_desc: "پرداخت فروشگاه فایل اسماعیل",
+          // custom_json_fields: req.user.cart,
           // metadata: {
           //   email: theUser.email,
           //   username: theUser.username,
@@ -67,6 +66,74 @@ const newPayment = async (req, res) => {
 };
 module.exports.newPayment = newPayment;
 
+const paymentResultCheck = async (req, res) => {
+  try {
+    const thePayment = await Payment.findOne({ resnumber: req.body.resnumber });
+    if (!thePayment) {
+      res.status(401).json({ msg: "پرداخت یافت نشد!" });
+    } else {
+      let data = {
+        api_key: process.env.MERCHANT_CODE,
+        trans_id: thePayment.resnumber,
+        amount: thePayment.amount,
+      };
+      //REQUEST TO PAYMENT PROVIDER
+      const response = await axios.post(
+        "https://nextpay.org/nx/gateway/verify",
+        data
+      );
+
+      if (response.data.code == 0) {
+        const theUser = await User.findById(req.user._id);
+        const newData = {};
+
+        // LEVEL 1: ADDING PRODUCTS TO USERPRODUCTS
+        const userOldProducts = theUser.userProducts;
+        const userCart = theUser.cart;
+        const userNewProducts = [...userOldProducts, ...userCart];
+        newData.userProducts = userNewProducts;
+
+        // LEVEL 2: MAKE CART EMPTY
+        newData.cart = [];
+
+        // LEVEL 3: UPDATE USER
+        await User.findByIdAndUpdate(req.user._id, newData, { new: true });
+
+        // LEVEL 4: ADDING ONE TO PRODUCT BUYNUMBER
+        for (let i = 0; i < userCart.length; i++) {
+          const theProduct = await Product.findById(userCart[i]);
+          const newProduct = {
+            buyNumber: theProduct.buyNumber + 1,
+          };
+          await Product.findByIdAndUpdate(userCart[i]._id, newProduct, {
+            new: true,
+          });
+        }
+
+        // LEVEL 5: UPDATING THE PAYMENT
+        const newPaymentData = {
+          payed: true,
+          viewed: false,
+          updatedAt: new Date.toLocaleDateString("fa-IR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
+        await Payment.findByIdAndUpdate(thePayment._id, newPaymentData, {
+          new: true,
+        });
+        res.status(200).json({ msg: "به امید موفقیت روز افزون!" });
+      } else {
+        res.status(401).json({ msg: "پرداخت انجام نشده است!" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.paymentResultCheck = paymentResultCheck;
+
 const getAllPayments = async (req, res) => {
   try {
     if (req.query.pn && req.query.pgn) {
@@ -86,9 +153,8 @@ const getAllPayments = async (req, res) => {
       const AllPaymentsNumber = await (await Payment.find()).length;
       res.status(200).json({ GoalPayments, AllPaymentsNumber });
     } else {
-      const AllPayments = await Payment.find()
-        .sort({ _id: -1 })
-        .select({ resnumber: false });
+      const AllPayments = await Payment.find().sort({ _id: -1 });
+      // .select({ resnumber: false });
       res.status(200).json(AllPayments);
     }
   } catch (error) {

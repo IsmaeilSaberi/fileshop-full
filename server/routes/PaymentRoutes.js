@@ -39,5 +39,6 @@ router.get("/get-payment/:id", PaymentCtrl.getOnePaymentById);
 
 // MAIN PAYMENT
 router.post("/new-payment", UserExist, PaymentCtrl.newPayment);
+router.post("/payment-result-check", UserExist, PaymentCtrl.paymentResultCheck);
 
 module.exports = router;
