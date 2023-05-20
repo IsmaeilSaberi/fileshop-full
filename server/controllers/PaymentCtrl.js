@@ -89,8 +89,8 @@ const paymentResultCheck = async (req, res) => {
     } else {
       let data = {
         api_key: process.env.MERCHANT_CODE,
-        trans_id: thePayment.resnumber,
-        amount: thePayment.amount,
+        trans_id: req.body.trans_id,
+        amount: req.body.amount,
       };
       //REQUEST TO PAYMENT PROVIDER
       const response = await axios.post(
