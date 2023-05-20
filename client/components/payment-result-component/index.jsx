@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // USING CONTEXT
@@ -14,16 +12,8 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
   const router = useRouter();
 
   // CONTEXT OF CARTNUMBER
-  const { cartNumber, setCartNumber } = useAppContext();
-
-  toast.info("لطفا صبر کنید!", {
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
+  const { setCartNumber } = useAppContext();
+  let testing = 0;
 
   useEffect(() => {
     if (searchParams.np_status !== "OK") {
@@ -36,11 +26,21 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
         progress: undefined,
       });
       router.push("/cart");
-    } else {
+    } else if (searchParams.np_status == "OK" && testing == 0) {
+      testing = 1;
+      toast.info("لطفا صبر کنید!", {
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       const formData = {
         amount: Number(searchParams.amount),
         trans_id: searchParams.trans_id,
-        products: cartProductsIds,
+        resnumber: searchParams.trans_id,
+        // products: cartProductsIds,
       };
       axios
         .post(
@@ -65,6 +65,7 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
           router.push("/account/files");
         })
         .catch((err) => {
+          console.log(err);
           const message =
             err.response && err.response.data && err.response.data.msg
               ? err.response.data.msg
@@ -80,9 +81,9 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
           router.push("/cart");
         });
     }
-  }, []);
+  }, [searchParams.np_status, searchParams.trans_id]);
 
-  return <div>به امید موفقیت هر چه بیشتر</div>;
+  return <div>لطفا صبر کنید ...</div>;
 };
 
 export default PaymentResultComponent;

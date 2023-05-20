@@ -111,10 +111,16 @@ const paymentResultCheck = async (req, res) => {
         // LEVEL 2: MAKE CART EMPTY
         newData.cart = [];
 
-        // LEVEL 3: UPDATE USER
+        // LEVEL 3: ADDING PAYMENT ID TO USERS PAYMENTS
+        const userOldPayments = theUser.payments;
+        const thisPayment = [thePayment._id];
+        const userNewPayments = [...userOldPayments, ...thisPayment];
+        newData.payments = userNewPayments;
+
+        // LEVEL 4: UPDATE USER
         await User.findByIdAndUpdate(req.user._id, newData, { new: true });
 
-        // LEVEL 4: ADDING ONE TO PRODUCT BUYNUMBER
+        // LEVEL 5: ADDING ONE TO PRODUCT BUYNUMBER
         for (let i = 0; i < userCart.length; i++) {
           const theProduct = await Product.findById(userCart[i]);
           const newProduct = {
@@ -125,11 +131,11 @@ const paymentResultCheck = async (req, res) => {
           });
         }
 
-        // LEVEL 5: UPDATING THE PAYMENT
+        // LEVEL 6: UPDATING THE PAYMENT
         const newPaymentData = {
           payed: true,
           viewed: false,
-          updatedAt: new Date.toLocaleDateString("fa-IR", {
+          updatedAt: new Date().toLocaleDateString("fa-IR", {
             hour: "2-digit",
             minute: "2-digit",
           }),
