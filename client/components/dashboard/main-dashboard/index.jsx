@@ -5,14 +5,23 @@ import DashboardCtrl from "../dashboard-ctrl";
 import MiddleBannerMain from "../forms/middle-banner-form";
 import SlidersMain from "../forms/sliders-form";
 import PostMain from "../forms/posts-form";
-import CategoryMain from "../forms/categoryForms";
+import CategoryMain from "../forms/category-form";
 import ProductMain from "../forms/products-form";
 import AdminPannel from "../forms/admin-pannel";
 import UserMain from "../forms/users-form";
+import PaymentsMain from "../forms/payments-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("admin-pannel");
   const [details, setDetails] = useState(<AdminPannel />);
+
+  const goToTop = () => {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     if (contentChanger == "middleBanner") {
       setDetails(<MiddleBannerMain />);
@@ -26,9 +35,12 @@ const MainDashboard = () => {
       setDetails(<ProductMain />);
     } else if (contentChanger == "users") {
       setDetails(<UserMain />);
+    } else if (contentChanger == "payments") {
+      setDetails(<PaymentsMain />);
     } else if (contentChanger == "admin-pannel") {
       setDetails(<AdminPannel />);
     }
+    goToTop();
   }, [contentChanger]);
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">

@@ -39,10 +39,6 @@ const Payments = ({ cookie }) => {
     }
   }, [cookie, needRefresh]);
 
-  const featureSpliter = (val) => {
-    return val.split(":");
-  };
-
   //// MAKE PRICE NUMBER BEAUTIFUL
   function priceChanger(num) {
     // Convert the number to a string

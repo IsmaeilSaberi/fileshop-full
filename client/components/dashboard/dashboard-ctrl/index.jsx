@@ -56,6 +56,13 @@ const DashboardCtrl = ({ setContentChanger }) => {
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
         />
+        <DCBtn
+          title={"سفارشات"}
+          content={"payments"}
+          setContentChanger={setContentChanger}
+          colorChanger={colorChanger}
+          setColorChanger={setColorChanger}
+        />
       </div>
     </div>
   );
