@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
+const Payment = require("../models/Payment");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -420,7 +421,16 @@ const getPartOfUserData = async (req, res) => {
       const targetUser = await User.findById(req.user._id).select({
         userProducts: 1,
       });
-      res.status(200).json(targetUser);
+      const goalProducts = await Product.find({
+        _id: { $in: targetUser.userProducts },
+      }).select({
+        title: 1,
+        slug: 1,
+        image: 1,
+        imageAlt: 1,
+        mainFile: 1,
+      });
+      res.status(200).json(goalProducts);
     } else if (theSlug == "comments") {
       const targetUser = await User.findById(req.user._id).select({
         comments: 1,
@@ -430,7 +440,37 @@ const getPartOfUserData = async (req, res) => {
       const targetUser = await User.findById(req.user._id).select({
         payments: 1,
       });
-      res.status(200).json(targetUser);
+
+      // LOADING USER PAYMENTS
+      const goalPayments = await Payment.find({
+        _id: { $in: targetUser.payments },
+      }).select({
+        amount: 1,
+        payed: 1,
+        createdAt: 1,
+        products: 1,
+      });
+
+      // LOADING PRODUCTS OF IDS IN PAYMENTS
+      for (let i = 0; i < goalPayments.length; i++) {
+        const goalProducts = await Product.find({
+          _id: { $in: goalPayments[i].products },
+        }).select({
+          title: 1,
+          updatedAt: 1,
+          image: 1,
+          imageAlt: 1,
+          published: 1,
+          pageView: 1,
+          price: 1,
+          typeOfProduct: 1,
+          buyNumber: 1,
+        });
+        // SETTING PRODUCTS TO PAYMENTS
+        goalPayments[i].products = goalProducts;
+      }
+
+      res.status(200).json(goalPayments);
     } else {
       res.status(200).json({ msg: "عدم تعیین بخش مورد نیاز!" });
     }
