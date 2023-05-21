@@ -182,7 +182,17 @@ const Info = ({ cookie }) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-10 relative pt-8">
+      <div
+        onClick={() => {
+          setNeedRefresh(1);
+          setData([-1]);
+        }}
+        className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+      >
+        <FiRefreshCcw />
+        به روز رسانی
+      </div>
       <div>
         {data[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
@@ -194,17 +204,7 @@ const Info = ({ cookie }) => {
             />
           </div>
         ) : (
-          <div className="flex flex-col gap-8 relative pt-8">
-            <div
-              onClick={() => {
-                setNeedRefresh(1);
-                setData([-1]);
-              }}
-              className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
-            >
-              <FiRefreshCcw />
-              به روز رسانی
-            </div>
+          <div className="flex flex-col gap-6">
             {data.userIsActive == false ? (
               <div className="flex flex-col gap-8 bg-zinc-200 w-full text-sm rounded-md p-8 my-8">
                 <form
@@ -231,7 +231,7 @@ const Info = ({ cookie }) => {
             ) : (
               <div></div>
             )}
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex justify-between items-center gap-6">
               <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ ثبت نام:</div>
                 <div>{data.createdAt}</div>

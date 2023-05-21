@@ -54,7 +54,7 @@ const AccountMainComponent = ({ items }) => {
     } else if (items.slug[0] == "favorites") {
       setDetails(<Favorites cookie={auth_cookie} />);
     } else if (items.slug[0] == "payments") {
-      setDetails(<Payments />);
+      setDetails(<Payments cookie={auth_cookie} />);
     } else {
       setDetails(<Info cookie={auth_cookie} />);
     }
