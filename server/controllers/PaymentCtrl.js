@@ -45,6 +45,7 @@ const newPayment = async (req, res) => {
           data
         );
         if (response.data.code == -1) {
+          // LEVEL 1: CREATING NEWPAYMENT
           const newPayment = {
             username: theUser.username,
             email: theUser.email,
@@ -64,6 +65,21 @@ const newPayment = async (req, res) => {
             }),
           };
           await Payment.create(newPayment);
+
+          // LEVEL 2: ADDING PAYMENT ID TO USERS PAYMENTS
+          const newUserData = {};
+          const thePayment = await Payment.findOne({
+            resnumber: newPayment.resnumber,
+          });
+          const userOldPayments = theUser.payments;
+          const thisPayment = [thePayment._id];
+          const userNewPayments = [...userOldPayments, ...thisPayment];
+          newUserData.payments = userNewPayments;
+          await User.findByIdAndUpdate(req.user._id, newUserData, {
+            new: true,
+          });
+
+          // LEVEL 1 CONTINUE
           res.status(200).json({
             link: `https://nextpay.org/nx/gateway/payment/${response.data.trans_id}`,
           });
@@ -111,16 +127,10 @@ const paymentResultCheck = async (req, res) => {
         // LEVEL 2: MAKE CART EMPTY
         newData.cart = [];
 
-        // LEVEL 3: ADDING PAYMENT ID TO USERS PAYMENTS
-        const userOldPayments = theUser.payments;
-        const thisPayment = [thePayment._id];
-        const userNewPayments = [...userOldPayments, ...thisPayment];
-        newData.payments = userNewPayments;
-
-        // LEVEL 4: UPDATE USER
+        // LEVEL 3: UPDATE USER
         await User.findByIdAndUpdate(req.user._id, newData, { new: true });
 
-        // LEVEL 5: ADDING ONE TO PRODUCT BUYNUMBER
+        // LEVEL 4: ADDING ONE TO PRODUCT BUYNUMBER
         for (let i = 0; i < userCart.length; i++) {
           const theProduct = await Product.findById(userCart[i]);
           const newProduct = {
@@ -131,7 +141,7 @@ const paymentResultCheck = async (req, res) => {
           });
         }
 
-        // LEVEL 6: UPDATING THE PAYMENT
+        // LEVEL 5: UPDATING THE PAYMENT
         const newPaymentData = {
           payed: true,
           viewed: false,

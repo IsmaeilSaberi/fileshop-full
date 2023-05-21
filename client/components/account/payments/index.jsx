@@ -7,13 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FiRefreshCcw } from "react-icons/fi";
-import { MdDeleteForever } from "react-icons/md";
-import { HiShoppingBag } from "react-icons/hi";
+import Slider2box from "../../sliders/mainSlider/slider2box";
 
 const Payments = ({ cookie }) => {
   const [data, setData] = useState([-1]);
   const [needRefresh, setNeedRefresh] = useState(0);
-  console.log(data);
 
   useEffect(() => {
     if (cookie && cookie.length > 0) {
@@ -89,84 +87,42 @@ const Payments = ({ cookie }) => {
               </div>
             ) : (
               <div className="w-full flex flex-col gap-8">
-                {/* {data.map((da, i) => (
+                {data.map((da, i) => (
                   <div
-                    className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
+                    className="w-full flex flex-col gap-2 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                     key={i}
                   >
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex justify-center items-center">
-                        <Image
-                          className="p-2"
-                          alt={"product_image"}
-                          title={da.imageAlt}
-                          width={288}
-                          height={120}
-                          src={da.image}
-                        />
+                    <div className="flex justify-between items-start gap-4 w-full">
+                      <div className="flex justify-center items-center w-18 h-8 rounded bg-zinc-300">
+                        {priceChanger(da.amount)} تومان
                       </div>
-                      <div className="relative w-full flex flex-col gap-4">
-                        <Link
-                          className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
-                          href={`/shop/${da.slug}`}
-                          target="_blank"
-                        >
-                          لینک محصول
-                        </Link>
-                        <div className="absolute top-1 left-1 bg-indigo-500 text-white rounded-sm text-xs flex justify-center items-center w-20 h-6">
-                          {da.typeOfProduct == "gr" ? (
-                            <div>فایل گرافیکی</div>
-                          ) : da.typeOfProduct == "app" ? (
-                            <div>اپلیکیشن</div>
-                          ) : (
-                            <div>کتاب</div>
-                          )}
-                        </div>
-
-                        <h3 className="text-base">{da.title}</h3>
-                        <p>{da.shortDesc}</p>
-                        <div className="flex justify-start items-center gap-4">
-                          <dir>{da.buyNumber} فروش</dir>
-                          <dir>{priceChanger(da.price)} تومان</dir>
-                        </div>
-                        <div className="w-[95%] h-[.1rem] bg-zinc-400 rounded-md"></div>
-                        <div className="flex flex-col gap-2">
-                          {da.features.length < 1 ? (
-                            <div className="flex justify-center items-center w-full p-4">
-                              بدون ویژگی
-                            </div>
-                          ) : (
-                            da.features.map((fe, i) => (
-                              <div
-                                key={i}
-                                className="flex justify-start items-center gap-6"
-                              >
-                                <div className="flex items-center justify-center gap-1">
-                                  {featureSpliter(fe)[0]}:
-                                </div>
-                                <div>{featureSpliter(fe)[1]}</div>
-                              </div>
-                            ))
-                          )}
-                        </div>
-                        <div
-                          onClick={() => cartAdder(da._id)}
-                          className="absolute bottom-2 left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-green-600 bg-green-500 w-32 h-8 rounded gap-2"
-                        >
-                          <HiShoppingBag className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
-                          افزودن به سبد
-                        </div>
-                        <div
-                          onClick={() => productRemover(da._id)}
-                          className="absolute flex justify-center items-center gap-1 rounded bottom-2 left-2 w-16 h-6 cursor-pointer bg-rose-600 text-white transition-all duration-200 hover:bg-rose-700"
-                        >
-                          حذف
-                          <MdDeleteForever />
-                        </div>
+                      <div className="flex justify-center items-center w-36 h-8 rounded bg-zinc-300">
+                        تاریخ: {da.createdAt}
                       </div>
+                      {da.payed == true ? (
+                        <div className="flex justify-center items-center w-20 h-8 rounded text-white bg-green-600">
+                          پرداخت شد!
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => {
+                            window.location.assign(
+                              `https://nextpay.org/nx/gateway/payment/${da.resnumber}`
+                            );
+                          }}
+                          className="flex justify-center items-center w-72 h-8 cursor-pointer rounded text-white bg-rose-600"
+                        >
+                          در انتظار پرداخت(می خواهم الان پرداخت کنم)!
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-between items-center gap-2 flex-wrap">
+                      {da.products.map((d, i) => (
+                        <Slider2box itemData={d} key={i} />
+                      ))}
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
             )}
           </div>

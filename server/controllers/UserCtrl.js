@@ -444,12 +444,15 @@ const getPartOfUserData = async (req, res) => {
       // LOADING USER PAYMENTS
       const goalPayments = await Payment.find({
         _id: { $in: targetUser.payments },
-      }).select({
-        amount: 1,
-        payed: 1,
-        createdAt: 1,
-        products: 1,
-      });
+      })
+        .select({
+          amount: 1,
+          payed: 1,
+          createdAt: 1,
+          products: 1,
+          resnumber: 1,
+        })
+        .sort({ _id: -1 });
 
       // LOADING PRODUCTS OF IDS IN PAYMENTS
       for (let i = 0; i < goalPayments.length; i++) {
@@ -457,14 +460,17 @@ const getPartOfUserData = async (req, res) => {
           _id: { $in: goalPayments[i].products },
         }).select({
           title: 1,
-          updatedAt: 1,
+          slug: 1,
           image: 1,
           imageAlt: 1,
-          published: 1,
-          pageView: 1,
           price: 1,
+          shortDesc: 1,
           typeOfProduct: 1,
+          pageView: 1,
+          categories: 1,
+          features: 1,
           buyNumber: 1,
+          tags: 1,
         });
         // SETTING PRODUCTS TO PAYMENTS
         goalPayments[i].products = goalProducts;
