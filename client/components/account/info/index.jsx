@@ -138,9 +138,13 @@ const Info = ({ cookie }) => {
   const activationCodeEmailAgain = (e) => {
     const backendUrl = `https://fileshop-server.iran.liara.run/api/user-activation-code-again`;
     axios
-      .post(backendUrl, {
-        headers: { auth_cookie: cookie },
-      })
+      .post(
+        backendUrl,
+        { item: 1 },
+        {
+          headers: { auth_cookie: cookie },
+        }
+      )
       .then((d) => {
         const message = d.data.msg ? d.data.msg : "ایمیل دوباره ارسال شد!";
         toast.success(message, {
@@ -254,7 +258,7 @@ const Info = ({ cookie }) => {
                       }}
                       className="bg-sky-600 text-white cursor-pointer rounded px-4 py-2 transition-all duration-200 hover:bg-sky-700 text-xs"
                     >
-                      ارسال مجدد کد تایید(5)
+                      ارسال مجدد کد تایید({data.activateCodeSendingNumber})
                     </div>
                   </div>
                   <input

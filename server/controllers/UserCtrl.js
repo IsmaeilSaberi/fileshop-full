@@ -125,7 +125,7 @@ const registerUser = async (req, res) => {
                   .sendMail({
                     from: MAIL_MAIN_ADDRESS,
                     to: newUser.email,
-                    subject: "تایید حساب کاربری فروشگاه فایل اسماعیل!",
+                    subject: "احراز هویت فروشگاه فایل اسماعیل!",
                     html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>احراز هویت فروشگاه فایل اسماعیل</h1><div>کد احراز هویت:<strong>${userActivateCode}</strong></div></body></html>`,
                   })
                   .then((d) => {
@@ -165,43 +165,48 @@ module.exports.registerUser = registerUser;
 const userActivationCodeAgain = async (req, res) => {
   try {
     const userData = await User.findById(req.user._id);
-    const newData = {
-      activateCodeSendingNumber: userData.activateCodeSendingNumber - 1,
-    };
-    await User.findByIdAndUpdate(req.user._id, newData, { new: true });
 
-    //SENDING SECURITY EMAIL TO USER ACCOUNT
-    const MAIL_HOST = process.env.MAIL_HOST;
-    const MAIL_PORT = process.env.MAIL_PORT;
-    const MAIL_USER = process.env.MAIL_USER;
-    const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
-    const MAIL_MAIN_ADDRESS = process.env.MAIL_MAIN_ADDRESS;
+    if (userData.activateCodeSendingNumber > 0) {
+      const newData = {
+        activateCodeSendingNumber: userData.activateCodeSendingNumber - 1,
+      };
+      await User.findByIdAndUpdate(req.user._id, newData, { new: true });
 
-    const transporter = nodemailer.createTransport({
-      host: MAIL_HOST,
-      port: MAIL_PORT,
-      tls: true,
-      auth: {
-        user: MAIL_USER,
-        pass: MAIL_PASSWORD,
-      },
-    });
-    transporter
-      .sendMail({
-        from: MAIL_MAIN_ADDRESS,
-        to: userData.email,
-        subject: "تایید حساب کاربری فروشگاه فایل اسماعیل!",
-        html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>احراز هویت فروشگاه فایل اسماعیل</h1><div>کد احراز هویت:<strong>${userData.activateCode}</strong></div></body></html>`,
-      })
-      .then((d) => {
-        res.status(200).json({ msg: "ایمیل دوباره با موفقیت ارسال شد!" });
-      })
-      .catch((error) => {
-        console.log(error);
-        res
-          .status(400)
-          .json({ msg: "خطا در ارسال دوباره ایمیل!", errorMessage: error });
+      //SENDING SECURITY EMAIL TO USER ACCOUNT
+      const MAIL_HOST = process.env.MAIL_HOST;
+      const MAIL_PORT = process.env.MAIL_PORT;
+      const MAIL_USER = process.env.MAIL_USER;
+      const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+      const MAIL_MAIN_ADDRESS = process.env.MAIL_MAIN_ADDRESS;
+
+      const transporter = nodemailer.createTransport({
+        host: MAIL_HOST,
+        port: MAIL_PORT,
+        tls: true,
+        auth: {
+          user: MAIL_USER,
+          pass: MAIL_PASSWORD,
+        },
       });
+      transporter
+        .sendMail({
+          from: MAIL_MAIN_ADDRESS,
+          to: userData.email,
+          subject: "ایمیل دوباره احراز هویت فروشگاه فایل اسماعیل!",
+          html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1> ایمیل دوباره احراز هویت فروشگاه فایل اسماعیل!</h1><div>کد احراز هویت:<strong>${userData.activateCode}</strong></div></body></html>`,
+        })
+        .then((d) => {
+          res.status(200).json({ msg: "ایمیل دوباره با موفقیت ارسال شد!" });
+        })
+        .catch((error) => {
+          console.log(error);
+          res
+            .status(400)
+            .json({ msg: "خطا در ارسال دوباره ایمیل!", errorMessage: error });
+        });
+    } else {
+      res.status(401).json({ msg: "شما امکان ارسال دوباره ایمیل را ندارید!" });
+    }
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
@@ -427,6 +432,7 @@ const getPartOfUserData = async (req, res) => {
         updatedAt: 1,
         emailSend: 1,
         userIsActive: 1,
+        activateCodeSendingNumber: 1,
       });
       res.status(200).json(targetUser);
     } else if (theSlug == "favorites") {
