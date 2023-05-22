@@ -161,6 +161,54 @@ const registerUser = async (req, res) => {
 };
 module.exports.registerUser = registerUser;
 
+//SEND USER ACTIVATION CODE WITH EMAIL AGAIN
+const userActivationCodeAgain = async (req, res) => {
+  try {
+    const userData = await User.findById(req.user._id);
+    const newData = {
+      activateCodeSendingNumber: userData.activateCodeSendingNumber - 1,
+    };
+    await User.findByIdAndUpdate(req.user._id, newData, { new: true });
+
+    //SENDING SECURITY EMAIL TO USER ACCOUNT
+    const MAIL_HOST = process.env.MAIL_HOST;
+    const MAIL_PORT = process.env.MAIL_PORT;
+    const MAIL_USER = process.env.MAIL_USER;
+    const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+    const MAIL_MAIN_ADDRESS = process.env.MAIL_MAIN_ADDRESS;
+
+    const transporter = nodemailer.createTransport({
+      host: MAIL_HOST,
+      port: MAIL_PORT,
+      tls: true,
+      auth: {
+        user: MAIL_USER,
+        pass: MAIL_PASSWORD,
+      },
+    });
+    transporter
+      .sendMail({
+        from: MAIL_MAIN_ADDRESS,
+        to: userData.email,
+        subject: "تایید حساب کاربری فروشگاه فایل اسماعیل!",
+        html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>احراز هویت فروشگاه فایل اسماعیل</h1><div>کد احراز هویت:<strong>${userData.activateCode}</strong></div></body></html>`,
+      })
+      .then((d) => {
+        res.status(200).json({ msg: "ایمیل دوباره با موفقیت ارسال شد!" });
+      })
+      .catch((error) => {
+        console.log(error);
+        res
+          .status(400)
+          .json({ msg: "خطا در ارسال دوباره ایمیل!", errorMessage: error });
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.userActivationCodeAgain = userActivationCodeAgain;
+
 //LOGIN USER
 const loginUser = async (req, res) => {
   try {
@@ -421,15 +469,22 @@ const getPartOfUserData = async (req, res) => {
       const targetUser = await User.findById(req.user._id).select({
         userProducts: 1,
       });
-      const goalProducts = await Product.find({
-        _id: { $in: targetUser.userProducts },
-      }).select({
-        title: 1,
-        slug: 1,
-        image: 1,
-        imageAlt: 1,
-        mainFile: 1,
-      });
+      // ADDING USER FILES FULL DATA TO OBJECT
+      const goalProducts = [];
+      for (let i = targetUser.userProducts.length; i >= 0; i--) {
+        const targetProduct = await Product.findById(
+          targetUser.userProducts[i]
+        ).select({
+          title: 1,
+          slug: 1,
+          image: 1,
+          imageAlt: 1,
+          mainFile: 1,
+        });
+        if (targetProduct) {
+          goalProducts.push(targetProduct);
+        }
+      }
       res.status(200).json(goalProducts);
     } else if (theSlug == "comments") {
       const targetUser = await User.findById(req.user._id).select({

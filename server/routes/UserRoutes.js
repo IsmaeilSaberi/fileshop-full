@@ -63,6 +63,12 @@ router.post(
 );
 
 router.post(
+  "/user-activation-code-again",
+  UserExist,
+  UserCtrl.userActivationCodeAgain
+);
+
+router.post(
   "/login-user",
   [
     check(

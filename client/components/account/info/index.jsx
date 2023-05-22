@@ -134,6 +134,41 @@ const Info = ({ cookie }) => {
       });
   };
 
+  // SEND ACTIVATION CODE EMAIL AGAIN
+  const activationCodeEmailAgain = (e) => {
+    const backendUrl = `https://fileshop-server.iran.liara.run/api/user-activation-code-again`;
+    axios
+      .post(backendUrl, {
+        headers: { auth_cookie: cookie },
+      })
+      .then((d) => {
+        const message = d.data.msg ? d.data.msg : "ایمیل دوباره ارسال شد!";
+        toast.success(message, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setNeedRefresh(1);
+      })
+      .catch((err) => {
+        const errorMsg =
+          err.response && err.response.data && err.response.data.msg
+            ? err.response.data.msg
+            : "خطا";
+        toast.error(errorMsg, {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
   const [bulkEmailSituation, setBulkEmailSituation] = useState(true);
   const bulkEmailChanger = (input) => {
     const formData = {
@@ -211,7 +246,17 @@ const Info = ({ cookie }) => {
                   onSubmit={userEmailConfirmer}
                   className="flex flex-col  gap-8 items-center"
                 >
-                  <div>کد تایید حساب کاربری</div>
+                  <div className="flex justify-between items-center gap-4 w-full">
+                    <h3 className="text-lg">کد تایید حساب کاربری</h3>
+                    <div
+                      onClick={() => {
+                        activationCodeEmailAgain();
+                      }}
+                      className="bg-sky-600 text-white cursor-pointer rounded px-4 py-2 transition-all duration-200 hover:bg-sky-700 text-xs"
+                    >
+                      ارسال مجدد کد تایید(5)
+                    </div>
+                  </div>
                   <input
                     ref={ActiveCodeRef}
                     type="text"
