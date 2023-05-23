@@ -8,7 +8,7 @@ import { useState } from "react";
 // USING CONTEXT
 import { useAppContext } from "../../context/app-context";
 
-const AddToCart = ({ data, cookie }) => {
+const AddToCart = ({ data }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
 
   // CONTEXT OF CARTnUMBER

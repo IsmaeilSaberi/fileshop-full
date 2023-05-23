@@ -4,7 +4,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
-import Link from "next/link";
 
 import { FiRefreshCcw } from "react-icons/fi";
 import Slider2box from "../../sliders/mainSlider/slider2box";
@@ -55,6 +54,7 @@ const Payments = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-8 relative pt-20">
+      <h3 className="text-lg absolute top-1 right-1 ">سفارش های من</h3>
       <div
         onClick={() => {
           setNeedRefresh(1);

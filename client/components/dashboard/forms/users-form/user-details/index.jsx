@@ -30,6 +30,7 @@ const UserDetails = ({ userId }) => {
   const activateCodeRef = useRef();
   const userIsActiveRef = useRef();
   const emailSendRef = useRef();
+  const activateCodeSendingNumberRef = useRef();
 
   // this part used for getting one user details for using in default values
   const [fullData, setFullData] = useState([-1]);
@@ -71,6 +72,7 @@ const UserDetails = ({ userId }) => {
       activateCode: activateCodeRef.current.value,
       userIsActive: userIsActiveRef.current.value,
       emailSend: emailSendRef.current.value,
+      activateCodeSendingNumber: activateCodeSendingNumberRef.current.value,
     };
     const url = `https://fileshop-server.iran.liara.run/api/update-user/${userId}`;
     axios
@@ -127,6 +129,46 @@ const UserDetails = ({ userId }) => {
         })
       );
   };
+  // this part is used to delete a user
+  const unchecker = (goalId) => {
+    const url = `https://fileshop-server.iran.liara.run/api/uncheck-payment/${goalId}`;
+    axios
+      .get(url)
+      .then((d) =>
+        toast.success("به بخش سفارش ها افزوده شد.", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      )
+      .catch((err) => {
+        toast.error("متاسفانه ناموفق بود!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
+  //// MAKE PRICE NUMBER BEAUTIFUL
+  function priceChanger(num) {
+    // Convert the number to a string
+    num = num.toString();
+    // Split the string into an array of three-digit chunks
+    let chunks = [];
+    while (num.length > 0) {
+      chunks.push(num.slice(-3));
+      num = num.slice(0, -3);
+    }
+    // Reverse the order of the chunks and join them with commas
+    return chunks.reverse().join(",");
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -261,6 +303,79 @@ const UserDetails = ({ userId }) => {
               )}
             </div>
             <div className="flex flex-col gap-2">
+              <div>محصولات خریداری شده</div>
+              {fullData.userProducts.length < 1 ? (
+                <div>محصولی در محصولات خریداری شده وجود ندارد!</div>
+              ) : (
+                <div className="flex justify-start items-center gap-4 text-xs flex-wrap">
+                  {fullData.userProducts.map((da, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4"
+                    >
+                      <div className="flex justify-between items-center gap-2">
+                        <div>آیدی :</div>
+                        <div>{da._id}</div>
+                      </div>
+                      <div className="flex justify-between items-center gap-2">
+                        <div>عنوان :</div>
+                        <div>{da.title}</div>
+                      </div>
+                      <div className="flex justify-end">
+                        <Link
+                          href={`/shop/${da.slug}`}
+                          target={"_blank"}
+                          className="flex justify-center items-center rounded w-12 h-6 text-xs text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200"
+                        >
+                          لینک
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <div>سفارش ها</div>
+              {fullData.payments.length < 1 ? (
+                <div>سفارشی وجود ندارد!</div>
+              ) : (
+                <div className="flex justify-start items-center gap-4 text-xs flex-wrap">
+                  {fullData.payments.map((da, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4"
+                    >
+                      <div className="flex justify-between items-center gap-2">
+                        <div>مبلغ :</div>
+                        <div>{priceChanger(da.amount)} تومان</div>
+                      </div>
+                      <div className="flex justify-between items-center gap-2">
+                        <div>وضعیت :</div>
+                        <div>
+                          {da.payed == true ? (
+                            <div className="text-green-500">پرداخت شده</div>
+                          ) : (
+                            <div className="text-red-500">پرداخت نشده</div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center gap-2">
+                        <div>تاریخ :</div>
+                        <div>{da.createdAt}</div>
+                      </div>
+                      <div
+                        onClick={() => unchecker(da._id)}
+                        className="bg-blue-500 text-white rounded p-1 text-sm cursor-pointer hover:bg-blue-600 transition-all duration-200"
+                      >
+                        نمایش در بخش سفارش ها
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
               <div>نام کاربری (username)</div>
               <input
                 defaultValue={fullData.username ? fullData.username : ""}
@@ -289,6 +404,20 @@ const UserDetails = ({ userId }) => {
                 required={true}
                 type="text"
                 ref={activateCodeRef}
+                className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div>تعداد باقی مانده ارسال کد فعال سازی به کاربر</div>
+              <input
+                defaultValue={
+                  fullData.activateCodeSendingNumber
+                    ? fullData.activateCodeSendingNumber
+                    : 0
+                }
+                required={true}
+                type="number"
+                ref={activateCodeSendingNumberRef}
                 className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
               />
             </div>

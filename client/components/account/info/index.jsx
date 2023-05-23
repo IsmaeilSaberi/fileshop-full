@@ -222,6 +222,7 @@ const Info = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-10 relative pt-8">
+      <h3 className="text-lg absolute top-1 right-1 ">اطلاعات من</h3>
       <div
         onClick={() => {
           setNeedRefresh(1);

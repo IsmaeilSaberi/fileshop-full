@@ -313,6 +313,7 @@ const updateMiniUser = async (req, res) => {
           await User.findByIdAndUpdate(req.params.id, data, {
             new: true,
           });
+          res.status(200).json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
         } else {
           res.status(422).json({ msg: "تکرار رمز عبور اشتباه است!" });
         }
@@ -398,6 +399,18 @@ const getOneUserById = async (req, res) => {
       _id: { $in: targetUser.cart },
     }).select({ title: 1, slug: 1 });
     targetUser.cart = targetUserCartProducts;
+
+    // FOR ADDING BUYED PRODUCTS TO TARGET USER
+    const targetUseruserProducts = await Product.find({
+      _id: { $in: targetUser.userProducts },
+    }).select({ title: 1, slug: 1 });
+    targetUser.userProducts = targetUseruserProducts;
+
+    // FOR ADDING PAYMENTS TO TARGET USER
+    const targetUserPayments = await Payment.find({
+      email: targetUser.email,
+    }).select({ amount: 1, payed: 1, createdAt: 1 });
+    targetUser.payments = targetUserPayments;
 
     res.status(200).json(targetUser);
   } catch (error) {
@@ -703,3 +716,18 @@ const searchUsers = async (req, res) => {
   }
 };
 module.exports.searchUsers = searchUsers;
+
+const uncheckPayment = async (req, res) => {
+  try {
+    const newPaymentData = {
+      viewed: false,
+    };
+    await Payment.findByIdAndUpdate(req.params.id, newPaymentData, {
+      new: true,
+    });
+    res.status(200).json({ msg: "سفارش به بخش سفارش های جدید افزوده شد!" });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+module.exports.uncheckPayment = uncheckPayment;

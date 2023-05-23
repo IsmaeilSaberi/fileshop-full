@@ -1,10 +1,16 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { AiFillShopping, AiOutlineArrowUp } from "react-icons/ai";
 import { MdArrowLeft } from "react-icons/md";
 
+// USING CONTEXT
+import { useAppContext } from "../../context/app-context";
+
 const Footer = () => {
+  // CONTEXT OF CARTnUMBER
+  const { cartNumber } = useAppContext();
+
   const goToTop = () => {
     window.scroll({
       top: 0,
@@ -124,6 +130,14 @@ const Footer = () => {
           onClick={() => goToTop()}
           className="fixed left-4 bottom-4 w-12 h-12 p-2 cursor-pointer rounded-md bg-zinc-300 transition-all duration-200 hover:bg-zinc-500 hover:text-white"
         />
+        <Link href={`/cart`} className="fixed right-4 bottom-4">
+          <div className="relative">
+            <div className="absolute z-50 -top-2 -right-2 p-1 rounded-full w-6 h-6 bg-indigo-500 flex justify-center items-center text-white">
+              {cartNumber == -1 ? "" : cartNumber}
+            </div>
+            <AiFillShopping className="z-40 right-4 bottom-4 w-12 h-12 p-2 cursor-pointer rounded-md bg-zinc-300 text-orange-500 transition-all duration-200 hover:text-orange-600" />
+          </div>
+        </Link>
       </div>
     </footer>
   );

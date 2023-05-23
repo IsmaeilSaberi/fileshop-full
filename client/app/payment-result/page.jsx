@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import PaymentResultComponent from "../../components/payment-result-component";
 import { cookies } from "next/headers";
 

@@ -172,5 +172,6 @@ router.post("/confirm-user-email", UserExist, UserCtrl.confirmEmail);
 router.post("/favorite-product", UserExist, UserCtrl.favoriteProductManage);
 router.post("/cart-manager", UserExist, UserCtrl.cartManager);
 router.get("/cart-number", UserCtrl.cartNumber);
+router.get("/uncheck-payment/:id", UserCtrl.uncheckPayment);
 
 module.exports = router;

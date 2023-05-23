@@ -177,6 +177,12 @@ const SingleProduct = async ({ params }) => {
             <div className="rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <ul className="flex flex-col gap-2">
                 <li className="flex justify-between items-center">
+                  <span>قیمت محصول </span>
+                  <span className="text-blue-400 text-base">
+                    {priceChanger(data.price)} تومان
+                  </span>
+                </li>
+                <li className="flex justify-between items-center">
                   <span>تعداد خرید</span>
                   <span>{data.buyNumber}</span>
                 </li>

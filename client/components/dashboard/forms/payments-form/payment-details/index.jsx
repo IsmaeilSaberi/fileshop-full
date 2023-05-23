@@ -31,7 +31,6 @@ const PaymentDetails = ({ paymentId }) => {
 
   // this part used for getting one payment details for using in default values
   const [fullData, setFullData] = useState([-1]);
-  console.log(fullData);
   useEffect(() => {
     axios
       .get(
