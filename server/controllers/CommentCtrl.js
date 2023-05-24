@@ -43,6 +43,80 @@ const newComment = async (req, res) => {
 };
 module.exports.newComment = newComment;
 
+const publishComment = async (req, res) => {
+  try {
+    const theUser = await User.findById(req.user._id);
+    if (!theUser) {
+      res.status(401).json({ msg: "کاربر یافت نشد!" });
+    } else {
+      // LEVEL 1: UPDATING COMMENT WITH published:true
+      const newCommentData = {
+        published: true,
+      };
+      await Comment.findByIdAndUpdate(req.body.goalId, newCommentData, {
+        new: true,
+      });
+
+      // LEVEL 2: EMAIL TO PARENT COMMENT USER
+
+      if (req.body.parentId == null) {
+        res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
+      } else {
+        const theParentComment = await Comment.findById(req.body.parentId);
+        if (theParentComment.email == process.env.ADMIN_EMAIL) {
+          res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
+        } else {
+          //SENDING SECURITY EMAIL TO USER ACCOUNT
+          const MAIL_HOST = process.env.MAIL_HOST;
+          const MAIL_PORT = process.env.MAIL_PORT;
+          const MAIL_USER = process.env.MAIL_USER;
+          const MAIL_PASSWORD = process.env.MAIL_PASSWORD;
+          const MAIL_MAIN_ADDRESS = process.env.MAIL_MAIN_ADDRESS;
+
+          const transporter = nodemailer.createTransport({
+            host: MAIL_HOST,
+            port: MAIL_PORT,
+            tls: true,
+            auth: {
+              user: MAIL_USER,
+              pass: MAIL_PASSWORD,
+            },
+          });
+          transporter
+            .sendMail({
+              from: MAIL_MAIN_ADDRESS,
+              to: theParentComment.email,
+              subject: "پاسخ جدید برای شما در فروشگاه فایل اسماعیل!",
+              html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>پاسخ جدید برای شما در فروشگاه فایل اسماعیل!</h1><div>برای دیدگاه شما پاسخ جدیدی ثبت شده است!</strong></div></body></html>`,
+            })
+            .then((d) => {
+              res.status(200).json({
+                msg: "انتشار دیدگاه و ارسال ایمیل با موفقیت انجام شد!",
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              res
+                .status(400)
+                .json({
+                  msg: "خطا در ارسال ایمیل به کاربر پدر!",
+                  errorMessage: error,
+                });
+            });
+        }
+      }
+
+      res
+        .status(200)
+        .json({ msg: "دیدگاه شما پس از بررسی و تایید منتشر خواهد شد!" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.publishComment = publishComment;
+
 const getAllComments = async (req, res) => {
   try {
     if (req.query.pn && req.query.pgn) {
@@ -146,3 +220,31 @@ const getOneCommentById = async (req, res) => {
   }
 };
 module.exports.getOneCommentById = getOneCommentById;
+
+const getModelComments = async (req, res) => {
+  try {
+    const goalModelComments = await Comment.find({
+      src_id: req.body._id,
+      published: true,
+    }).sort({ _id: -1 });
+    if (req.body.typeOfModel == "post") {
+      const mainComments = goalModelComments.map((com) => com.parentId == null);
+      const subComments = goalModelComments.map((com) => com.parentId != null);
+      const endingData = { mainComments, subComments };
+      res.status(200).json(endingData);
+    } else if (req.body.typeOfModel == "product") {
+      const mainComments = goalModelComments.map((com) => com.parentId == null);
+      const subComments = goalModelComments.map((com) => com.parentId != null);
+      const endingData = { mainComments, subComments };
+      res.status(200).json(endingData);
+    } else {
+      res.status(401).json({ msg: "خطا در اطلاعات ارسال شده!" });
+    }
+
+    res.status(200).json(targetComment);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getModelComments = getModelComments;

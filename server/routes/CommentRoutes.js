@@ -55,4 +55,8 @@ router.post("/remove-comment/:id", CommentCtrl.removeComment);
 // FOR ADMIN
 router.get("/get-comment/:id", CommentCtrl.getOneCommentById);
 
+router.post("/get-model-comments", CommentCtrl.getModelComments);
+
+router.post("/publish-comment", CommentCtrl.publishComment);
+
 module.exports = router;
