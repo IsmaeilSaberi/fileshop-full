@@ -8,7 +8,7 @@ const CommentSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  displayName: {
+  displayname: {
     required: true,
     type: String,
   },
@@ -19,7 +19,7 @@ const CommentSchema = new mongoose.Schema({
   parentId: {
     required: true,
     type: String,
-    default: null,
+    default: "nothing",
   },
   typeOfModel: {
     required: true,

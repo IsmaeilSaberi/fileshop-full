@@ -7,6 +7,7 @@ import Link from "next/link";
 import RelatedPosts from "../../../components/sliders/related-posts";
 import MostViewedPosts from "../../../components/most-viewed-posts";
 import SearchBlog from "../../../components/search-blog";
+import CommentsManager from "../../../components/comments-management";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -27,6 +28,7 @@ const getProductsData = async () => {
 const SingleBlog = async ({ params }) => {
   const data = await getData(params.slug);
   const productsData = await getProductsData();
+  const commentProps = { src_id: data._id, typeOfModel: "post" };
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
       {data.msg ? (
@@ -82,10 +84,7 @@ const SingleBlog = async ({ params }) => {
                   title={"مقالات مرتبط"}
                 />
               </section>
-              <section className="flex flex-col gap-6">
-                <h2 className="text-xl">دیدگاهها</h2>
-                <form className="bg-gray-100 rounded-md h-48">1</form>
-              </section>
+              <CommentsManager commentProps={commentProps} />
             </div>
           </main>
           <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">

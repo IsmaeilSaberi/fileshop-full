@@ -19,15 +19,11 @@ router.post(
       min: 24,
       max: 24,
     }),
-    check("parentId", "آیدی مدل مرجع اشتباه است!").isLength({
-      min: 24,
-      max: 24,
-    }),
   ],
   CommentCtrl.newComment
 );
 
-router.get("/comments", PaymentCtrl.getAllComments);
+router.get("/comments", CommentCtrl.getAllComments);
 
 router.post(
   "/update-comment/:id",

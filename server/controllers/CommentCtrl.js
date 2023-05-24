@@ -9,31 +9,37 @@ const nodemailer = require("nodemailer");
 
 const newComment = async (req, res) => {
   try {
-    const theUser = await User.findById(req.user._id);
-    if (!theUser) {
-      res.status(401).json({ msg: "کاربر یافت نشد!" });
+    /////EXPRESS VALIDATOR
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ msg: errors.errors[0].msg });
     } else {
-      if (theUser.userIsActive == false) {
-        res.status(401).json({ msg: "لطفا ایمیل خود را تایید کنید!" });
+      const theUser = await User.findById(req.user._id);
+      if (!theUser) {
+        res.status(401).json({ msg: "کاربر یافت نشد!" });
       } else {
-        const commentData = {
-          message: req.body.message,
-          email: theUser.email,
-          displayName: theUser.displayName,
-          src_id: req.body.src_id,
-          parentId: req.body.parentId,
-          typeOfModel: req.body.typeOfModel,
-          published: false,
-          viewed: false,
-          createdAt: new Date().toLocaleDateString("fa-IR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        };
-        await Comment.create(commentData);
-        res
-          .status(200)
-          .json({ msg: "دیدگاه شما پس از بررسی و تایید منتشر خواهد شد!" });
+        if (theUser.userIsActive == false) {
+          res.status(401).json({ msg: "لطفا ایمیل خود را تایید کنید!" });
+        } else {
+          const commentData = {
+            message: req.body.message,
+            email: theUser.email,
+            displayname: theUser.displayname,
+            src_id: req.body.src_id,
+            parentId: req.body.parentId,
+            typeOfModel: req.body.typeOfModel,
+            published: false,
+            viewed: false,
+            createdAt: new Date().toLocaleDateString("fa-IR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          await Comment.create(commentData);
+          res
+            .status(200)
+            .json({ msg: "دیدگاه شما پس از بررسی و تایید منتشر خواهد شد!" });
+        }
       }
     }
   } catch (error) {
@@ -96,12 +102,10 @@ const publishComment = async (req, res) => {
             })
             .catch((error) => {
               console.log(error);
-              res
-                .status(400)
-                .json({
-                  msg: "خطا در ارسال ایمیل به کاربر پدر!",
-                  errorMessage: error,
-                });
+              res.status(400).json({
+                msg: "خطا در ارسال ایمیل به کاربر پدر!",
+                errorMessage: error,
+              });
             });
         }
       }
@@ -155,7 +159,7 @@ const updateComment = async (req, res) => {
       res.status(422).json({ msg: errors.errors[0].msg });
     } else {
       const data = req.body;
-      data.displayName = req.body.displayName
+      data.displayname = req.body.displayname
         .replace(/\s+/g, "_")
         .toLowerCase();
       data.email = req.body.email.replace(/\s+/g, "_").toLowerCase();
@@ -209,7 +213,7 @@ const getOneCommentById = async (req, res) => {
       ).select({
         message: 1,
         email: 1,
-        displayName: 1,
+        displayname: 1,
         createdAt: 1,
       });
     }
