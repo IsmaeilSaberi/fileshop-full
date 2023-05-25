@@ -4,14 +4,20 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-const NewComment = ({ commentProps }) => {
+const NewComment = ({ commentProps, text, itemParentId }) => {
   const [auth_cookie, setAuth_cookie] = useState(Cookies.get("auth_cookie"));
   const router = useRouter();
-
   const messageRef = useRef();
+
+  let theParentId = "nothing";
+  useEffect(() => {
+    if (itemParentId != undefined) {
+      theParentId = itemParentId;
+    }
+  }, []);
 
   const formSubmitter = (e) => {
     e.preventDefault();
@@ -22,7 +28,7 @@ const NewComment = ({ commentProps }) => {
       const formData = {
         message: messageRef.current.value,
         src_id: commentProps.src_id,
-        parentId: "nothing",
+        parentId: theParentId,
         typeOfModel: commentProps.typeOfModel,
       };
       const backendUrl = `https://fileshop-server.iran.liara.run/api/new-comment`;
@@ -71,7 +77,7 @@ const NewComment = ({ commentProps }) => {
     <form
       onSubmit={formSubmitter}
       onKeyDown={formKeyNotSuber}
-      className="flex flex-col gap-6 bg-zinc-100 rounded-md p-4"
+      className="flex flex-col gap-6 bg-zinc-100 rounded-md p-2"
     >
       <textarea
         ref={messageRef}
@@ -83,7 +89,7 @@ const NewComment = ({ commentProps }) => {
         type="submit"
         className="bg-blue-500 rounded-md p-2 text-white w-full transitioln-all duration-200 hover:bg-blue-600"
       >
-        ثبت دیدگاه
+        {text}
       </button>
     </form>
   );

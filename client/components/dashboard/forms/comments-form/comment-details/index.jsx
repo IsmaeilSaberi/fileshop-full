@@ -268,6 +268,22 @@ const CommentDetails = ({ commentId }) => {
             </div>
             <div className="flex flex-col gap-2">
               <div>دیدگاه پدر</div>
+              <div className="bg-zinc-100 border-2 border-zinc-300 p-1 rounded-md flex flex-col gap-2">
+                <div className="flex justify-between items-center flex-wrap">
+                  <div className="bg-zinc-200 rounded px-2 py-1">
+                    {fullData.parent.displayname}
+                  </div>
+                  <div className="bg-zinc-200 rounded px-2 py-1">
+                    {fullData.parent.email}
+                  </div>
+                  <div className="bg-orange-500 text-white rounded px-2 py-1">
+                    {fullData.parent.createdAt}
+                  </div>
+                </div>
+                <p className="text-black leading-9 text-justify p-2">
+                  {fullData.parent.message}
+                </p>
+              </div>
             </div>
             <div className="flex flex-col gap-2">
               <div> متن دیدگاه</div>

@@ -44,7 +44,7 @@ const CommentsList = ({ commentProps }) => {
       ) : (
         <div className="flex flex-col gap-6">
           {modelAllComments.map((da, i) => (
-            <CommentBox key={i} data={da} />
+            <CommentBox commentProps={commentProps} key={i} data={da} />
           ))}
         </div>
       )}
