@@ -51,7 +51,7 @@ module.exports.newComment = newComment;
 
 const publishComment = async (req, res) => {
   try {
-    const theUser = await User.findById(req.user._id);
+    const theUser = await User.find({ email: req.body.email });
     if (!theUser) {
       res.status(401).json({ msg: "کاربر یافت نشد!" });
     } else {
@@ -64,13 +64,12 @@ const publishComment = async (req, res) => {
       });
 
       // LEVEL 2: EMAIL TO PARENT COMMENT USER
-
       if (req.body.parentId == "nothing") {
-        res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
+        return res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
       } else {
         const theParentComment = await Comment.findById(req.body.parentId);
         if (theParentComment.email == process.env.ADMIN_EMAIL) {
-          res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
+          return res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
         } else {
           //SENDING SECURITY EMAIL TO USER ACCOUNT
           const MAIL_HOST = process.env.MAIL_HOST;
@@ -96,27 +95,26 @@ const publishComment = async (req, res) => {
               html: `<html><head><style>strong{color: rgb(0, 81, 255);}h1{font-size: large;}</style></head><body><h1>پاسخ جدید برای شما در فروشگاه فایل اسماعیل!</h1><div>برای دیدگاه شما پاسخ جدیدی ثبت شده است!</strong></div></body></html>`,
             })
             .then((d) => {
-              res.status(200).json({
+              return res.status(200).json({
                 msg: "انتشار دیدگاه و ارسال ایمیل با موفقیت انجام شد!",
               });
             })
             .catch((error) => {
               console.log(error);
-              res.status(400).json({
+              return res.status(400).json({
                 msg: "خطا در ارسال ایمیل به کاربر پدر!",
                 errorMessage: error,
               });
             });
         }
       }
-
       res
         .status(200)
         .json({ msg: "دیدگاه شما پس از بررسی و تایید منتشر خواهد شد!" });
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json(error);
+    // res.status(400).json(error);
   }
 };
 module.exports.publishComment = publishComment;

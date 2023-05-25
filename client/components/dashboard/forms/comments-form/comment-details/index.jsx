@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 
@@ -24,13 +23,15 @@ const CommentDetails = ({ commentId }) => {
   };
 
   const viewedRef = useRef();
+  const publishedRef = useRef();
   const emailRef = useRef();
-  const usernameRef = useRef();
-  const amountRef = useRef();
-  const payedRef = useRef();
+  const displaynameRef = useRef();
+  const messageRef = useRef();
 
   // this part used for getting one payment details for using in default values
   const [fullData, setFullData] = useState([-1]);
+  const [needToRefresh, setNeedToRefresh] = useState(1);
+
   useEffect(() => {
     axios
       .get(
@@ -38,10 +39,9 @@ const CommentDetails = ({ commentId }) => {
       )
       .then((d) => {
         setFullData(d.data);
-        console.log(d.data);
         goToTop();
       })
-      .catch((err) =>
+      .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
           autoClose: 3000,
           hideProgressBar: false,
@@ -49,9 +49,9 @@ const CommentDetails = ({ commentId }) => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
-      );
-  }, [commentId]);
+        });
+      });
+  }, [commentId, needToRefresh]);
 
   // here we update a comment details
   const updater = (e) => {
@@ -59,20 +59,14 @@ const CommentDetails = ({ commentId }) => {
       e.preventDefault();
     }
     e.preventDefault();
-    // CART, COMMENTS, PAYMENTS AND FILES SHOULD BE ADDED
     const formData = {
-      updatedAt: new Date().toLocaleDateString("fa-IR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
       email: emailRef.current.value,
       viewed: viewedRef.current.value,
-      username: usernameRef.current.value,
-      amount: amountRef.current.value,
-      resnumber: fullData.resnumber,
-      payed: payedRef.current.value,
-      products: fullData.products,
+      published: publishedRef.current.value,
+      displayname: displaynameRef.current.value,
+      message: messageRef.current.value,
     };
+
     const url = `https://fileshop-server.iran.liara.run/api/update-comment/${commentId}`;
     axios
       .post(url, formData)
@@ -102,8 +96,42 @@ const CommentDetails = ({ commentId }) => {
       });
   };
 
-  // this part is used to delete a payment
-  const remover = (e) => {
+  // this part is used to publish a comment
+  const publisher = () => {
+    const sendingData = {
+      goalId: fullData._id,
+      parentId: fullData.parentId,
+      email: fullData.email,
+    };
+    const url = `https://fileshop-server.iran.liara.run/api/publish-comment`;
+    axios
+      .post(url, sendingData)
+      .then((d) => {
+        toast.success("انتشار دیدگاه و ارسال ایمیل با موفقیت انجام شد.", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setNeedToRefresh(needToRefresh * -1);
+        setFullData([-1]);
+      })
+      .catch((err) =>
+        toast.error("موفقیت آمیز نبود!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      );
+  };
+
+  // this part is used to delete a comment
+  const remover = () => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-comment/${commentId}`;
     axios
       .post(url)
@@ -137,10 +165,15 @@ const CommentDetails = ({ commentId }) => {
         </div>
       ) : (
         <div className="flex flex-col gap-6">
-          ssss
-          {/* <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center">
             <h2 className="text-orange-500 text-lg">جزئیات دیدگاه</h2>
             <div className="flex justify-end items-center gap-2">
+              <button
+                onClick={() => publisher()}
+                className="bg-sky-500 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-sky-600"
+              >
+                انتشار + ایمیل در صورت پاسخ بودن
+              </button>
               <button
                 onClick={() => remover()}
                 className="bg-rose-500 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-600"
@@ -150,17 +183,24 @@ const CommentDetails = ({ commentId }) => {
             </div>
           </div>
           <div className="flex justify-between items-center">
+            <Link
+              href={
+                fullData.typeOfModel == "post"
+                  ? `/blog/${fullData.src.slug}`
+                  : `/shop/${fullData.src.slug}`
+              }
+              target="_blank"
+              className="bg-green-600 text-white rounded px-3 py-1 text-sm flex justify-center items-center"
+            >
+              {fullData.src.title}
+            </Link>
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm flex justify-center items-center gap-2">
-              <div> کد پرداختی :</div>
-              <div>{fullData.resnumber ? fullData.resnumber : ""}</div>
+              <div> دیدگاهی برای یک :</div>
+              <div>{fullData.typeOfModel == "post" ? "مقاله" : "محصول"}</div>
             </div>
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm flex justify-center items-center gap-2">
               <div> تاریخ ایجاد دیدگاه :</div>
               <div>{fullData.createdAt ? fullData.createdAt : ""}</div>
-            </div>
-            <div className="bg-zinc-200 rounded px-3 py-1 text-sm flex justify-center items-center gap-2">
-              <div> به روز رسانی :</div>
-              <div>{fullData.updatedAt ? fullData.updatedAt : ""}</div>
             </div>
           </div>
           <form
@@ -188,12 +228,31 @@ const CommentDetails = ({ commentId }) => {
               </select>
             </div>
             <div className="flex flex-col gap-2">
-              <div> نام کاربری</div>
+              <div>منتشر شود</div>
+              <select
+                ref={publishedRef}
+                className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
+              >
+                {fullData.published && fullData.published == true ? (
+                  <>
+                    <option value="true">بله</option>
+                    <option value="false">خیر</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="false">خیر</option>
+                    <option value="true">بله</option>
+                  </>
+                )}
+              </select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div> نام نمایشی</div>
               <input
-                defaultValue={fullData.username ? fullData.username : ""}
+                defaultValue={fullData.displayname ? fullData.displayname : ""}
                 required={true}
                 type="text"
-                ref={usernameRef}
+                ref={displaynameRef}
                 className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
               />
             </div>
@@ -208,66 +267,17 @@ const CommentDetails = ({ commentId }) => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <div>مقدار (تومان)</div>
-              <input
-                defaultValue={fullData.amount ? fullData.amount : ""}
+              <div>دیدگاه پدر</div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div> متن دیدگاه</div>
+              <textarea
+                defaultValue={fullData.message ? fullData.message : ""}
                 required={true}
-                type="text"
-                ref={amountRef}
-                className="inputLtr p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <div>محصولات </div>
-              {fullData.products.length < 1 ? (
-                <div>بدون محصول !</div>
-              ) : (
-                <div className="flex justify-start items-center gap-4 text-xs flex-wrap">
-                  {fullData.products.map((da, i) => (
-                    <div
-                      key={i}
-                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4"
-                    >
-                      <div className="flex justify-between items-center gap-2">
-                        <div>آیدی :</div>
-                        <div>{da._id}</div>
-                      </div>
-                      <div className="flex justify-between items-center gap-2">
-                        <div>عنوان :</div>
-                        <div>{da.title}</div>
-                      </div>
-                      <div className="flex justify-end">
-                        <Link
-                          href={`/shop/${da.slug}`}
-                          target={"_blank"}
-                          className="flex justify-center items-center rounded w-12 h-6 text-xs text-white bg-blue-500 hover:bg-blue-600 transition-all duration-200"
-                        >
-                          لینک
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col gap-2">
-              <div>پرداخت شده یا نه</div>
-              <select
-                ref={payedRef}
+                rows="10"
+                ref={messageRef}
                 className="p-2 rounded-md w-full outline-none border-2 border-zinc-300 focus:border-orange-400"
-              >
-                {fullData.payed && fullData.payed == true ? (
-                  <>
-                    <option value="true">پرداخت شده</option>
-                    <option value="false">پرداخت نشده</option>
-                  </>
-                ) : (
-                  <>
-                    <option value="false">پرداخت نشده</option>
-                    <option value="true">پرداخت شده</option>
-                  </>
-                )}
-              </select>
+              />
             </div>
             <button
               type="submit"
@@ -275,22 +285,9 @@ const CommentDetails = ({ commentId }) => {
             >
               بروز رسانی
             </button>
-          </form> */}
+          </form>
         </div>
       )}
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

@@ -30,17 +30,9 @@ router.post(
   [
     check(
       "message",
-      "تعداد کاراکتر دیدگاه شما باید بیشتر از 200 کاراکتر باشد!"
+      "تعداد کاراکتر دیدگاه شما باید بیشتر از 100 کاراکتر باشد!"
     ).isLength({
-      min: 200,
-    }),
-    check("src_id", "آیدی مدل مرجع اشتباه است!").isLength({
-      min: 24,
-      max: 24,
-    }),
-    check("parentId", "آیدی مدل مرجع اشتباه است!").isLength({
-      min: 24,
-      max: 24,
+      min: 100,
     }),
   ],
   CommentCtrl.updateComment
