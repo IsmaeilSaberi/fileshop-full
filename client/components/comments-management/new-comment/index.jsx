@@ -42,6 +42,7 @@ const NewComment = ({ commentProps }) => {
             draggable: true,
             progress: undefined,
           });
+          messageRef.current.value = "";
         })
         .catch((err) => {
           const errorMsg =

@@ -242,34 +242,43 @@ const getModelComments = async (req, res) => {
   try {
     const goalModelComments = await Comment.find({
       src_id: req.body._id,
+      parentId: "nothing",
       published: true,
-    }).sort({ _id: -1 });
-    if (req.body.typeOfModel == "post") {
-      const mainComments = goalModelComments.map(
-        (com) => com.parentId == "nothing"
-      );
-      const subComments = goalModelComments.map(
-        (com) => com.parentId != "nothing"
-      );
-      const endingData = { mainComments, subComments };
-      res.status(200).json(endingData);
-    } else if (req.body.typeOfModel == "product") {
-      const mainComments = goalModelComments.map(
-        (com) => com.parentId == "nothing"
-      );
-      const subComments = goalModelComments.map(
-        (com) => com.parentId != "nothing"
-      );
-      const endingData = { mainComments, subComments };
-      res.status(200).json(endingData);
-    } else {
-      res.status(401).json({ msg: "خطا در اطلاعات ارسال شده!" });
-    }
-
-    res.status(200).json(targetComment);
+    })
+      .sort({ _id: -1 })
+      .select({
+        createdAt: 1,
+        _id: 1,
+        displayname: 1,
+        message: 1,
+        parentId: 1,
+      });
+    res.status(200).json(goalModelComments);
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
   }
 };
 module.exports.getModelComments = getModelComments;
+
+const getCommentChildren = async (req, res) => {
+  try {
+    const goalReplyComments = await Comment.find({
+      parentId: req.params.id,
+      published: true,
+    })
+      .sort({ _id: -1 })
+      .select({
+        createdAt: 1,
+        _id: 1,
+        displayname: 1,
+        message: 1,
+        parentId: 1,
+      });
+    res.status(200).json(goalReplyComments);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getCommentChildren = getCommentChildren;

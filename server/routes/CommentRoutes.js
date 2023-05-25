@@ -45,6 +45,8 @@ router.get("/get-comment/:id", CommentCtrl.getOneCommentById);
 
 router.post("/get-model-comments", CommentCtrl.getModelComments);
 
+router.get("/get-comment-children/:id", CommentCtrl.getCommentChildren);
+
 router.post("/publish-comment", CommentCtrl.publishComment);
 
 module.exports = router;
