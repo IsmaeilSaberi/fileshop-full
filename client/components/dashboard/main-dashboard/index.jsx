@@ -10,6 +10,7 @@ import ProductMain from "../forms/products-form";
 import AdminPannel from "../forms/admin-pannel";
 import UserMain from "../forms/users-form";
 import PaymentsMain from "../forms/payments-form";
+import CommentsMain from "../forms/comments-form";
 
 const MainDashboard = () => {
   const [contentChanger, setContentChanger] = useState("admin-pannel");
@@ -37,6 +38,8 @@ const MainDashboard = () => {
       setDetails(<UserMain />);
     } else if (contentChanger == "payments") {
       setDetails(<PaymentsMain />);
+    } else if (contentChanger == "comments") {
+      setDetails(<CommentsMain />);
     } else if (contentChanger == "admin-pannel") {
       setDetails(<AdminPannel />);
     }
@@ -44,7 +47,7 @@ const MainDashboard = () => {
   }, [contentChanger]);
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">
-      <div className="sticky top-8 right-0 bottom-8">
+      <div className="sticky top-0 right-0 bottom-0">
         <DashboardCtrl setContentChanger={setContentChanger} />
       </div>
       <div className="w-full">{details}</div>

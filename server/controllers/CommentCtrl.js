@@ -65,7 +65,7 @@ const publishComment = async (req, res) => {
 
       // LEVEL 2: EMAIL TO PARENT COMMENT USER
 
-      if (req.body.parentId == null) {
+      if (req.body.parentId == "nothing") {
         res.status(200).json({ msg: "دیدگاه با موفقیت منتشر شد!" });
       } else {
         const theParentComment = await Comment.findById(req.body.parentId);
@@ -190,34 +190,49 @@ const getOneCommentById = async (req, res) => {
     const targetComment = await Comment.findById(req.params.id);
 
     // ADDING SOURCE POST OR PRODUCT TO COMMENT
-    targetComment.src = {};
+    let theSrc = {};
     if (targetComment.typeOfModel == "post") {
-      targetComment.src = await Post.findById(targetComment.src_id).select({
+      const postSrc = await Post.findById(targetComment.src_id).select({
         title: 1,
         slug: 1,
       });
+      theSrc = postSrc;
     } else {
-      targetComment.src = await Product.findById(targetComment.src_id).select({
+      const productSrc = await Product.findById(targetComment.src_id).select({
         title: 1,
         slug: 1,
       });
+      theSrc = productSrc;
     }
 
     // ADDING PARENT COMMENT
-    targetComment.parent = {};
-    if (targetComment.parentId == null) {
-      targetComment.parent = {};
-    } else {
-      targetComment.parent = await Comment.findById(
-        targetComment.parentId
-      ).select({
+    let theParentComment = {};
+    if (targetComment.parentId != "nothing") {
+      const thePar = await Comment.findById(targetComment.parentId).select({
         message: 1,
         email: 1,
         displayname: 1,
         createdAt: 1,
       });
+      theParentComment = thePar;
     }
-    res.status(200).json(targetComment);
+
+    const sendingData = {
+      _id: targetComment._id,
+      message: targetComment.message,
+      email: targetComment.email,
+      displayname: targetComment.displayname,
+      src_id: targetComment.src_id,
+      parentId: targetComment.parentId,
+      typeOfModel: targetComment.typeOfModel,
+      published: targetComment.published,
+      viewed: targetComment.viewed,
+      createdAt: targetComment.createdAt,
+      src: theSrc,
+      parent: theParentComment,
+    };
+
+    res.status(200).json(sendingData);
   } catch (error) {
     console.log(error);
     res.status(400).json(error);
@@ -232,13 +247,21 @@ const getModelComments = async (req, res) => {
       published: true,
     }).sort({ _id: -1 });
     if (req.body.typeOfModel == "post") {
-      const mainComments = goalModelComments.map((com) => com.parentId == null);
-      const subComments = goalModelComments.map((com) => com.parentId != null);
+      const mainComments = goalModelComments.map(
+        (com) => com.parentId == "nothing"
+      );
+      const subComments = goalModelComments.map(
+        (com) => com.parentId != "nothing"
+      );
       const endingData = { mainComments, subComments };
       res.status(200).json(endingData);
     } else if (req.body.typeOfModel == "product") {
-      const mainComments = goalModelComments.map((com) => com.parentId == null);
-      const subComments = goalModelComments.map((com) => com.parentId != null);
+      const mainComments = goalModelComments.map(
+        (com) => com.parentId == "nothing"
+      );
+      const subComments = goalModelComments.map(
+        (com) => com.parentId != "nothing"
+      );
       const endingData = { mainComments, subComments };
       res.status(200).json(endingData);
     } else {

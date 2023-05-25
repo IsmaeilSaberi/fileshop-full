@@ -5,8 +5,8 @@ import DCBtn from "./btn";
 const DashboardCtrl = ({ setContentChanger }) => {
   const [colorChanger, setColorChanger] = useState("admin-pannel");
   return (
-    <div className="w-60 bg-zinc-200 flex justify-center items-center p-4 rounded-lg">
-      <div className="flex flex-col gap-6">
+    <div className="w-60 flex justify-center items-center h-[100vh]">
+      <div className="rounded-lg bg-zinc-200 p-2 flex flex-col justify-around items-center h-[99vh]">
         <DCBtn
           title={"پیشخوان"}
           content={"admin-pannel"}
@@ -52,6 +52,13 @@ const DashboardCtrl = ({ setContentChanger }) => {
         <DCBtn
           title={"کاربرها"}
           content={"users"}
+          setContentChanger={setContentChanger}
+          colorChanger={colorChanger}
+          setColorChanger={setColorChanger}
+        />
+        <DCBtn
+          title={"دیدگاهها"}
+          content={"comments"}
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
