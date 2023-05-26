@@ -76,51 +76,58 @@ const Payments = ({ cookie }) => {
             />
           </div>
         ) : (
-          <div>
-            {data.length < 1 ? (
-              <div className="flex justify-center items-center p-8 w-full">
-                سفارشی موجود نیست!
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-end items-center w-full">
+              <div className="flex justify-center items-center bg-orange-500 text-white w-28 h-10 rounded-md">
+                {data.length} سفارش
               </div>
-            ) : (
-              <div className="w-full flex flex-col gap-8">
-                {data.map((da, i) => (
-                  <div
-                    className="w-full flex flex-col gap-2 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
-                    key={i}
-                  >
-                    <div className="flex justify-between items-start gap-4 w-full">
-                      <div className="flex justify-center items-center w-18 h-8 rounded bg-zinc-300">
-                        {priceChanger(da.amount)} تومان
-                      </div>
-                      <div className="flex justify-center items-center w-36 h-8 rounded bg-zinc-300">
-                        تاریخ: {da.createdAt}
-                      </div>
-                      {da.payed == true ? (
-                        <div className="flex justify-center items-center w-20 h-8 rounded text-white bg-green-600">
-                          پرداخت شد!
+            </div>
+            <div>
+              {data.length < 1 ? (
+                <div className="flex justify-center items-center p-8 w-full">
+                  سفارشی موجود نیست!
+                </div>
+              ) : (
+                <div className="w-full flex flex-col gap-8">
+                  {data.map((da, i) => (
+                    <div
+                      className="w-full flex flex-col gap-2 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
+                      key={i}
+                    >
+                      <div className="flex justify-between items-start gap-4 w-full">
+                        <div className="flex justify-center items-center w-18 h-8 rounded bg-zinc-300">
+                          {priceChanger(da.amount)} تومان
                         </div>
-                      ) : (
-                        <div
-                          onClick={() => {
-                            window.location.assign(
-                              `https://nextpay.org/nx/gateway/payment/${da.resnumber}`
-                            );
-                          }}
-                          className="flex justify-center items-center w-72 h-8 cursor-pointer rounded text-white bg-rose-600"
-                        >
-                          در انتظار پرداخت(می خواهم الان پرداخت کنم)!
+                        <div className="flex justify-center items-center w-36 h-8 rounded bg-zinc-300">
+                          تاریخ: {da.createdAt}
                         </div>
-                      )}
+                        {da.payed == true ? (
+                          <div className="flex justify-center items-center w-20 h-8 rounded text-white bg-green-600">
+                            پرداخت شد!
+                          </div>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              window.location.assign(
+                                `https://nextpay.org/nx/gateway/payment/${da.resnumber}`
+                              );
+                            }}
+                            className="flex justify-center items-center w-72 h-8 cursor-pointer rounded text-white bg-rose-600"
+                          >
+                            در انتظار پرداخت(می خواهم الان پرداخت کنم)!
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex justify-between items-center gap-2 flex-wrap">
+                        {da.products.map((d, i) => (
+                          <Slider2box itemData={d} key={i} />
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center gap-2 flex-wrap">
-                      {da.products.map((d, i) => (
-                        <Slider2box itemData={d} key={i} />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

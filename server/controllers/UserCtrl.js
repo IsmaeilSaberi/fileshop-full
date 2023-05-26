@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
 const Payment = require("../models/Payment");
+const Comment = require("../models/Comment");
+const Post = require("../models/Post");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -506,10 +508,49 @@ const getPartOfUserData = async (req, res) => {
       }
       res.status(200).json(goalProducts);
     } else if (theSlug == "comments") {
-      const targetUser = await User.findById(req.user._id).select({
-        comments: 1,
-      });
-      res.status(200).json(targetUser);
+      const targetUser = await User.findById(req.user._id);
+      const userComments = await Comment.find({ email: targetUser.email })
+        .sort({ _id: -1 })
+        .select({
+          createdAt: 1,
+          published: 1,
+          typeOfModel: 1,
+          src_id: 1,
+          message: 1,
+        });
+
+      const fullDataUserComments = [];
+      // ADDING SOURCE POST OR PRODUCT TO COMMENT
+
+      for (let i = 0; i < userComments.length; i++) {
+        let theSrc = {};
+        if (userComments[i].typeOfModel == "post") {
+          const postSrc = await Post.findById(userComments[i].src_id).select({
+            title: 1,
+            slug: 1,
+          });
+          theSrc = postSrc;
+        } else {
+          const productSrc = await Product.findById(
+            userComments[i].src_id
+          ).select({
+            title: 1,
+            slug: 1,
+          });
+          theSrc = productSrc;
+        }
+        const newCommentData = {
+          createdAt: userComments[i].createdAt,
+          published: userComments[i].published,
+          typeOfModel: userComments[i].typeOfModel,
+          src_id: userComments[i].src_id,
+          message: userComments[i].message,
+          src: theSrc,
+        };
+        fullDataUserComments.push(newCommentData);
+      }
+
+      res.status(200).json(fullDataUserComments);
     } else if (theSlug == "payments") {
       const targetUser = await User.findById(req.user._id).select({
         payments: 1,

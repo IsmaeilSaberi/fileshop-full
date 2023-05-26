@@ -5,6 +5,7 @@ import { TiTickOutline } from "react-icons/ti";
 import RelatedPosts from "../../../components/sliders/related-posts";
 import SingleProductFavPro from "../../../components/single-product-fav-pro";
 import AddToCart from "../../../components/add-to-cart";
+import CommentsManager from "../../../components/comments-management";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -35,6 +36,8 @@ const SingleProduct = async ({ params }) => {
     // Reverse the order of the chunks and join them with commas
     return chunks.reverse().join(",");
   }
+
+  const commentProps = { src_id: data._id, typeOfModel: "product" };
 
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">
@@ -157,10 +160,7 @@ const SingleProduct = async ({ params }) => {
                   title={"محصولات مرتبط"}
                 />
               </section>
-              <section className="flex flex-col gap-6">
-                <h2 className="text-xl">دیدگاهها</h2>
-                <form className="bg-gray-100 rounded-md h-48">1</form>
-              </section>
+              <CommentsManager commentProps={commentProps} />
             </div>
           </main>
           <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
