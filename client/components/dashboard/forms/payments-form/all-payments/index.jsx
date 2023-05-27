@@ -67,7 +67,8 @@ const AllPayments = ({ setPaymentDetailCtrl, setRandNumForPaymentClick }) => {
 
   return (
     <div className=" flex flex-col gap-8">
-      <div className="flex justify-end items-center">
+      <div className="flex justify-between items-center">
+        <div>همه ی سفار ش ها</div>
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
           {allPaymentsNumbers} سفارش
         </div>

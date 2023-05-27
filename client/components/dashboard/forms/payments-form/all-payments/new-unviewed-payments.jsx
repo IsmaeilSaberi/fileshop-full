@@ -7,12 +7,15 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
-  const [comments, setComments] = useState([-1]);
+const NewUnviewedPayments = ({
+  setPaymentDetailCtrl,
+  setRandNumForPaymentClick,
+}) => {
+  const [payments, setPayments] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [allCommentsNumbers, setAllCommentsNumbers] = useState(0);
+  const [allPaymentsNumbers, setAllPaymentsNumbers] = useState(0);
   const paginate = 10;
 
   const goToTop = () => {
@@ -25,14 +28,14 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/comments?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/not-viewed-payments?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
-        setComments(d.data.GoalComments);
+        setPayments(d.data.GoalPayments);
         setBtnNumbers([
-          ...Array(Math.ceil(d.data.AllCommentsNumber / paginate)).keys(),
+          ...Array(Math.ceil(d.data.AllPaymentsNumber / paginate)).keys(),
         ]);
-        setAllCommentsNumbers(d.data.AllCommentsNumber);
+        setAllPaymentsNumbers(d.data.AllPaymentsNumber);
       })
       .catch((err) => {
         toast.error("خطا در لود اطلاعات!", {
@@ -68,13 +71,13 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   return (
     <div className=" flex flex-col gap-8">
       <div className="flex justify-between items-center">
-        <div>همه ی دیدگاهها</div>
+        <div>سفارش های جدید(دیده نشده)</div>
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
-          {allCommentsNumbers} دیدگاه
+          {allPaymentsNumbers} سفارش
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        {comments[0] == -1 ? (
+        {payments[0] == -1 ? (
           <div className="flex justify-center items-center p-12">
             <Image
               alt="loading"
@@ -83,17 +86,17 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
               src={"/loading.svg"}
             />
           </div>
-        ) : comments.length < 1 ? (
+        ) : payments.length < 1 ? (
           <div className="flex justify-center items-center w-full p-8">
-            دیدگاهی موجود نیست!
+            ;سفارشی موجود نیست!
           </div>
         ) : (
-          comments.map((comment, i) => (
+          payments.map((payment, i) => (
             <Box
               key={i}
-              setRandNumForCommentClick={setRandNumForCommentClick}
-              setCommentDetailCtrl={setCommentDetailCtrl}
-              data={comment}
+              setRandNumForPaymentClick={setRandNumForPaymentClick}
+              setPaymentDetailCtrl={setPaymentDetailCtrl}
+              data={payment}
             />
           ))
         )}
@@ -112,7 +115,7 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
                   : "rounded-full w-8 h-8 bg-indigo-500 text-white flex justify-center items-center transition-all duration-300 hover:bg-orange-500"
               }
               onClick={() => {
-                n + 1 == pageNumber ? console.log("") : setComments([-1]);
+                n + 1 == pageNumber ? console.log("") : setPayments([-1]);
                 setPageNumber(n + 1);
                 goToTop();
               }}
@@ -140,4 +143,4 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   );
 };
 
-export default AllComments;
+export default NewUnviewedPayments;

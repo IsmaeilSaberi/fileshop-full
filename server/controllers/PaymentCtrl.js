@@ -195,6 +195,38 @@ const getAllPayments = async (req, res) => {
 };
 module.exports.getAllPayments = getAllPayments;
 
+const getAllNotViewedPayments = async (req, res) => {
+  try {
+    if (req.query.pn && req.query.pgn) {
+      const paginate = req.query.pgn;
+      const pageNumber = req.query.pn;
+      const GoalPayments = await Payment.find({ viewed: false })
+        .sort({ _id: -1 })
+        .skip((pageNumber - 1) * paginate)
+        .limit(paginate)
+        .select({
+          email: 1,
+          amount: 1,
+          payed: 1,
+          viewed: 1,
+          updatedAt: 1,
+        });
+      const AllPaymentsNumber = await (
+        await Payment.find({ viewed: false })
+      ).length;
+      res.status(200).json({ GoalPayments, AllPaymentsNumber });
+    } else {
+      const AllPayments = await Payment.find().sort({ _id: -1 });
+      // .select({ resnumber: false });
+      res.status(200).json(AllPayments);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getAllNotViewedPayments = getAllNotViewedPayments;
+
 const updatePayment = async (req, res) => {
   try {
     /////EXPRESS VALIDATOR

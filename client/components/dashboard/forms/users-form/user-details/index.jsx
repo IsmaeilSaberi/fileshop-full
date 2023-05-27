@@ -129,13 +129,41 @@ const UserDetails = ({ userId }) => {
         })
       );
   };
-  // this part is used to delete a user
-  const unchecker = (goalId) => {
+
+  // this part is used to uncheck a payment
+  const paymentUnchecker = (goalId) => {
     const url = `https://fileshop-server.iran.liara.run/api/uncheck-payment/${goalId}`;
     axios
       .get(url)
       .then((d) =>
-        toast.success("به بخش سفارش ها افزوده شد.", {
+        toast.success("به بخش سفارش های جدید افزوده شد.", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      )
+      .catch((err) => {
+        toast.error("متاسفانه ناموفق بود!", {
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+  };
+
+  // this part is used to uncheck a comment
+  const commentUnchecker = (goalId) => {
+    const url = `https://fileshop-server.iran.liara.run/api/uncheck-comment/${goalId}`;
+    axios
+      .get(url)
+      .then((d) =>
+        toast.success("به بخش دیدگا ههای افزوده شد.", {
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -365,10 +393,46 @@ const UserDetails = ({ userId }) => {
                         <div>{da.createdAt}</div>
                       </div>
                       <div
-                        onClick={() => unchecker(da._id)}
+                        onClick={() => paymentUnchecker(da._id)}
                         className="bg-blue-500 text-white rounded p-1 text-sm cursor-pointer hover:bg-blue-600 transition-all duration-200"
                       >
-                        نمایش در بخش سفارش ها
+                        نمایش در بخش سفارش های جدید
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <div>دیدگاهها</div>
+              {fullData.comments.length < 1 ? (
+                <div>دیدگاهی وجود ندارد!</div>
+              ) : (
+                <div className="flex justify-center items-center gap-4 text-xs flex-wrap">
+                  {fullData.comments.map((da, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4 w-5/12"
+                    >
+                      <div className="flex justify-start items-center gap-2">
+                        <div>مرجع :</div>
+                        <div>
+                          {da.typeOfModel == "post" ? "مقاله" : "محصول"}
+                        </div>
+                      </div>
+                      <div className="flex justify-start items-center gap-2">
+                        <div>تاریخ :</div>
+                        <div>{da.createdAt}</div>
+                      </div>
+                      <div className="flex justify-start items-center gap-2">
+                        <div>متن :</div>
+                        <div className="text-justify">{da.message}</div>
+                      </div>
+                      <div
+                        onClick={() => commentUnchecker(da._id)}
+                        className="bg-blue-500 text-white text-center rounded p-1 text-sm cursor-pointer hover:bg-blue-600 transition-all duration-200"
+                      >
+                        نمایش در بخش دیدگاههای جدید
                       </div>
                     </div>
                   ))}

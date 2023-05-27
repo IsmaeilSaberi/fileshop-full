@@ -149,6 +149,38 @@ const getAllComments = async (req, res) => {
 };
 module.exports.getAllComments = getAllComments;
 
+const getAllNotViewedComments = async (req, res) => {
+  try {
+    if (req.query.pn && req.query.pgn) {
+      const paginate = req.query.pgn;
+      const pageNumber = req.query.pn;
+      const GoalComments = await Comment.find({ viewed: false })
+        .sort({ _id: -1 })
+        .skip((pageNumber - 1) * paginate)
+        .limit(paginate)
+        .select({
+          email: 1,
+          amount: 1,
+          parentId: 1,
+          viewed: 1,
+          published: 1,
+          createdAt: 1,
+        });
+      const AllCommentsNumber = await (
+        await Comment.find({ viewed: false })
+      ).length;
+      res.status(200).json({ GoalComments, AllCommentsNumber });
+    } else {
+      const AllComments = await Comment.find().sort({ _id: -1 });
+      res.status(200).json(AllComments);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getAllNotViewedComments = getAllNotViewedComments;
+
 const updateComment = async (req, res) => {
   try {
     /////EXPRESS VALIDATOR

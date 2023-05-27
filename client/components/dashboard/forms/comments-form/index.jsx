@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import AllComments from "./all-comments";
 import CommentDetails from "./comment-details";
+import NewUnviewedComments from "./all-comments/new-unviewed-comments";
 
 const CommentsMain = () => {
   const [commentDetailCtrl, setCommentDetailCtrl] = useState("");
@@ -36,6 +37,19 @@ const CommentsMain = () => {
             className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             همه
+          </button>
+          <button
+            onClick={() =>
+              setDetails(
+                <NewUnviewedComments
+                  setRandNumForCommentClick={setRandNumForCommentClick}
+                  setCommentDetailCtrl={setCommentDetailCtrl}
+                />
+              )
+            }
+            className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
+          >
+            دیدگاههای جدید
           </button>
         </div>
       </section>

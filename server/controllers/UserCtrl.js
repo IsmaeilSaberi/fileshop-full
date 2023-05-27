@@ -414,6 +414,16 @@ const getOneUserById = async (req, res) => {
     }).select({ amount: 1, payed: 1, createdAt: 1 });
     targetUser.payments = targetUserPayments;
 
+    // FOR ADDING COMMENTS TO TARGET USER
+    const targetUserComments = await Comment.find({
+      email: targetUser.email,
+    }).select({
+      message: 1,
+      typeOfModel: 1,
+      createdAt: 1,
+    });
+    targetUser.comments = targetUserComments;
+
     res.status(200).json(targetUser);
   } catch (error) {
     console.log(error);
@@ -772,3 +782,18 @@ const uncheckPayment = async (req, res) => {
   }
 };
 module.exports.uncheckPayment = uncheckPayment;
+
+const uncheckComment = async (req, res) => {
+  try {
+    const newCommentData = {
+      viewed: false,
+    };
+    await Comment.findByIdAndUpdate(req.params.id, newCommentData, {
+      new: true,
+    });
+    res.status(200).json({ msg: "دیدگاه به بخش دیدگاه های جدید افزوده شد!" });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+module.exports.uncheckComment = uncheckComment;

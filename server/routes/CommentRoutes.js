@@ -25,6 +25,8 @@ router.post(
 
 router.get("/comments", CommentCtrl.getAllComments);
 
+router.get("/not-viwed-comments", CommentCtrl.getAllNotViewedComments);
+
 router.post(
   "/update-comment/:id",
   [

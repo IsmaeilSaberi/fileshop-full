@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import AllPayments from "./all-payments";
 import PaymentDetails from "./payment-details";
+import NewUnviewedPayments from "./all-payments/new-unviewed-payments";
 
 const PaymentsMain = () => {
   const [paymentDetailCtrl, setPaymentDetailCtrl] = useState("");
@@ -36,6 +37,19 @@ const PaymentsMain = () => {
             className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
           >
             همه
+          </button>
+          <button
+            onClick={() =>
+              setDetails(
+                <NewUnviewedPayments
+                  setRandNumForPaymentClick={setRandNumForPaymentClick}
+                  setPaymentDetailCtrl={setPaymentDetailCtrl}
+                />
+              )
+            }
+            className="flex justify-center items-center w-32 h-10 rounded-md bg-indigo-500 text-white transition-all duration-200 hover:bg-orange-500"
+          >
+            سفارش های جدید
           </button>
         </div>
       </section>

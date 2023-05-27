@@ -7,6 +7,8 @@ const UserExist = require("../middlewares/userExist");
 
 router.get("/payments", PaymentCtrl.getAllPayments);
 
+router.get("/not-viewed-payments", PaymentCtrl.getAllNotViewedPayments);
+
 router.post(
   "/update-payment/:id",
   [

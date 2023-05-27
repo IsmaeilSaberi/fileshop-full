@@ -7,7 +7,10 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
+const NewUnviewedComments = ({
+  setCommentDetailCtrl,
+  setRandNumForCommentClick,
+}) => {
   const [comments, setComments] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
@@ -25,7 +28,7 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/comments?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/not-viwed-comments?pn=${pageNumber}&&pgn=${paginate}`
       )
       .then((d) => {
         setComments(d.data.GoalComments);
@@ -68,7 +71,7 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   return (
     <div className=" flex flex-col gap-8">
       <div className="flex justify-between items-center">
-        <div>همه ی دیدگاهها</div>
+        <div>دیدگاههای جدید(دیده نشده)</div>
         <div className="w-32 h-10 rounded-md bg-indigo-500 flex justify-center items-center text-white">
           {allCommentsNumbers} دیدگاه
         </div>
@@ -140,4 +143,4 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
   );
 };
 
-export default AllComments;
+export default NewUnviewedComments;

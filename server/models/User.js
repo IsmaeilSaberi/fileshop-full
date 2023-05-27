@@ -33,6 +33,11 @@ const UserSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  comments: {
+    required: true,
+    type: Array,
+    default: [],
+  },
   cart: {
     required: true,
     type: Array,
