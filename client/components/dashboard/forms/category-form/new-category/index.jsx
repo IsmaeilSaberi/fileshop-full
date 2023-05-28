@@ -1,11 +1,14 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const NewCategory = () => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const titleRef = useRef();
   const imageUrlRef = useRef();
   const imageAltRef = useRef();
@@ -37,7 +40,9 @@ const NewCategory = () => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/new-category`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         formData.situation == "true"
           ? toast.success("دسته محصول با موفقیت ذخیره و منتشر شد.", {

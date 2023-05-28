@@ -6,8 +6,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const AllSliders = ({ setSliderDetailCtrl, setRandNumForSliderClick }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const [sliders, setSliders] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
@@ -25,7 +28,10 @@ const AllSliders = ({ setSliderDetailCtrl, setRandNumForSliderClick }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/sliders?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/sliders?pn=${pageNumber}&&pgn=${paginate}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setSliders(d.data.GoalSliders);

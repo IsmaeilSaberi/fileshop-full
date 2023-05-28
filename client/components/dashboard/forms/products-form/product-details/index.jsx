@@ -6,8 +6,11 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const ProductDetails = ({ productId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -137,7 +140,10 @@ const ProductDetails = ({ productId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-product-by-id/${productId}`
+        `https://fileshop-server.iran.liara.run/api/get-product-by-id/${productId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -191,7 +197,9 @@ const ProductDetails = ({ productId }) => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/update-product/${productId}`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         formData.published == "true"
           ? toast.success("محصول با موفقیت آپدیت و منتشر شد.", {
@@ -234,7 +242,13 @@ const ProductDetails = ({ productId }) => {
   const remover = (e) => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-product/${productId}`;
     axios
-      .post(url)
+      .post(
+        url,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) =>
         toast.success("محصول با موفقیت حذف شد.", {
           autoClose: 3000,

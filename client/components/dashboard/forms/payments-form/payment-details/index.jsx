@@ -6,8 +6,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const PaymentDetails = ({ paymentId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -34,7 +37,10 @@ const PaymentDetails = ({ paymentId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-payment/${paymentId}`
+        `https://fileshop-server.iran.liara.run/api/get-payment/${paymentId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -74,7 +80,9 @@ const PaymentDetails = ({ paymentId }) => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/update-payment/${paymentId}`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         toast.success("سفارش با موفقیت آپدیت شد.", {
           autoClose: 3000,
@@ -105,7 +113,13 @@ const PaymentDetails = ({ paymentId }) => {
   const remover = (e) => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-payment/${paymentId}`;
     axios
-      .post(url)
+      .post(
+        url,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) =>
         toast.success("سفارش با موفقیت حذف شد.", {
           autoClose: 3000,

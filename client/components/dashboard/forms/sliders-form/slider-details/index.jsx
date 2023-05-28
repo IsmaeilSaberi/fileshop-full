@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const SliderDetails = ({ sliderId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -38,7 +41,10 @@ const SliderDetails = ({ sliderId }) => {
     axios
       .post(
         `https://fileshop-server.iran.liara.run/api/update-slider/${sliderId}`,
-        formData
+        formData,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         formData.situation == "true"
@@ -81,7 +87,12 @@ const SliderDetails = ({ sliderId }) => {
   // this part used for getting one slider details for using in details component
   useEffect(() => {
     axios
-      .get(`https://fileshop-server.iran.liara.run/api/get-slider/${sliderId}`)
+      .get(
+        `https://fileshop-server.iran.liara.run/api/get-slider/${sliderId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) => {
         setFullData(d.data);
       })
@@ -101,7 +112,11 @@ const SliderDetails = ({ sliderId }) => {
   const remover = (e) => {
     axios
       .post(
-        `https://fileshop-server.iran.liara.run/api/remove-slider/${sliderId}`
+        `https://fileshop-server.iran.liara.run/api/remove-slider/${sliderId}`,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) =>
         toast.success("اسلایدر با موفقیت حذف شد.", {

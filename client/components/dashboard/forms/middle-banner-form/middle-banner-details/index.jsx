@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const MiddleBannerDetails = ({ middleBannerId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -36,7 +39,10 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
     axios
       .post(
         `https://fileshop-server.iran.liara.run/api/update-middle-banner/${middleBannerId}`,
-        formData
+        formData,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         formData.situation == "true"
@@ -80,7 +86,10 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-middle-banner/${middleBannerId}`
+        `https://fileshop-server.iran.liara.run/api/get-middle-banner/${middleBannerId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -101,7 +110,11 @@ const MiddleBannerDetails = ({ middleBannerId }) => {
   const remover = (e) => {
     axios
       .post(
-        `https://fileshop-server.iran.liara.run/api/remove-middle-banner/${middleBannerId}`
+        `https://fileshop-server.iran.liara.run/api/remove-middle-banner/${middleBannerId}`,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) =>
         toast.success("بنر با موفقیت حذف شد.", {

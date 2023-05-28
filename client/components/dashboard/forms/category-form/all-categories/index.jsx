@@ -6,11 +6,14 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const AllCategories = ({
   setCategoryDetailCtrl,
   setRandNumForCategoryClick,
 }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const [categories, setCategories] = useState([-1]);
   const [btnNumbers, setBtnNumbers] = useState([-1]);
   const [filteredBtns, setFilteredBtns] = useState([-1]);
@@ -28,7 +31,10 @@ const AllCategories = ({
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/categories?pn=${pageNumber}&&pgn=${paginate}`
+        `https://fileshop-server.iran.liara.run/api/categories?pn=${pageNumber}&&pgn=${paginate}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setCategories(d.data.GoalCategories);

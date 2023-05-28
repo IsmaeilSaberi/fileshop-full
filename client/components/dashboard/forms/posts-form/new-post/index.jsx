@@ -5,8 +5,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const NewPost = () => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const titleRef = useRef();
   const slugRef = useRef();
   const imageRef = useRef();
@@ -46,7 +49,9 @@ const NewPost = () => {
   useEffect(() => {
     const postsUrl = "https://fileshop-server.iran.liara.run/api/related-posts";
     axios
-      .get(postsUrl)
+      .get(postsUrl, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         setPosts(d.data);
       })
@@ -93,7 +98,9 @@ const NewPost = () => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/new-post`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         formData.published == "true"
           ? toast.success("مقاله با موفقیت منتشر شد.", {

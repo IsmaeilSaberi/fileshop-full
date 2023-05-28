@@ -5,8 +5,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
 const CategoryDetails = ({ categoryId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -42,7 +45,10 @@ const CategoryDetails = ({ categoryId }) => {
     axios
       .post(
         `https://fileshop-server.iran.liara.run/api/update-category/${categoryId}`,
-        formData
+        formData,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         formData.situation == "true"
@@ -88,7 +94,10 @@ const CategoryDetails = ({ categoryId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-category/${categoryId}`
+        `https://fileshop-server.iran.liara.run/api/get-category/${categoryId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -109,7 +118,11 @@ const CategoryDetails = ({ categoryId }) => {
   const remover = (e) => {
     axios
       .post(
-        `https://fileshop-server.iran.liara.run/api/remove-category/${categoryId}`
+        `https://fileshop-server.iran.liara.run/api/remove-category/${categoryId}`,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) =>
         toast.success("دسته محصول با موفقیت حذف شد.", {

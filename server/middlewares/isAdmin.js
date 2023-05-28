@@ -14,8 +14,8 @@ module.exports = async function (req, res, next) {
     try {
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
       if (
-        verified._id == adminData._id &&
-        verified.username == adminData.username
+        verified._id == adminData[0]._id &&
+        verified.username == adminData[0].username
       ) {
         req.user = verified;
         next();

@@ -5,8 +5,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 const CommentDetails = ({ commentId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -35,7 +38,10 @@ const CommentDetails = ({ commentId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-comment/${commentId}`
+        `https://fileshop-server.iran.liara.run/api/get-comment/${commentId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -69,7 +75,9 @@ const CommentDetails = ({ commentId }) => {
 
     const url = `https://fileshop-server.iran.liara.run/api/update-comment/${commentId}`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         toast.success("دیدگاه با موفقیت آپدیت شد.", {
           autoClose: 3000,
@@ -105,7 +113,9 @@ const CommentDetails = ({ commentId }) => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/publish-comment`;
     axios
-      .post(url, sendingData)
+      .post(url, sendingData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         toast.success("انتشار دیدگاه و ارسال ایمیل با موفقیت انجام شد.", {
           autoClose: 3000,
@@ -134,7 +144,13 @@ const CommentDetails = ({ commentId }) => {
   const remover = () => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-comment/${commentId}`;
     axios
-      .post(url)
+      .post(
+        url,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) =>
         toast.success("دیدگاه با موفقیت حذف شد.", {
           autoClose: 3000,

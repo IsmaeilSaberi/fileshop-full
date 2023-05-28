@@ -4,10 +4,12 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const PostDetails = ({ postId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -55,7 +57,9 @@ const PostDetails = ({ postId }) => {
   useEffect(() => {
     const postsUrl = "https://fileshop-server.iran.liara.run/api/related-posts";
     axios
-      .get(postsUrl)
+      .get(postsUrl, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         setPosts(d.data);
       })
@@ -78,7 +82,10 @@ const PostDetails = ({ postId }) => {
   useEffect(() => {
     axios
       .get(
-        `https://fileshop-server.iran.liara.run/api/get-post-by-id/${postId}`
+        `https://fileshop-server.iran.liara.run/api/get-post-by-id/${postId}`,
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
       )
       .then((d) => {
         setFullData(d.data);
@@ -130,8 +137,11 @@ const PostDetails = ({ postId }) => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/update-post/${postId}`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
+        goToTop();
         formData.published == "true"
           ? toast.success("مقاله با موفقیت آپدیت و منتشر شد.", {
               autoClose: 3000,
@@ -173,7 +183,13 @@ const PostDetails = ({ postId }) => {
   const remover = (e) => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-post/${postId}`;
     axios
-      .post(url)
+      .post(
+        url,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) =>
         toast.success("مقاله با موفقیت حذف شد.", {
           autoClose: 3000,
@@ -215,7 +231,10 @@ const PostDetails = ({ postId }) => {
                 لینک پست
               </Link>
               <button
-                onClick={() => remover()}
+                onClick={() => {
+                  remover();
+                  goToTop();
+                }}
                 className="bg-rose-400 text-white px-3 py-1 rounded-md text-xs transition-all duration-200 hover:bg-rose-500"
               >
                 حذف
@@ -425,19 +444,6 @@ const PostDetails = ({ postId }) => {
           </form>
         </div>
       )}
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

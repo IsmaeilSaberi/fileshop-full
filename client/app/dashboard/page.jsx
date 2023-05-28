@@ -1,4 +1,3 @@
-import DashboardCtrl from "../../components/dashboard/dashboard-ctrl";
 import MainDashboard from "../../components/dashboard/main-dashboard";
 
 const Page = () => {

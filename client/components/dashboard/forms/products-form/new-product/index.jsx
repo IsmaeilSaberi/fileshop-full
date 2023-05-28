@@ -5,8 +5,11 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const NewProduct = () => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   const titleRef = useRef();
   const slugRef = useRef();
   const mainFileRef = useRef();
@@ -74,7 +77,9 @@ const NewProduct = () => {
     const categoriesUrl =
       "https://fileshop-server.iran.liara.run/api/product-categories";
     axios
-      .get(categoriesUrl)
+      .get(categoriesUrl, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         setCategories(d.data);
       })
@@ -114,7 +119,9 @@ const NewProduct = () => {
     const productsUrl =
       "https://fileshop-server.iran.liara.run/api/related-products";
     axios
-      .get(productsUrl)
+      .get(productsUrl, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         setProducts(d.data);
       })
@@ -166,7 +173,9 @@ const NewProduct = () => {
 
     const url = `https://fileshop-server.iran.liara.run/api/new-product`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         formData.published == "true"
           ? toast.success("محصول با موفقیت منتشر شد.", {

@@ -6,8 +6,11 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 
 const UserDetails = ({ userId }) => {
+  const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
+
   // the part for prevent for submitting with enter key
   const formKeyNotSuber = (event) => {
     if (event.key == "Enter") {
@@ -36,7 +39,9 @@ const UserDetails = ({ userId }) => {
   const [fullData, setFullData] = useState([-1]);
   useEffect(() => {
     axios
-      .get(`https://fileshop-server.iran.liara.run/api/get-user/${userId}`)
+      .get(`https://fileshop-server.iran.liara.run/api/get-user/${userId}`, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         setFullData(d.data);
         goToTop();
@@ -76,7 +81,9 @@ const UserDetails = ({ userId }) => {
     };
     const url = `https://fileshop-server.iran.liara.run/api/update-user/${userId}`;
     axios
-      .post(url, formData)
+      .post(url, formData, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) => {
         toast.success("کاربر با موفقیت آپدیت شد.", {
           autoClose: 3000,
@@ -107,7 +114,13 @@ const UserDetails = ({ userId }) => {
   const remover = (e) => {
     const url = `https://fileshop-server.iran.liara.run/api/remove-user/${userId}`;
     axios
-      .post(url)
+      .post(
+        url,
+        { item: 1 },
+        {
+          headers: { auth_cookie: auth_cookie },
+        }
+      )
       .then((d) =>
         toast.success("کاربر با موفقیت حذف شد.", {
           autoClose: 3000,
@@ -134,7 +147,9 @@ const UserDetails = ({ userId }) => {
   const paymentUnchecker = (goalId) => {
     const url = `https://fileshop-server.iran.liara.run/api/uncheck-payment/${goalId}`;
     axios
-      .get(url)
+      .get(url, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) =>
         toast.success("به بخش سفارش های جدید افزوده شد.", {
           autoClose: 3000,
@@ -161,7 +176,9 @@ const UserDetails = ({ userId }) => {
   const commentUnchecker = (goalId) => {
     const url = `https://fileshop-server.iran.liara.run/api/uncheck-comment/${goalId}`;
     axios
-      .get(url)
+      .get(url, {
+        headers: { auth_cookie: auth_cookie },
+      })
       .then((d) =>
         toast.success("به بخش دیدگا ههای افزوده شد.", {
           autoClose: 3000,
