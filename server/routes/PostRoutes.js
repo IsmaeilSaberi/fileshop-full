@@ -3,12 +3,16 @@ const router = express();
 const { check } = require("express-validator");
 const Post = require("../models/Post");
 
+const isAdmin = require("../middlewares/isAdmin");
+
 const PostCtrl = require("../controllers/PostCtrl");
-router.get("/posts", PostCtrl.getAllPosts);
+
+router.get("/posts", isAdmin, PostCtrl.getAllPosts);
 //// THIS RELATED POSTS ARE FOR ADD OR UPDATE A BLOG
 router.get("/related-posts", PostCtrl.getRelatedPosts);
 router.post(
   "/new-post",
+  isAdmin,
   [
     check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -30,6 +34,7 @@ router.post(
 );
 router.post(
   "/update-post/:id",
+  isAdmin,
   [
     check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -49,9 +54,9 @@ router.post(
   ],
   PostCtrl.updatePost
 );
-router.post("/remove-post/:id", PostCtrl.removePost);
+router.post("/remove-post/:id", isAdmin, PostCtrl.removePost);
 router.get("/get-post/:slug", PostCtrl.getOnePost);
-router.get("/get-post-by-id/:id", PostCtrl.getOnePostById);
+router.get("/get-post-by-id/:id", isAdmin, PostCtrl.getOnePostById);
 router.get("/get-new-posts", PostCtrl.getNewPosts);
 router.get("/get-most-popular-posts", PostCtrl.getMostPopularPosts);
 //// THIS RELATED POSTS ARE FOR SINGLE BLOG PAGE

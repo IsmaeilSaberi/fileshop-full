@@ -3,10 +3,12 @@ const router = express();
 const { check } = require("express-validator");
 const User = require("../models/User");
 
-const UserCtrl = require("../controllers/UserCtrl");
-const UserExist = require("../middlewares/userExist");
+const isAdmin = require("../middlewares/isAdmin");
+const userExist = require("../middlewares/userExist");
 
-router.get("/users", UserCtrl.getAllUsers);
+const UserCtrl = require("../controllers/UserCtrl");
+
+router.get("/users", isAdmin, UserCtrl.getAllUsers);
 
 router.post(
   "/register-user",
@@ -64,7 +66,7 @@ router.post(
 
 router.post(
   "/user-activation-code-again",
-  UserExist,
+  userExist,
   UserCtrl.userActivationCodeAgain
 );
 
@@ -85,6 +87,7 @@ router.post(
 
 router.post(
   "/update-user/:id",
+  isAdmin,
   [
     check(
       "username",
@@ -127,6 +130,7 @@ router.post(
 
 router.post(
   "/update-mini-user/:id",
+  userExist,
   [
     check(
       "displayname",
@@ -146,39 +150,40 @@ router.post(
   UserCtrl.updateMiniUser
 );
 
-router.post("/remove-user/:id", UserCtrl.removeUser);
+router.post("/remove-user/:id", isAdmin, UserCtrl.removeUser);
 
 // FOR ADMIN
-router.get("/get-user/:id", UserCtrl.getOneUserById);
+router.get("/get-user/:id", isAdmin, UserCtrl.getOneUserById);
 
 // FOR USER
-router.get("/get-user-data", UserExist, UserCtrl.getUserDataAccount);
+router.get("/get-user-data", userExist, UserCtrl.getUserDataAccount);
 
 router.post(
   "/search-user",
+  isAdmin,
   [check("email", "فرمت ایمیل اشتباه است!").isEmail()],
   UserCtrl.searchUsers
 );
 
 router.get(
   "/get-part-of-user-data/:slug",
-  UserExist,
+  userExist,
   UserCtrl.getPartOfUserData
 );
 
 //EMAIL SEND CHANGER
-router.post("/update-email-user", UserExist, UserCtrl.emailSendChanger);
+router.post("/update-email-user", userExist, UserCtrl.emailSendChanger);
 
-router.post("/confirm-user-email", UserExist, UserCtrl.confirmEmail);
+router.post("/confirm-user-email", userExist, UserCtrl.confirmEmail);
 
-router.post("/favorite-product", UserExist, UserCtrl.favoriteProductManage);
+router.post("/favorite-product", userExist, UserCtrl.favoriteProductManage);
 
-router.post("/cart-manager", UserExist, UserCtrl.cartManager);
+router.post("/cart-manager", userExist, UserCtrl.cartManager);
 
 router.get("/cart-number", UserCtrl.cartNumber);
 
-router.get("/uncheck-payment/:id", UserCtrl.uncheckPayment);
+router.get("/uncheck-payment/:id", isAdmin, UserCtrl.uncheckPayment);
 
-router.get("/uncheck-comment/:id", UserCtrl.uncheckComment);
+router.get("/uncheck-comment/:id", isAdmin, UserCtrl.uncheckComment);
 
 module.exports = router;

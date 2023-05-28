@@ -72,7 +72,7 @@ router.post(
   CategoryCtrl.updateCategory
 );
 router.post("/remove-category/:id", isAdmin, CategoryCtrl.removeCategory);
-router.get("/get-category/:id", isadmin, CategoryCtrl.getOneCategoryById);
+router.get("/get-category/:id", isAdmin, CategoryCtrl.getOneCategoryById);
 router.get("/get-active-categories", CategoryCtrl.getMainPageCategories);
 
 module.exports = router;

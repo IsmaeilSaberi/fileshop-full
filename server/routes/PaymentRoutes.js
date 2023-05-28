@@ -2,15 +2,22 @@ const express = require("express");
 const router = express();
 const { check } = require("express-validator");
 
+const isAdmin = require("../middlewares/isAdmin");
+const userExist = require("../middlewares/userExist");
+
 const PaymentCtrl = require("../controllers/PaymentCtrl");
-const UserExist = require("../middlewares/userExist");
 
-router.get("/payments", PaymentCtrl.getAllPayments);
+router.get("/payments", isAdmin, PaymentCtrl.getAllPayments);
 
-router.get("/not-viewed-payments", PaymentCtrl.getAllNotViewedPayments);
+router.get(
+  "/not-viewed-payments",
+  isAdmin,
+  PaymentCtrl.getAllNotViewedPayments
+);
 
 router.post(
   "/update-payment/:id",
+  isAdmin,
   [
     check(
       "username",
@@ -34,13 +41,13 @@ router.post(
   PaymentCtrl.updatePayment
 );
 
-router.post("/remove-payment/:id", PaymentCtrl.removePayment);
+router.post("/remove-payment/:id", isAdmin, PaymentCtrl.removePayment);
 
 // FOR ADMIN
-router.get("/get-payment/:id", PaymentCtrl.getOnePaymentById);
+router.get("/get-payment/:id", isAdmin, PaymentCtrl.getOnePaymentById);
 
 // MAIN PAYMENT
-router.post("/new-payment", UserExist, PaymentCtrl.newPayment);
-router.post("/payment-result-check", UserExist, PaymentCtrl.paymentResultCheck);
+router.post("/new-payment", userExist, PaymentCtrl.newPayment);
+router.post("/payment-result-check", userExist, PaymentCtrl.paymentResultCheck);
 
 module.exports = router;

@@ -2,15 +2,18 @@ const express = require("express");
 const router = express();
 const { check } = require("express-validator");
 
+const isAdmin = require("../middlewares/isAdmin");
+
 const Product = require("../models/Product");
 const ProductCtrl = require("../controllers/ProductCtrl");
 
-router.get("/products", ProductCtrl.getAllProducts);
+router.get("/products", isAdmin, ProductCtrl.getAllProducts);
 //// THIS RELATED PRODUCTS ARE FOR ADD OR UPDATE A PRODUCT
 router.get("/related-products", ProductCtrl.getRelatedProducts);
 router.get("/product-categories", ProductCtrl.getRelatedCategoriesOfProducts);
 router.post(
   "/new-product",
+  isAdmin,
   [
     check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -34,6 +37,7 @@ router.post(
 );
 router.post(
   "/update-product/:id",
+  isAdmin,
   [
     check("title", "تعداد کاراکتر عنوان باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -55,9 +59,9 @@ router.post(
   ],
   ProductCtrl.updateProduct
 );
-router.post("/remove-product/:id", ProductCtrl.removeProduct);
+router.post("/remove-product/:id", isAdmin, ProductCtrl.removeProduct);
 router.get("/get-product/:slug", ProductCtrl.getOneProduct);
-router.get("/get-product-by-id/:id", ProductCtrl.getOneProductById);
+router.get("/get-product-by-id/:id", isAdmin, ProductCtrl.getOneProductById);
 router.get("/get-new-products", ProductCtrl.getNewProducts);
 router.get("/get-most-popular-products", ProductCtrl.getMostPopularProducts);
 //// THIS RELATED PRODUCTS ARE FOR SINGLE PRODUCT PAGE
@@ -65,6 +69,7 @@ router.post("/get-related-products-by-id", ProductCtrl.getRelatedProductsByIds);
 ////THIS IS USING FOR GETTING EVERY TYPE PRODUCTS IN ALLPRODUCTS COMPONENT
 router.get(
   "/get-products-of-type/:typeOfProduct",
+  isAdmin,
   ProductCtrl.getOneTypeProducts
 );
 router.get("/search-products", ProductCtrl.searchProducts);

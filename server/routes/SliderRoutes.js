@@ -2,10 +2,14 @@ const express = require("express");
 const router = express();
 const { check } = require("express-validator");
 
+const isAdmin = require("../middlewares/isAdmin");
+
 const SliderCtrl = require("../controllers/SliderCtrl");
-router.get("/sliders", SliderCtrl.getAllSliders);
+
+router.get("/sliders", isAdmin, SliderCtrl.getAllSliders);
 router.post(
   "/new-slider",
+  isAdmin,
   [
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -17,6 +21,7 @@ router.post(
 );
 router.post(
   "/update-slider/:id",
+  isAdmin,
   [
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -26,8 +31,8 @@ router.post(
   ],
   SliderCtrl.updateSlider
 );
-router.post("/remove-slider/:id", SliderCtrl.removeSlider);
-router.get("/get-slider/:id", SliderCtrl.getOneSlider);
+router.post("/remove-slider/:id", isAdmin, SliderCtrl.removeSlider);
+router.get("/get-slider/:id", isAdmin, SliderCtrl.getOneSlider);
 router.get("/get-active-sliders", SliderCtrl.getActiveSliders);
 
 module.exports = router;
