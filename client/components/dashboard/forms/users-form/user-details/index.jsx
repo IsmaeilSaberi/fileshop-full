@@ -412,7 +412,7 @@ const UserDetails = ({ userId }) => {
                   {fullData.comments.map((da, i) => (
                     <div
                       key={i}
-                      className="flex flex-col gap-4 bg-zinc-200 rounded-md p-4 w-5/12"
+                      className="flex flex-col justify-between gap-4 bg-zinc-200 rounded-md p-4 w-[48%] min-h-[13rem]"
                     >
                       <div className="flex justify-start items-center gap-2">
                         <div>مرجع :</div>
@@ -424,9 +424,11 @@ const UserDetails = ({ userId }) => {
                         <div>تاریخ :</div>
                         <div>{da.createdAt}</div>
                       </div>
-                      <div className="flex justify-start items-center gap-2">
-                        <div>متن :</div>
-                        <div className="text-justify">{da.message}</div>
+                      <div className="flex justify-start items-start gap-2">
+                        <div className="min-w-8 w-8">متن :</div>
+                        <div className="text-justify w-full leading-6">
+                          {da.message}
+                        </div>
                       </div>
                       <div
                         onClick={() => commentUnchecker(da._id)}

@@ -1,13 +1,13 @@
 import Image from "next/image";
 import BreadCrumb from "../../../components/bread-crumb";
 import { AiOutlineEye } from "react-icons/ai";
-import { TfiCommentAlt } from "react-icons/tfi";
 import { MdDateRange } from "react-icons/md";
 import Link from "next/link";
 import RelatedPosts from "../../../components/sliders/related-posts";
 import MostViewedPosts from "../../../components/most-viewed-posts";
 import SearchBlog from "../../../components/search-blog";
 import CommentsManager from "../../../components/comments-management";
+import CommentsNumber from "../../../components/product-post-comments-number";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -61,11 +61,7 @@ const SingleBlog = async ({ params }) => {
                     <span>تعداد بازدید : </span>
                     <span>{data.pageView}</span>
                   </div>
-                  <div className="bg-zinc-200 rounded-md p-2 flex justify-between items-center gap-2">
-                    <TfiCommentAlt className="w-6 h-6" />
-                    <span>دیدگاهها : </span>
-                    <span>{data.comments.length}</span>
-                  </div>
+                  <CommentsNumber goalId={data._id} />
                   <div className="bg-zinc-200 rounded-md p-2 flex justify-between items-center gap-2">
                     <MdDateRange className="w-6 h-6" />
                     <span>آخرین بروز رسانی : </span>

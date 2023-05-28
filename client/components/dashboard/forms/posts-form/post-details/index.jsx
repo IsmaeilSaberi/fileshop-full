@@ -209,6 +209,7 @@ const PostDetails = ({ postId }) => {
             <div className="flex justify-end items-center gap-2">
               <Link
                 href={`/blog/${fullData.slug}`}
+                target="_blank"
                 className="bg-blue-400 text-white px-3 py-1 rounded-md text-sm transition-all duration-200 hover:bg-blue-500"
               >
                 لینک پست

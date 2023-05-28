@@ -130,7 +130,6 @@ const getAllComments = async (req, res) => {
         .limit(paginate)
         .select({
           email: 1,
-          amount: 1,
           parentId: 1,
           viewed: 1,
           published: 1,
@@ -160,7 +159,6 @@ const getAllNotViewedComments = async (req, res) => {
         .limit(paginate)
         .select({
           email: 1,
-          amount: 1,
           parentId: 1,
           viewed: 1,
           published: 1,
@@ -314,3 +312,19 @@ const getCommentChildren = async (req, res) => {
   }
 };
 module.exports.getCommentChildren = getCommentChildren;
+
+const getModelCommentsNumber = async (req, res) => {
+  try {
+    const goalModelComments = await Comment.find({
+      src_id: req.params.id,
+      parentId: "nothing",
+      published: true,
+    });
+    const goalModelCommentsNumber = { number: goalModelComments.length };
+    res.status(200).json(goalModelCommentsNumber);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getModelCommentsNumber = getModelCommentsNumber;

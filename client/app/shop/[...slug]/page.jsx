@@ -6,6 +6,7 @@ import RelatedPosts from "../../../components/sliders/related-posts";
 import SingleProductFavPro from "../../../components/single-product-fav-pro";
 import AddToCart from "../../../components/add-to-cart";
 import CommentsManager from "../../../components/comments-management";
+import CommentsNumber from "../../../components/product-post-comments-number";
 
 const getData = async (slug) => {
   const data = await fetch(
@@ -190,10 +191,7 @@ const SingleProduct = async ({ params }) => {
                   <span>تعداد بازدید</span>
                   <span>{data.pageView}</span>
                 </li>
-                <li className="flex justify-between items-center">
-                  <span>تعداد دیدگاه</span>
-                  <span>{data.comments ? data.comments.length : 0}</span>
-                </li>
+                <CommentsNumber goalId={data._id} />
               </ul>
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
