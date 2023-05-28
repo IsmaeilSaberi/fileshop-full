@@ -187,18 +187,3 @@ const getMainPageCategories = async (req, res) => {
   }
 };
 module.exports.getMainPageCategories = getMainPageCategories;
-
-const getOneCategoryBySlug = async (req, res) => {
-  try {
-    const targetCategory = await Category.findOne({ slug: req.params.slug });
-    if (targetCategory.situation == true) {
-      res.status(200).json(targetPost);
-    } else {
-      res.status(400).json({ msg: "دسته هنوز منتشر نشده است!" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
-  }
-};
-module.exports.getOneCategoryBySlug = getOneCategoryBySlug;

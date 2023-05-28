@@ -2,13 +2,16 @@ const express = require("express");
 const router = express();
 const { check } = require("express-validator");
 
+const isAdmin = require("../middlewares/isAdmin");
+
 const CategoryCtrl = require("../controllers/CategoryCtrl");
 const Category = require("../models/Category");
 
-router.get("/categories", CategoryCtrl.getAllCategories);
+router.get("/categories", isAdmin, CategoryCtrl.getAllCategories);
 //// THESE ARE FOR CREATE NEW CATEGORY
 router.post(
   "/new-category",
+  isAdmin,
   [
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -39,6 +42,7 @@ router.post(
 );
 router.post(
   "/update-category/:id",
+  isAdmin,
   [
     check("imageAlt", "تعداد کاراکتر آلت باید بیشتر از 8 باشد!").isLength({
       min: 8,
@@ -67,9 +71,8 @@ router.post(
   ],
   CategoryCtrl.updateCategory
 );
-router.post("/remove-category/:id", CategoryCtrl.removeCategory);
-router.get("/get-category/:id", CategoryCtrl.getOneCategoryById);
+router.post("/remove-category/:id", isAdmin, CategoryCtrl.removeCategory);
+router.get("/get-category/:id", isadmin, CategoryCtrl.getOneCategoryById);
 router.get("/get-active-categories", CategoryCtrl.getMainPageCategories);
-router.get("/get-category/:slug", CategoryCtrl.getOneCategoryBySlug);
 
 module.exports = router;
