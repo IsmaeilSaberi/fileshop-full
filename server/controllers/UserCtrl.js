@@ -754,7 +754,7 @@ module.exports.cartManager = cartManager;
 const searchUsers = async (req, res) => {
   try {
     const theUser = await User.find({ email: req.body.email }).select({
-      password: false,
+      _id: true,
     });
     if (theUser.length > 0) {
       res.status(200).json({ userData: theUser[0] });
