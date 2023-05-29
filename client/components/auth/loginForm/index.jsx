@@ -3,7 +3,6 @@ import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -138,19 +137,6 @@ const LoginForm = () => {
           ورود به حساب کاربری
         </button>
       </form>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </section>
   );
 };

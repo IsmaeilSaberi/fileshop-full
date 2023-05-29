@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -227,19 +226,6 @@ const RegisterForm = () => {
           ثبت نام در سایت
         </button>
       </form>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </section>
   );
 };

@@ -32,8 +32,21 @@ app.use(xssCleaner());
 app.use(mongoSanitize());
 app.use(hpp());
 
+// EXPRESS RATE LIMIT
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 200,
+  stausCode: 200,
+  handler: function (req, res) {
+    res.status(429).json({
+      msg: "به دلیل تعدد، درخواست های شما به مدت 10 دقیقه مسدود شده است. بعد از این زمان می توانید دوباره امتحان کنید!",
+    });
+  },
+});
+
 // using project routes
-app.get("/", (req, res) => {
+app.get("/", limiter, (req, res) => {
   res.status(200).json({ msg: "this is the server of the fileshop project!" });
 });
 

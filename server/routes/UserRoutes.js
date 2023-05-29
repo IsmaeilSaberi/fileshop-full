@@ -2,16 +2,29 @@ const express = require("express");
 const router = express();
 const { check } = require("express-validator");
 const User = require("../models/User");
+const UserCtrl = require("../controllers/UserCtrl");
 
 const isAdmin = require("../middlewares/isAdmin");
 const userExist = require("../middlewares/userExist");
 
-const UserCtrl = require("../controllers/UserCtrl");
+// EXPRESS RATE LIMIT
+const rateLimit = require("express-rate-limit");
+const loginRegisterLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  stausCode: 200,
+  handler: function (req, res) {
+    res.status(429).json({
+      msg: "به دلیل تعدد، درخواست های شما به مدت 15 دقیقه مسدود شده است. بعد از این زمان می توانید دوباره امتحان کنید!",
+    });
+  },
+});
 
 router.get("/users", isAdmin, UserCtrl.getAllUsers);
 
 router.post(
   "/register-user",
+  loginRegisterLimiter,
   [
     check(
       "username",
@@ -72,6 +85,7 @@ router.post(
 
 router.post(
   "/login-user",
+  loginRegisterLimiter,
   [
     check(
       "password",
