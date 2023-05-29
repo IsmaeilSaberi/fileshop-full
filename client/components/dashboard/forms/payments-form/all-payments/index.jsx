@@ -49,7 +49,7 @@ const AllPayments = ({ setPaymentDetailCtrl, setRandNumForPaymentClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber]);
 

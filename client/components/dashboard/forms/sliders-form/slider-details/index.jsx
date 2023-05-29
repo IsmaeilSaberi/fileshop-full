@@ -66,7 +66,7 @@ const SliderDetails = ({ sliderId }) => {
             });
       })
       .catch((err) => {
-        console.log(err);
+        console.log("خطا!");
         let message = "خطایی در آپدیت و ذخیره اسلایدر رخ داد.";
         if (err.response.data.msg) {
           message = err.response.data.msg;

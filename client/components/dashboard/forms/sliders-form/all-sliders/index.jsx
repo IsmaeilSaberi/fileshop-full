@@ -49,7 +49,7 @@ const AllSliders = ({ setSliderDetailCtrl, setRandNumForSliderClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber]);
 

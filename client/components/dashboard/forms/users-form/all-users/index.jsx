@@ -49,7 +49,7 @@ const AllUsers = ({ setUserDetailCtrl, setRandNumForUserClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber]);
 

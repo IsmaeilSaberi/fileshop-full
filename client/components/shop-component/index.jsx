@@ -70,7 +70,7 @@ const ShopComponent = ({ url }) => {
         setBtns(d.data.btns);
         setSearchedProductsNumber(d.data.productsNumber);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("خطا!"));
   }, [
     keyword,
     orderBy,

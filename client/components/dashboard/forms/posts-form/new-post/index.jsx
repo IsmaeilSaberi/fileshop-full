@@ -55,7 +55,7 @@ const NewPost = () => {
       .then((d) => {
         setPosts(d.data);
       })
-      .catch((err) => console.log("error in loading posts"));
+      .catch((err) => console.log("خطا!"));
   }, []);
 
   const [relatedPosts, setRelatedPosts] = useState([]);

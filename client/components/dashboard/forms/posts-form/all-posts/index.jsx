@@ -49,7 +49,7 @@ const AllPosts = ({ setPostDetailCtrl, setRandNumForPostClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber]);
 

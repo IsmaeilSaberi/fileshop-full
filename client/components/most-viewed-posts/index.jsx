@@ -14,7 +14,7 @@ const MostViewedPosts = () => {
       .then((d) => {
         setPosts(d.data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log("خطا!"));
   }, []);
 
   return (

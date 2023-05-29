@@ -40,7 +40,7 @@ const BlogPageComp = ({ url }) => {
         setBtns(d.data.btns);
         setSearchedPostsNumber(d.data.postsNumber);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("خطا!"));
   }, [pn, keyword]);
 
   return (

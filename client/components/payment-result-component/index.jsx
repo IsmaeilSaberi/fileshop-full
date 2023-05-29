@@ -65,7 +65,7 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
           router.push("/account/files");
         })
         .catch((err) => {
-          console.log(err);
+          console.log("خطا!");
           const message =
             err.response && err.response.data && err.response.data.msg
               ? err.response.data.msg

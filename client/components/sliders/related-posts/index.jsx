@@ -32,7 +32,7 @@ const RelatedPosts = ({ typeOfModel, relatedModels, title }) => {
       .then((d) => {
         setRelatedModelsData(d.data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log("خطا!"));
   }, [relatedModels]);
 
   return (

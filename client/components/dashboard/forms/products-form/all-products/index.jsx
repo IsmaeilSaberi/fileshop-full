@@ -50,7 +50,7 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber, categoryUrl]);
 

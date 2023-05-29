@@ -12,7 +12,7 @@ const CommentsNumber = ({ goalId }) => {
         `https://fileshop-server.iran.liara.run/api/get-model-comments-number/${goalId}`
       )
       .then((d) => setCommentsNumber(d.data.number))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("خطا!"));
   }, [goalId]);
 
   return (

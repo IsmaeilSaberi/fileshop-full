@@ -83,7 +83,7 @@ const NewProduct = () => {
       .then((d) => {
         setCategories(d.data);
       })
-      .catch((err) => console.log("error in loading categories"));
+      .catch((err) => console.log("خطا!"));
   }, []);
 
   const [relatedCategories, setRelatedCategories] = useState([]);
@@ -125,7 +125,7 @@ const NewProduct = () => {
       .then((d) => {
         setProducts(d.data);
       })
-      .catch((err) => console.log("error in loading products"));
+      .catch((err) => console.log("خطا!"));
   }, []);
 
   const [relatedProducts, setRelatedProducts] = useState([]);

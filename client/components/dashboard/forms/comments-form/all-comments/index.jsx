@@ -49,7 +49,7 @@ const AllComments = ({ setCommentDetailCtrl, setRandNumForCommentClick }) => {
           draggable: true,
           progress: undefined,
         });
-        console.log(err);
+        console.log("خطا!");
       });
   }, [pageNumber]);
 
