@@ -444,6 +444,18 @@ const getUserDataAccount = async (req, res) => {
 };
 module.exports.getUserDataAccount = getUserDataAccount;
 
+// FOR ADMIN REDIRECT
+const getUserAdminData = async (req, res) => {
+  try {
+    const targetUser = await User.findById(req.user._id).select({ _id: 1 });
+    res.status(200).json(targetUser);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getUserAdminData = getUserAdminData;
+
 // ACCOUNT AND CART PAGE
 const getPartOfUserData = async (req, res) => {
   try {

@@ -172,6 +172,9 @@ router.get("/get-user/:id", isAdmin, UserCtrl.getOneUserById);
 // FOR USER
 router.get("/get-user-data", userExist, UserCtrl.getUserDataAccount);
 
+// FOR ADMIN
+router.get("/get-user-admin-data", isAdmin, UserCtrl.getUserAdminData);
+
 router.post(
   "/search-user",
   isAdmin,
