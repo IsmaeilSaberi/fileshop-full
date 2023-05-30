@@ -16,7 +16,7 @@ const RootLayout = ({ children }) => {
         <ContextProvider>
           <Header />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </ContextProvider>
       </body>
     </html>
