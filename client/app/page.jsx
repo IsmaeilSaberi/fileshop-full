@@ -17,6 +17,13 @@ const Home = async () => {
   const data = await getproductsData();
   return (
     <div>
+      <>
+        <title>فروشگاه فایل اسماعیل</title>
+        <meta name="robots" content="index,follow" />
+        <meta name="description" content=" فروشگاه فایل اسماعیل" />
+        <meta name="keywords" content=" فروشگاه فایل اسماعیل" />
+        <link rel="canonical" href="http://localhost:3000/" />
+      </>
       <main className="flex flex-col gap-2">
         <MainSlider />
         <Slider2 goalData={data.newApps} title="اپلیکیشن ها" linkComp="app" />

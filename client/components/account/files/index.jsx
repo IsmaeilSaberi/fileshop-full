@@ -40,6 +40,12 @@ const Files = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-8 relative pt-20">
+      <>
+        <title>محصولات من</title>
+        <meta name="description" content="محصولات من" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="http://localhost:3000/account/files" />
+      </>
       <h3 className="text-lg absolute top-1 right-1 ">محصولات من</h3>
       <div
         onClick={() => {

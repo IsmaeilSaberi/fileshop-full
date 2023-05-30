@@ -15,7 +15,7 @@ const loginRegisterLimiter = rateLimit({
   stausCode: 200,
   handler: function (req, res) {
     res.status(429).json({
-      msg: "به دلیل تعدد، درخواست های شما به مدت 15 دقیقه مسدود شده است. بعد از این زمان می توانید دوباره امتحان کنید!",
+      msg: "بعد از 15 دقیقه دوباره امتحان کنید!",
     });
   },
 });

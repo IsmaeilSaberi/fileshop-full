@@ -24,6 +24,12 @@ const Register = async () => {
 
   return (
     <div>
+      <>
+        <title>ثبت نام در سایت</title>
+        <meta name="robots" content="index,follow" />
+        <meta name="description" content="ثبت نام در سایت" />
+        <link rel="canonical" href="http://localhost:3000/register" />
+      </>
       <RegisterForm />
     </div>
   );

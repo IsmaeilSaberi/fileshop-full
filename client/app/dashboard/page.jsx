@@ -31,6 +31,12 @@ const Page = async () => {
 
   return (
     <div>
+      <>
+        <title>داشبورد مدیریتی</title>
+        <meta name="robots" content="noindex,nofollow" />
+        <meta name="description" content="داشبورد مدیریتی" />
+        <link rel="canonical" href="http://localhost:3000/dashboard" />
+      </>
       <MainDashboard />
     </div>
   );

@@ -50,10 +50,30 @@ const SingleProduct = async ({ params }) => {
     <div className="container mx-auto flex justify-between items-start gap-4">
       {data.msg ? (
         <div className="w-full flex justify-center items-center p-12 text-xl">
-          محصول هنوز منتشر نشده است!
+          <div>
+            <>
+              <title>{data.title}</title>
+              <meta name="robots" content="index,follow" />
+              <meta name="description" content="انتشار به زودی" />
+              <link
+                rel="canonical"
+                href={`http://localhost:3000/shop/${data.slug}`}
+              />
+            </>
+            محصول هنوز منتشر نشده است!
+          </div>
         </div>
       ) : (
         <>
+          <>
+            <title>{data.title}</title>
+            <meta name="robots" content="index,follow" />
+            <meta name="description" content={data.shortDesc} />
+            <link
+              rel="canonical"
+              href={`http://localhost:3000/shop/${data.slug}`}
+            />
+          </>
           <main className="w-[75%]">
             {" "}
             <div className="flex flex-col gap-8">

@@ -24,6 +24,12 @@ const Login = async () => {
 
   return (
     <div>
+      <>
+        <title>ورود به حساب</title>
+        <meta name="robots" content="index,follow" />
+        <meta name="description" content="ورود به حساب" />
+        <link rel="canonical" href="http://localhost:3000/login" />
+      </>
       <LoginForm />
     </div>
   );

@@ -23,9 +23,15 @@ const CartPage = async () => {
   const data = await getAuthData(cookieValue);
 
   return (
-    <section className="container mx-auto">
+    <main className="container mx-auto">
+      <>
+        <title>سبد خرید</title>
+        <meta name="robots" content="index,follow" />
+        <meta name="description" content="سبد خرید" />
+        <link rel="canonical" href="http://localhost:3000/cart" />
+      </>
       <CartPageComponent cookie={cookieValue} />
-    </section>
+    </main>
   );
 };
 

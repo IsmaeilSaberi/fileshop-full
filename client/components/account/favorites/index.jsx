@@ -144,6 +144,12 @@ const Favorites = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-8 relative pt-20">
+      <>
+        <title>علاقه مندی های من</title>
+        <meta name="description" content="علاقه مندی های من" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="http://localhost:3000/account/favorites" />
+      </>
       <h3 className="text-lg absolute top-1 right-1 ">علاقه مندی های من</h3>
       <div
         onClick={() => {

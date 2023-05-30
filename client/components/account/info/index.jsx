@@ -61,7 +61,9 @@ const Info = ({ cookie }) => {
     };
     const backendUrl = `https://fileshop-server.iran.liara.run/api/update-mini-user/${data._id}`;
     axios
-      .post(backendUrl, formData)
+      .post(backendUrl, formData, {
+        headers: { auth_cookie: cookie },
+      })
       .then((d) => {
         const message = d.data.msg
           ? d.data.msg
@@ -222,6 +224,12 @@ const Info = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-10 relative pt-8">
+      <>
+        <title>اطلاعات من</title>
+        <meta name="description" content="اطلاعات من" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="http://localhost:3000/account/info" />
+      </>
       <h3 className="text-lg absolute top-1 right-1 ">اطلاعات من</h3>
       <div
         onClick={() => {

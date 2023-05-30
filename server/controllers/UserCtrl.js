@@ -315,12 +315,14 @@ const updateMiniUser = async (req, res) => {
           await User.findByIdAndUpdate(req.params.id, data, {
             new: true,
           });
-          res.status(200).json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
+          return res
+            .status(200)
+            .json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
         } else {
-          res.status(422).json({ msg: "تکرار رمز عبور اشتباه است!" });
+          return res.status(422).json({ msg: "تکرار رمز عبور اشتباه است!" });
         }
       }
-      res.status(200).json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
+      return res.status(200).json({ msg: "اطلاعات شما با موفقیت آپدیت شد!" });
     }
   } catch (error) {
     res.status(400).json(error);

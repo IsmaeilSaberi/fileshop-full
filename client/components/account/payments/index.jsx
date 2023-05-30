@@ -54,6 +54,12 @@ const Payments = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-8 relative pt-20">
+      <>
+        <title>سفارش های من</title>
+        <meta name="description" content="سفارش های من" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="http://localhost:3000/account/payments" />
+      </>
       <h3 className="text-lg absolute top-1 right-1 ">سفارش های من</h3>
       <div
         onClick={() => {
