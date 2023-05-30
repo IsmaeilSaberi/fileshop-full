@@ -8,13 +8,19 @@ import MostViewedPosts from "../../../components/most-viewed-posts";
 import SearchBlog from "../../../components/search-blog";
 import CommentsManager from "../../../components/comments-management";
 import CommentsNumber from "../../../components/product-post-comments-number";
+import { notFound } from "next/navigation";
 
 const getData = async (slug) => {
   const data = await fetch(
     `https://fileshop-server.iran.liara.run/api/get-post/${slug}`,
     { cache: "no-store" }
   );
-  return data.json();
+  const outData = await data.json();
+  if (!outData._id && !outData.msg) {
+    notFound();
+  } else {
+    return outData;
+  }
 };
 
 const getProductsData = async () => {
@@ -32,7 +38,9 @@ const SingleBlog = async ({ params }) => {
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
       {data.msg ? (
-        <div>مقاله هنوز منتشر نشده است!</div>
+        <div className="w-full flex justify-center items-center p-12 text-xl">
+          مقاله هنوز منتشر نشده است!
+        </div>
       ) : (
         <>
           <main className="w-[75%]">

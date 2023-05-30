@@ -27,7 +27,7 @@ import { useAppContext } from "../../context/app-context";
 const Header = () => {
   const [logoHover, setLogoHover] = useState(0);
 
-  // CONTEXT OF CARTnUMBER
+  // CONTEXT OF CARTNUMBER
   const { cartNumber } = useAppContext();
 
   const router = useRouter();
@@ -142,14 +142,6 @@ const Header = () => {
                     href={"/blog"}
                   >
                     وبلاگ
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="w-32 h-10 rounded-md bg-zinc-200 flex justify-center items-center transition-all duration-200 hover:bg-orange-400 hover:text-white"
-                    href={"/dashboard"}
-                  >
-                    داشبورد
                   </Link>
                 </li>
               </ul>

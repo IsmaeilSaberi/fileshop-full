@@ -7,13 +7,19 @@ import SingleProductFavPro from "../../../components/single-product-fav-pro";
 import AddToCart from "../../../components/add-to-cart";
 import CommentsManager from "../../../components/comments-management";
 import CommentsNumber from "../../../components/product-post-comments-number";
+import { notFound } from "next/navigation";
 
 const getData = async (slug) => {
   const data = await fetch(
     `https://fileshop-server.iran.liara.run/api/get-product/${slug}`,
     { cache: "no-store" }
   );
-  return data.json();
+  const outData = await data.json();
+  if (!outData._id && !outData.msg) {
+    notFound();
+  } else {
+    return outData;
+  }
 };
 
 const SingleProduct = async ({ params }) => {
@@ -43,7 +49,9 @@ const SingleProduct = async ({ params }) => {
   return (
     <div className="container mx-auto flex justify-between items-start gap-4">
       {data.msg ? (
-        <div>محصول هنوز منتشر نشده است!</div>
+        <div className="w-full flex justify-center items-center p-12 text-xl">
+          محصول هنوز منتشر نشده است!
+        </div>
       ) : (
         <>
           <main className="w-[75%]">
