@@ -9,6 +9,8 @@ import Comments from "../comments";
 import Payments from "../payments";
 import Files from "../files";
 import axios from "axios";
+import { ImProfile } from "react-icons/im";
+import { AiOutlineClose } from "react-icons/ai";
 
 const AccountMainComponent = ({ items }) => {
   const router = useRouter();
@@ -60,6 +62,9 @@ const AccountMainComponent = ({ items }) => {
     }
   }, [items.slug[0]]);
 
+  //FOR RESPONSIVE
+  const [menuIsOpen, setMenuIsOpen] = useState(-1);
+
   const goToTop = () => {
     window.scroll({
       top: 0,
@@ -70,7 +75,13 @@ const AccountMainComponent = ({ items }) => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-start gap-2">
-        <div className="w-72 bg-zinc-100 p-6 rounded-md sticky top-8 right-0 bottom-8">
+        <div
+          className={
+            menuIsOpen == -1
+              ? "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent fixed md:sticky md:top-8 md:right-0 md:bottom-8 h-[100vh] py-1 md:px-2 top-0 bottom-0 left-[100%] md:left-0 -right-[100%] transition-all duration-500"
+              : "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent h-[100vh] py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
+          }
+        >
           <nav className="flex justify-center items-center ">
             <ul className="flex flex-col gap-4 w-full">
               <li className="w-full">
@@ -141,7 +152,27 @@ const AccountMainComponent = ({ items }) => {
             </ul>
           </nav>
         </div>
-        <div className="p-4 bg-zinc-100 w-full rounded-md">{details}</div>
+        <div className="p-4 bg-zinc-100 w-full rounded-md mt-8 md:mt-0">
+          {details}
+        </div>
+      </div>
+      <div className="fixed z-50 flex md:hidden top-3 left-3">
+        <ImProfile
+          onClick={() => setMenuIsOpen(menuIsOpen * -1)}
+          className={
+            menuIsOpen == -1
+              ? "w-9 h-9 text-gray-800 flex"
+              : "w-9 h-9 text-gray-800 hidden"
+          }
+        />
+        <AiOutlineClose
+          onClick={() => setMenuIsOpen(menuIsOpen * -1)}
+          className={
+            menuIsOpen == 1
+              ? "w-10 h-10 text-white flex"
+              : "w-10 h-10 text-black hidden"
+          }
+        />
       </div>
     </div>
   );

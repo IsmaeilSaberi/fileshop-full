@@ -150,7 +150,7 @@ const Footer = () => {
         />
         <Link href={`/cart`} className="fixed right-4 bottom-4">
           <div className="relative">
-            <div className="absolute z-50 -top-2 -right-2 p-1 rounded-full w-6 h-6 bg-indigo-500 flex justify-center items-center text-white">
+            <div className="absolute z-40 -top-2 -right-2 p-1 rounded-full w-6 h-6 bg-indigo-500 flex justify-center items-center text-white">
               {cartNumber == -1 ? "" : cartNumber}
             </div>
             <AiFillShopping className="z-40 right-4 bottom-4 w-12 h-12 p-2 cursor-pointer rounded-md bg-zinc-300 text-orange-500 transition-all duration-200 hover:text-orange-600" />

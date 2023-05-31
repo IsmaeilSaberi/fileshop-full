@@ -259,7 +259,7 @@ const Info = ({ cookie }) => {
                   onSubmit={userEmailConfirmer}
                   className="flex flex-col  gap-8 items-center"
                 >
-                  <div className="flex justify-between items-center gap-4 w-full">
+                  <div className="flex flex-wrap justify-between items-center gap-4 w-full">
                     <h3 className="text-lg">کد تایید حساب کاربری</h3>
                     <div
                       onClick={() => {
@@ -289,7 +289,7 @@ const Info = ({ cookie }) => {
             ) : (
               <div></div>
             )}
-            <div className="flex justify-between items-center gap-6">
+            <div className="flex justify-between items-center gap-6 flex-wrap">
               <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ ثبت نام:</div>
                 <div>{data.createdAt}</div>
@@ -317,7 +317,7 @@ const Info = ({ cookie }) => {
               <div>به روز رسانی اطلاعات</div>
               <form
                 onSubmit={handleSubmit(miniUpdater)}
-                className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-6"
+                className="flex flex-col gap-6 m-8 w-full md:w-[30rem] bg-zinc-100 rounded-md p-6"
               >
                 <div className="flex flex-col gap-1">
                   <input
@@ -410,7 +410,7 @@ const Info = ({ cookie }) => {
                 </button>
               </form>
             </div>
-            <div className="flex justify-between items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
+            <div className="flex flex-wrap justify-between items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
               <div className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200">
                 <div>اطلاع رسانی رویدادها</div>
                 {bulkEmailSituation == true ? (
