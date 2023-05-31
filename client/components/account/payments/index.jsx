@@ -66,7 +66,7 @@ const Payments = ({ cookie }) => {
           setNeedRefresh(1);
           setData([-1]);
         }}
-        className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+        className="absolute top-1 left-0 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
       >
         <FiRefreshCcw />
         به روز رسانی
@@ -97,10 +97,10 @@ const Payments = ({ cookie }) => {
                 <div className="w-full flex flex-col gap-8">
                   {data.map((da, i) => (
                     <div
-                      className="w-full flex flex-col gap-2 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
+                      className="w-full flex flex-col gap-2 bg-zinc-200 text-sm rounded-md p-1 md:p-4 border-2 border-indigo-400"
                       key={i}
                     >
-                      <div className="flex justify-between items-start gap-4 w-full">
+                      <div className="flex flex-wrap justify-between items-start gap-4 w-full">
                         <div className="flex justify-center items-center w-18 h-8 rounded bg-zinc-300">
                           {priceChanger(da.amount)} تومان
                         </div>
@@ -124,7 +124,7 @@ const Payments = ({ cookie }) => {
                           </div>
                         )}
                       </div>
-                      <div className="flex justify-between items-center gap-2 flex-wrap">
+                      <div className="flex justify-center md:justify-between items-center gap-2 flex-wrap">
                         {da.products.map((d, i) => (
                           <Slider2box itemData={d} key={i} />
                         ))}

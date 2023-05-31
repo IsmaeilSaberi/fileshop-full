@@ -52,7 +52,7 @@ const Files = ({ cookie }) => {
           setNeedRefresh(1);
           setData([-1]);
         }}
-        className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+        className="absolute top-1 left-0 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
       >
         <FiRefreshCcw />
         به روز رسانی
@@ -86,7 +86,7 @@ const Files = ({ cookie }) => {
                       className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                       key={i}
                     >
-                      <div className="flex justify-between items-start gap-4">
+                      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                         <div className="flex justify-center items-center">
                           <Image
                             className="p-2"
@@ -99,13 +99,13 @@ const Files = ({ cookie }) => {
                         </div>
                         <div className="relative w-full h-[140px] flex flex-col justify-between gap-4">
                           <Link
-                            className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
+                            className="absolute top-1 left-1 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
                             href={`/shop/${da.slug}`}
                             target="_blank"
                           >
                             لینک محصول
                           </Link>
-                          <h3 className="text-base">{da.title}</h3>
+                          <h3 className="mt-8 lg:mt-0 text-base">{da.title}</h3>
                           <Link
                             className="flex justify-center items-center py-3 px-4 bg-sky-600 transition-all duration-200 hover:bg-sky-700 rounded-md text-white text-sm"
                             href={da.mainFile}

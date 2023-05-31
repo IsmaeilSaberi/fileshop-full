@@ -211,7 +211,7 @@ const CartPageComponent = ({ cookie }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start p-4">
         <h1 className="text-indigo-600 text-lg ">سبد خرید</h1>
         <div
           onClick={() => {
@@ -236,7 +236,7 @@ const CartPageComponent = ({ cookie }) => {
           </div>
         ) : (
           <div>
-            <div className="flex justify-between items-start gap-2 ">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-2">
               <div className="w-full rounded-md bg-zinc-100 p-4">
                 {data.length < 1 ? (
                   <div className="flex justify-center items-center p-8 w-full">
@@ -249,7 +249,7 @@ const CartPageComponent = ({ cookie }) => {
                         className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                         key={i}
                       >
-                        <div className="flex justify-between items-start gap-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                           <div className="flex justify-center items-center">
                             <Image
                               className="p-2"
@@ -277,7 +277,9 @@ const CartPageComponent = ({ cookie }) => {
                             >
                               لینک محصول
                             </Link>
-                            <h3 className="text-base">{da.title}</h3>
+                            <h3 className="text-base mt-10 lg:mt-0">
+                              {da.title}
+                            </h3>
                             <p>{da.shortDesc}</p>
                             <div className="flex justify-start items-center gap-4">
                               <dir>{da.buyNumber} فروش</dir>
@@ -303,19 +305,21 @@ const CartPageComponent = ({ cookie }) => {
                                 ))
                               )}
                             </div>
-                            <div
-                              onClick={() => favAdder(da._id)}
-                              className="absolute bottom-2 left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-blue-600 bg-blue-500 w-44 h-8 rounded gap-2"
-                            >
-                              <AiOutlineHeart className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
-                              افزودن به علاقه مندی ها
-                            </div>
-                            <div
-                              onClick={() => productRemover(da._id)}
-                              className="absolute flex justify-center items-center gap-1 rounded bottom-2 left-2 w-16 h-6 cursor-pointer bg-rose-600 text-white transition-all duration-200 hover:bg-rose-700"
-                            >
-                              حذف
-                              <MdDeleteForever />
+                            <div className="mt-12 lg:mt-0">
+                              <div
+                                onClick={() => favAdder(da._id)}
+                                className="absolute bottom-2 left-20 md:left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-blue-600 bg-blue-500 w-44 h-8 rounded gap-2"
+                              >
+                                <AiOutlineHeart className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
+                                افزودن به علاقه مندی ها
+                              </div>
+                              <div
+                                onClick={() => productRemover(da._id)}
+                                className="absolute flex justify-center items-center gap-1 rounded bottom-2 left-2 w-16 h-6 cursor-pointer bg-rose-600 text-white transition-all duration-200 hover:bg-rose-700"
+                              >
+                                حذف
+                                <MdDeleteForever />
+                              </div>
                             </div>
                           </div>
                         </div>

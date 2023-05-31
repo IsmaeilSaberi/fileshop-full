@@ -79,10 +79,10 @@ const RegisterForm = () => {
     <section className="container mx-auto flex justify-center items-center">
       <form
         onSubmit={handleSubmit(formSubmitter)}
-        className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-8"
+        className="flex flex-col gap-6 m-4 md:m-8 w-full md:w-[30rem] bg-zinc-100 rounded-md p-2 md:p-8"
       >
-        <div className="flex justify-center items-center gap-6 ">
-          <h1 className="text-lg text-center text-blue-600 ">
+        <div className="flex justify-center items-center gap-6 flex-wrap">
+          <h1 className="text-base md:text-lg text-center text-blue-600 ">
             ثبت نام در سایت
           </h1>
           <Link

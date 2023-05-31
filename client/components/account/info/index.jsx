@@ -236,7 +236,7 @@ const Info = ({ cookie }) => {
           setNeedRefresh(1);
           setData([-1]);
         }}
-        className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+        className="absolute top-1 left-0 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
       >
         <FiRefreshCcw />
         به روز رسانی

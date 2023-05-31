@@ -156,7 +156,7 @@ const Favorites = ({ cookie }) => {
           setNeedRefresh(1);
           setData([-1]);
         }}
-        className="absolute top-1 left-1 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
+        className="absolute top-1 left-0 flex justify-center items-center rounded cursor-pointer transition-all duration-200 text-white hover:bg-indigo-400 text-sm gap-1 w-28 h-10 bg-indigo-500"
       >
         <FiRefreshCcw />
         به روز رسانی
@@ -190,7 +190,7 @@ const Favorites = ({ cookie }) => {
                       className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                       key={i}
                     >
-                      <div className="flex justify-between items-start gap-4">
+                      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                         <div className="flex justify-center items-center">
                           <Image
                             className="p-2"
@@ -219,7 +219,9 @@ const Favorites = ({ cookie }) => {
                             )}
                           </div>
 
-                          <h3 className="text-base">{da.title}</h3>
+                          <h3 className="mt-10 lg:mt-0 text-base">
+                            {da.title}
+                          </h3>
                           <p>{da.shortDesc}</p>
                           <div className="flex justify-start items-center gap-4">
                             <dir>{da.buyNumber} فروش</dir>
@@ -245,19 +247,21 @@ const Favorites = ({ cookie }) => {
                               ))
                             )}
                           </div>
-                          <div
-                            onClick={() => cartAdder(da._id)}
-                            className="absolute bottom-2 left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-green-600 bg-green-500 w-32 h-8 rounded gap-2"
-                          >
-                            <HiShoppingBag className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
-                            افزودن به سبد
-                          </div>
-                          <div
-                            onClick={() => productRemover(da._id)}
-                            className="absolute flex justify-center items-center gap-1 rounded bottom-2 left-2 w-16 h-6 cursor-pointer bg-rose-600 text-white transition-all duration-200 hover:bg-rose-700"
-                          >
-                            حذف
-                            <MdDeleteForever />
+                          <div className="m-4">
+                            <div
+                              onClick={() => cartAdder(da._id)}
+                              className="absolute bottom-0 md:bottom-2 left-30 md:left-44 flex justify-center items-center cursor-pointer transition-all duration-200 text-white hover:bg-green-600 bg-green-500 w-32 h-8 rounded gap-2"
+                            >
+                              <HiShoppingBag className="w-6 h-6 p-1 mr-1 rounded-lg" />{" "}
+                              افزودن به سبد
+                            </div>
+                            <div
+                              onClick={() => productRemover(da._id)}
+                              className="absolute flex justify-center items-center gap-1 rounded bottom-2 left-2 w-16 h-6 cursor-pointer bg-rose-600 text-white transition-all duration-200 hover:bg-rose-700"
+                            >
+                              حذف
+                              <MdDeleteForever />
+                            </div>
                           </div>
                         </div>
                       </div>

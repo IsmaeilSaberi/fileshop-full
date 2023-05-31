@@ -68,10 +68,12 @@ const LoginForm = () => {
     <section className="container mx-auto flex justify-center items-center">
       <form
         onSubmit={handleSubmit(formSubmitter)}
-        className="flex flex-col gap-6 m-8 w-[30rem] bg-zinc-100 rounded-md p-8"
+        className="flex flex-col gap-6 m-4 md:m-8 w-full md:w-[30rem] bg-zinc-100 rounded-md p-2 md:p-8"
       >
         <div className="flex justify-center items-center gap-6 ">
-          <h1 className="text-lg text-center text-blue-500 ">ورود به حساب</h1>
+          <h1 className="text-base md:text-lg text-center text-blue-500 ">
+            ورود به حساب
+          </h1>
           <Link
             className="bg-blue-400 rounded-md text-white px-2 py-1 transition-all duration-200 hover:bg-blue-500"
             href={"/register"}

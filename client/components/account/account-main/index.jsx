@@ -82,11 +82,14 @@ const AccountMainComponent = ({ items }) => {
               : "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent h-[100vh] py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
           }
         >
-          <nav className="flex justify-center items-center ">
+          <nav className="flex justify-center items-center mt-12 md:mt-0 ">
             <ul className="flex flex-col gap-4 w-full">
               <li className="w-full">
                 <Link
-                  onClick={goToTop}
+                  onClick={() => {
+                    goToTop();
+                    setMenuIsOpen(-1);
+                  }}
                   className={
                     items.slug[0] == "info"
                       ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
@@ -99,7 +102,10 @@ const AccountMainComponent = ({ items }) => {
               </li>
               <li className="w-full">
                 <Link
-                  onClick={goToTop}
+                  onClick={() => {
+                    goToTop();
+                    setMenuIsOpen(-1);
+                  }}
                   className={
                     items.slug[0] == "favorites"
                       ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
@@ -112,7 +118,10 @@ const AccountMainComponent = ({ items }) => {
               </li>
               <li className="w-full">
                 <Link
-                  onClick={goToTop}
+                  onClick={() => {
+                    goToTop();
+                    setMenuIsOpen(-1);
+                  }}
                   className={
                     items.slug[0] == "files"
                       ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
@@ -125,7 +134,10 @@ const AccountMainComponent = ({ items }) => {
               </li>
               <li className="w-full">
                 <Link
-                  onClick={goToTop}
+                  onClick={() => {
+                    goToTop();
+                    setMenuIsOpen(-1);
+                  }}
                   className={
                     items.slug[0] == "comments"
                       ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
@@ -138,7 +150,10 @@ const AccountMainComponent = ({ items }) => {
               </li>
               <li className="w-full">
                 <Link
-                  onClick={goToTop}
+                  onClick={() => {
+                    goToTop();
+                    setMenuIsOpen(-1);
+                  }}
                   className={
                     items.slug[0] == "payments"
                       ? "rounded-md text-white bg-indigo-500 transition-none duration-200 hover:bg-indigo-300 hover:text-white flex justify-center items-center w-full h-12"
@@ -152,7 +167,7 @@ const AccountMainComponent = ({ items }) => {
             </ul>
           </nav>
         </div>
-        <div className="p-4 bg-zinc-100 w-full rounded-md mt-8 md:mt-0">
+        <div className="p-2 md:p-4 bg-zinc-100 w-full rounded-md mt-4 md:mt-0">
           {details}
         </div>
       </div>
