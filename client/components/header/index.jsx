@@ -8,16 +8,11 @@ import {
   AiFillInstagram,
   AiFillGoogleCircle,
   AiFillMail,
-  AiFillPhone,
   AiOutlineSearch,
   AiFillShopping,
   AiOutlineClose,
 } from "react-icons/ai";
-import {
-  BsFillEnvelopeOpenFill,
-  BsPersonBoundingBox,
-  BsCalendar2HeartFill,
-} from "react-icons/bs";
+import { BsPersonBoundingBox, BsCalendar2HeartFill } from "react-icons/bs";
 import { BiMenu } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
@@ -60,9 +55,15 @@ const Header = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(-1);
 
   return (
-    <header className="container mx-auto py-2  ">
-      <div className="flex bg-red-500 md:bg-transparent w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 w-full">
+    <header className="container mx-auto py-2 relative ">
+      <div
+        className={
+          menuIsOpen == -1
+            ? "flex bg-gray-600 md:bg-transparent w-full h-[100vh] md:h-52 py-1 md:px-2 fixed top-0 bottom-0 -left-[100%] md:left-0 right-[100%] md:right-0 md:absolute transition-all duration-500"
+            : "flex bg-gray-600 md:bg-transparent w-full h-[100vh] md:h-52 py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
+        }
+      >
+        <div className="flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-1 md:gap-4 w-full">
           <div className="flex flex-col relative h-36 md:h-52 w-48 items-center">
             <Link
               onMouseEnter={() => setLogoHover(1)}
@@ -152,21 +153,11 @@ const Header = () => {
                   </li>
                 </ul>
               </nav>
-              <div className="flex flex-col gap-2 items-end">
-                <div className="flex gap-2 items-center">
-                  <div>09334478755</div>
-                  <AiFillPhone className="w-8 h-8 rounded-lg bg-slate-200 rotate-12 p-1" />
-                </div>
-                <div className="flex gap-2 items-center">
-                  <div>ismaeilsaberi@gmail.com</div>
-                  <BsFillEnvelopeOpenFill className="w-8 h-8 rounded-lg bg-slate-200 rotate-12 p-1" />
-                </div>
-              </div>
             </div>
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center">
               <form
                 onSubmit={shopSearcher}
-                className="flex justify-start relative items-center w-2/3 xl:w-full ml-1"
+                className="flex justify-start relative items-center w-2/3 xl:w-full md:ml-1"
               >
                 <input
                   ref={searchRef}
@@ -175,7 +166,7 @@ const Header = () => {
                   placeholder="جستجو بین محصولات"
                 />
                 <button
-                  // onClick={() => shopSearcher}
+                  onClick={() => shopSearcher}
                   className="w-12 absolute left-0"
                   type="submit"
                 >
@@ -222,7 +213,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="fixed z-50 top-2 right-2">
+      <div className="fixed z-50 flex md:hidden top-2 right-2">
         <BiMenu
           onClick={() => setMenuIsOpen(menuIsOpen * -1)}
           className={
@@ -235,7 +226,7 @@ const Header = () => {
           onClick={() => setMenuIsOpen(menuIsOpen * -1)}
           className={
             menuIsOpen == 1
-              ? "w-10 h-10 text-black flex"
+              ? "w-10 h-10 text-white flex"
               : "w-10 h-10 text-black hidden"
           }
         />

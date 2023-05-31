@@ -19,7 +19,7 @@ const Footer = () => {
   };
   return (
     <footer className="container mx-auto mt-8 flex flex-col gap-8">
-      <div className="flex justify-between items-center p-2 bg-zinc-200 rounded-md">
+      <div className="flex justify-between items-center p-2 gap-8 md:gap-2 bg-zinc-200 rounded-md flex-col md:flex-row">
         <div className="w-72 max-w-72 flex flex-col gap-4">
           <div className="flex justify-center items-center">
             <Image alt="logo" width={100} height={100} src="/ismaeil1.png" />
@@ -29,7 +29,7 @@ const Footer = () => {
             خواهد در فوتر سایت بیاوری.
           </p>
         </div>
-        <div className="flex justify-around items-start gap-16">
+        <div className="flex justify-around items-start gap-8 sm:gap-16">
           <div className="flex flex-col gap-2">
             <div className="text-xl">دسترسی سریع</div>
             <ul className="flex flex-col gap-2 text-base sm:text-sm">
@@ -67,6 +67,24 @@ const Footer = () => {
                 >
                   <MdArrowLeft />
                   <span>وبلاگ</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="flex gap-1 w-32 transition-all duration-300 hover:text-gray-700 hover:gap-2 items-center"
+                  href={"/about"}
+                >
+                  <MdArrowLeft />
+                  <span className="text-xs">09334478755</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="flex gap-1 w-32 transition-all duration-300 hover:text-gray-700 hover:gap-2 items-center"
+                  href={"/about"}
+                >
+                  <MdArrowLeft />
+                  <span className="text-xs">ismaeilsaberi@gmail.com</span>
                 </Link>
               </li>
             </ul>
