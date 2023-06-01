@@ -55,13 +55,21 @@ const Header = () => {
   //FOR RESPONSIVE
   const [menuIsOpen, setMenuIsOpen] = useState(-1);
 
+  useEffect(() => {
+    if (menuIsOpen == -1) {
+      document.body.style.overflow = "auto";
+    } else if (menuIsOpen == 1) {
+      document.body.style.overflow = "hidden";
+    }
+  }, [menuIsOpen]);
+
   return (
     <header className="container mx-auto mt-2 h-[8vh] md:h-[28vh] relative z-50 ">
       <div
         className={
           menuIsOpen == -1
             ? "flex bg-gray-600 md:bg-transparent w-full h-[100vh] md:h-52 py-1 md:px-2 fixed top-0 bottom-0 -left-[100%] md:left-0 right-[100%] md:right-0 md:absolute transition-all duration-500"
-            : "flex bg-gray-600 md:bg-transparent w-full h-[100vh] md:h-52 py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
+            : "flex md:bg-transparent backdrop-blur-3xl w-full h-[100vh] md:h-52 py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
         }
       >
         <div className="flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 w-full">
@@ -240,7 +248,7 @@ const Header = () => {
           onClick={() => setMenuIsOpen(menuIsOpen * -1)}
           className={
             menuIsOpen == 1
-              ? "w-10 h-10 text-white flex"
+              ? "w-10 h-10 text-black flex"
               : "w-10 h-10 text-black hidden"
           }
         />

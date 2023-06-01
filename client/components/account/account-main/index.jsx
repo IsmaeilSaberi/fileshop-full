@@ -64,6 +64,13 @@ const AccountMainComponent = ({ items }) => {
 
   //FOR RESPONSIVE
   const [menuIsOpen, setMenuIsOpen] = useState(-1);
+  useEffect(() => {
+    if (menuIsOpen == -1) {
+      document.body.style.overflow = "auto";
+    } else if (menuIsOpen == 1) {
+      document.body.style.overflow = "hidden";
+    }
+  }, [menuIsOpen]);
 
   const goToTop = () => {
     window.scroll({
@@ -78,8 +85,8 @@ const AccountMainComponent = ({ items }) => {
         <div
           className={
             menuIsOpen == -1
-              ? "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent fixed md:sticky md:top-8 md:right-0 md:bottom-8 h-[100vh] py-1 md:px-2 top-0 bottom-0 left-[100%] md:left-0 -right-[100%] transition-all duration-500"
-              : "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent h-[100vh] py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
+              ? "z-50 w-full md:w-72 bg-gray-600 md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent fixed md:sticky md:top-8 md:right-0 md:bottom-8 h-auto py-2 md:py-4 md:px-2 top-0 bottom-0 left-[100%] md:left-0 -right-[100%] transition-all duration-500"
+              : "z-50 w-full md:w-72 backdrop-blur-3xl md:bg-zinc-100 p-6 rounded-none md:rounded-md md:bg-transparent h-[100vh] py-1 md:px-2 fixed top-0 bottom-0 right-0 left-0 md:absolute transition-all duration-500"
           }
         >
           <nav className="flex justify-center items-center mt-12 md:mt-0 ">
@@ -184,7 +191,7 @@ const AccountMainComponent = ({ items }) => {
           onClick={() => setMenuIsOpen(menuIsOpen * -1)}
           className={
             menuIsOpen == 1
-              ? "w-10 h-10 text-white flex"
+              ? "w-10 h-10 text-black flex"
               : "w-10 h-10 text-black hidden"
           }
         />

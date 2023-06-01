@@ -290,11 +290,11 @@ const Info = ({ cookie }) => {
               <div></div>
             )}
             <div className="flex justify-between items-center gap-6 flex-wrap">
-              <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
+              <div className="flex justify-center gap-4 items-center bg-zinc-200 w-full md:w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ ثبت نام:</div>
                 <div>{data.createdAt}</div>
               </div>
-              <div className="flex justify-center gap-4 items-center bg-zinc-200 w-60 text-sm h-10 rounded-md p-1">
+              <div className="flex justify-center gap-4 items-center bg-zinc-200 w-full md:w-60 text-sm h-10 rounded-md p-1">
                 <div>تاریخ به روز رسانی:</div>
                 <div>{data.updatedAt}</div>
               </div>
@@ -411,7 +411,7 @@ const Info = ({ cookie }) => {
               </form>
             </div>
             <div className="flex flex-wrap justify-between items-center gap-8 bg-zinc-200 w-full text-sm rounded-md p-4">
-              <div className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200">
+              <div className="flex justify-around md:justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-full md:w-60 h-10 bg-indigo-200">
                 <div>اطلاع رسانی رویدادها</div>
                 {bulkEmailSituation == true ? (
                   <button
@@ -433,14 +433,12 @@ const Info = ({ cookie }) => {
                   </button>
                 )}
               </div>
-              <div>
-                <div
-                  onClick={logouter}
-                  className="flex justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-60 h-10 bg-indigo-200"
-                >
-                  خروج از حساب کاربری
-                  <BiLogOut className="w-8 h-8 text-indigo-500" />
-                </div>
+              <div
+                onClick={logouter}
+                className="flex justify-around md:justify-center items-center rounded cursor-pointer transition-all duration-200 hover:bg-indigo-300 text-sm gap-1 w-full md:w-60 h-10 bg-indigo-200"
+              >
+                خروج از حساب کاربری
+                <BiLogOut className="w-8 h-8 text-indigo-500" />
               </div>
             </div>
           </div>

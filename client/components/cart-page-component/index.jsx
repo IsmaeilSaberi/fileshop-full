@@ -271,7 +271,7 @@ const CartPageComponent = ({ cookie }) => {
                               )}
                             </div>
                             <Link
-                              className="absolute top-1 left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
+                              className="absolute top-1 left-34 md:left-24 flex justify-center items-center w-20 h-6 bg-green-600 transition-all duration-200 hover:bg-green-700 rounded-sm text-white text-sx"
                               href={`/shop/${da.slug}`}
                               target="_blank"
                             >

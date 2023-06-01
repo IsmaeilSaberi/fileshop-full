@@ -59,6 +59,7 @@ const ShopComponent = ({ url }) => {
   const mainBackendUrl = `https://fileshop-server.iran.liara.run/api/search-products?${queries}`;
 
   useEffect(() => {
+    setMenuIsOpen(-1);
     setSearchResult([-1]);
     setPgn(`&pgn=12`);
     setBtns([-1]);
@@ -140,6 +141,7 @@ const ShopComponent = ({ url }) => {
     setMaxPrice(`&maxP=${maxPRef.current.value}`);
     setMinPrice(`&minP=${minPRef.current.value}`);
     setPn(`&pn=1`);
+    setMenuIsOpen(-1);
   };
 
   //CATEGORIES
@@ -184,6 +186,13 @@ const ShopComponent = ({ url }) => {
 
   //FOR RESPONSIVE
   const [menuIsOpen, setMenuIsOpen] = useState(-1);
+  useEffect(() => {
+    if (menuIsOpen == -1) {
+      document.body.style.overflow = "auto";
+    } else if (menuIsOpen == 1) {
+      document.body.style.overflow = "hidden";
+    }
+  }, [menuIsOpen]);
 
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
@@ -191,13 +200,13 @@ const ShopComponent = ({ url }) => {
         className={
           menuIsOpen == -1
             ? "z-50 flex flex-col gap-1 md:gap-4 bg-gray-700 md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed top-0 bottom-0 left-[100%] -right-[100%] md:static transition-all duration-500 pt-10 md:pt-0"
-            : "z-50 flex flex-col gap-1 md:gap-4 bg-gray-700 md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed overflow-auto top-0 bottom-0 right-0 left-0 md:static transition-all duration-500 pt-10 md:pt-0"
+            : "z-50 flex flex-col gap-1 md:gap-4 backdrop-blur-3xl md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed overflow-auto top-0 bottom-0 right-0 left-0 md:static transition-all duration-500 pt-10 md:pt-0"
         }
       >
-        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
           <div>مرتب سازی بر اساس</div>
           <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="date">جدیدترین</label>
               {orderBy == "&orderBy=date" ? (
                 <input
@@ -218,7 +227,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="price">قیمت</label>
               {
                 <input
@@ -231,7 +240,7 @@ const ShopComponent = ({ url }) => {
                 />
               }
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
               {orderBy == "&orderBy=pageView" ? (
                 <input
@@ -252,7 +261,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="buyNumber">پرفروش ترین</label>
               {orderBy == "&orderBy=buyNumber" ? (
                 <input
@@ -275,10 +284,10 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
           <div>نوع محصول</div>
           <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 rounded">
               <label htmlFor="allProducts">همه</label>
               {typeOfProduct == "" ? (
                 <input
@@ -299,7 +308,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="app">اپلیکیشن</label>
               {typeOfProduct == "&type=app" ? (
                 <input
@@ -320,7 +329,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="book">کتاب</label>
               {typeOfProduct == "&type=book" ? (
                 <input
@@ -341,7 +350,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="gr">فایل گرافیکی</label>
               {typeOfProduct == "&type=gr" ? (
                 <input
@@ -364,12 +373,12 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
           <div>بازه قیمت (تومان)</div>
           <form onSubmit={priceManager} className="flex flex-col gap-4">
             <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
               <input
-                className="inputLtr text-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center text-black gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={minPRef}
                 placeholder="حداقل قیمت"
@@ -378,7 +387,7 @@ const ShopComponent = ({ url }) => {
               />
 
               <input
-                className="inputLtr text-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center text-black gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={maxPRef}
                 placeholder="حداکثر قیمت"
@@ -396,7 +405,7 @@ const ShopComponent = ({ url }) => {
             </div>
           </form>
         </div>
-        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
           <div>دسته بندی</div>
           <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
             {allCategories[0] == -1 ? (
@@ -416,7 +425,7 @@ const ShopComponent = ({ url }) => {
                   {allCategories.map((da, i) => (
                     <div
                       key={i}
-                      className="flex w-25 justify-center items-center gap-1 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded"
+                      className="flex w-25 justify-center items-center gap-1 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded"
                     >
                       <label htmlFor={da.slug}>{da.title}</label>
                       {urlCategoriesIds.length < 1 ? (
@@ -523,7 +532,7 @@ const ShopComponent = ({ url }) => {
           onClick={() => setMenuIsOpen(menuIsOpen * -1)}
           className={
             menuIsOpen == 1
-              ? "w-10 h-10 text-white flex"
+              ? "w-10 h-10 text-black flex"
               : "w-10 h-10 text-black hidden"
           }
         />
