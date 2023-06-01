@@ -443,7 +443,7 @@ const ShopComponent = ({ url }) => {
           </div>
         </div>
         <div className="flex flex-col gap-6">
-          <section className="flex justify-between items-center gap-4 flex-wrap">
+          <section className="flex justify-center md:justify-between items-center gap-4 flex-wrap">
             {searchResult[0] == -1 ? (
               <div className="flex justify-center items-center p-12 w-full">
                 <Image

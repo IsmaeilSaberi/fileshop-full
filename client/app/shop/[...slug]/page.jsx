@@ -47,7 +47,7 @@ const SingleProduct = async ({ params }) => {
   const commentProps = { src_id: data._id, typeOfModel: "product" };
 
   return (
-    <div className="container mx-auto flex justify-between items-start gap-4">
+    <div className="container mx-auto flex flex-col md:flex-row justify-between items-start gap-8 px-2">
       {data.msg ? (
         <div className="w-full flex justify-center items-center p-12 text-xl">
           <div>
@@ -74,18 +74,16 @@ const SingleProduct = async ({ params }) => {
               href={`http://localhost:3000/shop/${data.slug}`}
             />
           </>
-          <main className="w-[75%]">
-            {" "}
-            <div className="flex flex-col gap-8">
+          <main className="w-full md:w-[60%] lg:w-[75%]">
+            <div className="flex flex-col gap-8 mt-4 md:mt-0">
               <BreadCrumb
                 secondTitle={"فروشگاه"}
                 secondLink={"/shop"}
                 title={data.title}
               />
               <section className="flex justify-center items-center rounded-lg p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.25)]">
-                <div className="flex justify-start items-center gap-4 w-full">
+                <div className="flex justify-start items-center gap-4 w-full flex-col md:flex-row">
                   <div>
-                    {" "}
                     <Image
                       className="rounded-xl"
                       alt={data.imageAlt}
@@ -96,9 +94,9 @@ const SingleProduct = async ({ params }) => {
                       priority={true}
                     />
                   </div>
-                  <div className="flex flex-col h-[12rem] gap-6 w-[60%]">
-                    <h1 className="text-lg">{data.title}</h1>
-                    <ul className="flex flex-col gap-3 w-[60%]">
+                  <div className="flex flex-col h-[12rem] gap-6 w-full md:w-[60%]">
+                    <h1 className="text-base md:text-lg">{data.title}</h1>
+                    <ul className="flex flex-col gap-3 w-full md:w-[60%]">
                       {data.features.length < 1 ? (
                         <div></div>
                       ) : (
@@ -107,7 +105,7 @@ const SingleProduct = async ({ params }) => {
                             key={i}
                             className="flex justify-between items-center"
                           >
-                            <div className="flex justify-start items-center gap-1">
+                            <div className="flex justify-center md:justify-start items-center gap-1">
                               <TiTickOutline />
                               <span>{splitter(fe)[0]} :</span>
                             </div>
@@ -119,9 +117,9 @@ const SingleProduct = async ({ params }) => {
                   </div>
                 </div>
               </section>
-              <section className="flex justify-between items-center gap-2">
-                <div className="flex w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
-                  <div className="flex justify-start items-center gap-2">
+              <section className="flex justify-between items-center gap-2 flex-wrap">
+                <div className="flex w-full md:w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
+                  <div className="flex justify-between md:justify-start items-center gap-2">
                     <Image
                       alt="alt"
                       className="rounded-xl"
@@ -139,8 +137,8 @@ const SingleProduct = async ({ params }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
-                  <div className="flex justify-start items-center gap-2">
+                <div className="flex w-full md:w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
+                  <div className="flex justify-between md:justify-start items-center gap-2">
                     <Image
                       alt="alt"
                       className="rounded-xl"
@@ -158,8 +156,8 @@ const SingleProduct = async ({ params }) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
-                  <div className="flex justify-start items-center gap-2">
+                <div className="flex w-full md:w-[19rem] justify-center transition-all duration-200 hover:bg-slate-200 items-center gap-4 bg-slate-100 p-2 rounded-md">
+                  <div className="flex justify-between md:justify-start items-center gap-2">
                     <Image
                       alt="alt"
                       className="rounded-xl"
@@ -180,7 +178,9 @@ const SingleProduct = async ({ params }) => {
               </section>
               <section className="flex flex-col gap-6 rounded-md p-4 shadow-[0px_0px_5px_rgba(0,0,0,0.25)]">
                 <h2 className="text-xl">توضیحات کامل</h2>
-                <p className="leading-9 text-justify">{data.longDesc}</p>
+                <p className="leading-7 md:leading-9 text-justify">
+                  {data.longDesc}
+                </p>
               </section>
               <section>
                 <RelatedPosts
@@ -192,9 +192,11 @@ const SingleProduct = async ({ params }) => {
               <CommentsManager commentProps={commentProps} />
             </div>
           </main>
-          <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
+          <aside className="w-full md:w-80 md:max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8 mt-8 md:mt-0">
             <div className="flex flex-col gap-2">
-              <AddToCart data={data._id} />
+              <div className="fixed bottom-4 left-20 right-20 md:static">
+                <AddToCart data={data._id} />
+              </div>
               <SingleProductFavPro data={data._id} />
             </div>
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">

@@ -59,7 +59,7 @@ const AddToCart = ({ data }) => {
     <div>
       <button
         onClick={() => cartAdder()}
-        className="flex items-center justify-center text-center bg-orange-500 hover:bg-orange-600 transition-all duration-200 p-2 rounded-md w-full text-white"
+        className="flex items-center justify-center text-center bg-orange-500 hover:bg-orange-600 transition-all duration-200 p-3 md:p-2 rounded-md w-full text-white"
       >
         افزودن به سبد خرید
       </button>
