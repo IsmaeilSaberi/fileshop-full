@@ -45,10 +45,10 @@ const BlogPageComp = ({ url }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="flex justify-between items-center gap-8">
-        <div className="flex justify-start items-center gap-4">
-          <h1 className="text-center text-xl text-indigo-600">
-            وبلاگ فروشگاه فایل اسماعیل صابری
+      <section className="flex justify-center md:justify-between items-center gap-8 my-8 mx-2 flex-wrap">
+        <div className="flex justify-center md:justify-start items-center gap-4">
+          <h1 className="text-center text-base md:text-xl text-indigo-600">
+            وبلاگ فروشگاه فایل اسماعیل
           </h1>
           <div className="w-20 flex justify-center items-center text-center h-8 rounded text-base sm:text-sm border-2 border-indigo-500">
             {searchedPostsNumber} مقاله
@@ -72,7 +72,7 @@ const BlogPageComp = ({ url }) => {
               پستی موجود نیست!
             </div>
           ) : (
-            <div className="flex flex-wrap justify-between items-center gap-2">
+            <div className="flex flex-wrap justify-center md:justify-between items-center gap-2">
               {result.map((post, i) => (
                 <BlogBox key={i} data={post} />
               ))}

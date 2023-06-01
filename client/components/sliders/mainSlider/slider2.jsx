@@ -26,7 +26,7 @@ const Slider2 = ({ linkComp, title, goalData }) => {
           <div className="container mx-auto ">
             <section className="flex flex-col gap-3 m-2 ">
               <header className="m-4 flex justify-between items-center">
-                <h2 className="text-orange-500 text-2xl border-orange-500 border-r-2 pr-2">
+                <h2 className="text-orange-500 text-md md:text-xl border-orange-500 border-r-2 pr-2">
                   {title}
                 </h2>
                 <div className="flex gap-1 items-center">
@@ -40,10 +40,10 @@ const Slider2 = ({ linkComp, title, goalData }) => {
                     className="cursor-pointer bg-zinc-200 transition-all duration-200 hover:bg-orange-500 w-10 h-10 p-2 rounded"
                   />
                   <Link
-                    className="bg-orange-500 px-4 border-2 py-2 rounded-lg transition-all duration-200 hover:bg-orange-600"
+                    className="bg-orange-500 text-md px-4 border-2 py-2 rounded-lg transition-all duration-200 hover:bg-orange-600"
                     href={`/shop?&orderBy=date&type=${linkComp}&maxP=100000000&minP=0&pgn=12&pn=1`}
                   >
-                    مشاهده ی همه {`${title}`}
+                    همه
                   </Link>
                 </div>
               </header>

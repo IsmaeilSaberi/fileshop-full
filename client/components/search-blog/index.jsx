@@ -35,15 +35,15 @@ const SearchBlog = () => {
     <div>
       <form
         onSubmit={shopSearcher}
-        className="border-zinc-700 border-2 p-2 rounded-md flex justify-between items-center"
+        className="relative border-zinc-700 border-2 p-2 rounded-md flex justify-between items-center"
       >
         <input
           type="text"
           ref={searchRef}
-          className="bg-transparent px-2 py-1 text-sm outline-none w-60"
+          className="bg-transparent px-2 py-1 text-sm outline-none w-64 md:w-70"
           placeholder="جستجو در وبلاگ ... "
         />
-        <button className="w-12 absolute left-6" type="submit">
+        <button className="w-12 absolute left-0" type="submit">
           <AiOutlineSearch className="w-6 h-6" />
         </button>
       </form>

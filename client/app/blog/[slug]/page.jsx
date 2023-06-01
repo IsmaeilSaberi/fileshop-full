@@ -53,7 +53,7 @@ const SingleBlog = async ({ params }) => {
           </div>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col md:flex-row gap-2 w-full my-8 px-1 md:p-0">
           <>
             <title>{data.title}</title>
             <meta name="robots" content="index,follow" />
@@ -63,7 +63,7 @@ const SingleBlog = async ({ params }) => {
               href={`http://localhost:3000/blog/${data.slug}`}
             />
           </>
-          <main className="w-[75%]">
+          <main className="w-full">
             <div className="flex flex-col gap-8">
               <BreadCrumb
                 secondTitle={"وبلاگ"}
@@ -83,7 +83,7 @@ const SingleBlog = async ({ params }) => {
               </section>
               <section className="flex flex-col gap-6">
                 <h1 className="text-blue-500 text-lg">{data.title}</h1>
-                <div className="flex justify-start items-center gap-2 text-base sm:text-sm">
+                <div className="flex justify-start items-center gap-2 text-base sm:text-sm flex-wrap">
                   <div className="bg-zinc-200 rounded-md p-2 flex justify-between items-center gap-2">
                     <AiOutlineEye className="w-6 h-6" />
                     <span>تعداد بازدید : </span>
@@ -97,9 +97,11 @@ const SingleBlog = async ({ params }) => {
                   </div>
                 </div>
               </section>
-              <section className="flex flex-col gap-6">
+              <section className="flex flex-col gap-6 p-2">
                 <h2 className="text-xl">توضیحات کامل</h2>
-                <p className="leading-9 text-justify">{data.longDesc}</p>
+                <p className="leading7 md:leading-9 text-justify">
+                  {data.longDesc}
+                </p>
               </section>
               <section>
                 <RelatedPosts
@@ -111,11 +113,11 @@ const SingleBlog = async ({ params }) => {
               <CommentsManager commentProps={commentProps} />
             </div>
           </main>
-          <aside className="w-80 max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
+          <aside className="mt-8 md:mt-0 w-full md:w-80 md:max-w-80 p-1 rounded-md bg-zinc-50 flex flex-col gap-8">
             <SearchBlog />
             <div className="flex flex-col gap-2 rounded-lg p-3 shadow-[0px_0px_8px_rgba(0,0,0,0.35)]">
               <h3 className="text-blue-500">توضیحات خلاصه</h3>
-              <p className="text-base sm:text-sm text-justify leading-4">
+              <p className="text-base sm:text-sm text-justify leading-6">
                 {data.shortDesc}
               </p>
             </div>
@@ -160,7 +162,7 @@ const SingleBlog = async ({ params }) => {
               </ul>
             </div>
           </aside>
-        </>
+        </div>
       )}
     </div>
   );

@@ -17,9 +17,9 @@ const Blogs = async () => {
       {data.length < 1 ? (
         <div></div>
       ) : (
-        <section className="container mx-auto flex flex-col gap-8">
+        <section className="px-1 container mx-auto flex flex-col gap-8">
           <header className="m-4 flex justify-between items-center">
-            <h2 className="text-orange-500 text-2xl border-orange-500 border-r-2 pr-2">
+            <h2 className="text-orange-500 text-md md:text-xl border-orange-500 border-r-2 pr-2">
               جدیدترین مقالات
             </h2>
             <div className="flex gap-1 items-center">

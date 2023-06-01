@@ -16,7 +16,9 @@ const CommentBox = ({ data, commentProps }) => {
           {data.createdAt}
         </div>
       </div>
-      <p className="text-black leading-9 text-justify p-2">{data.message}</p>
+      <p className="text-black leading-7 md:leading-9 text-justify p-2">
+        {data.message}
+      </p>
       <div className="flex justify-end items-center gap-4">
         <div
           onClick={() => setChildrenDisplayer(childrenDisplayer * -1)}

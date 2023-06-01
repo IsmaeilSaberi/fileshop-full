@@ -120,7 +120,7 @@ const Comments = ({ cookie }) => {
                               </div>
                             </div>
                           </div>
-                          <p className="text-base leading-9 text-black ">
+                          <p className="text-base leading-7 md:leading-9 text-justify text-black ">
                             {da.message}
                           </p>
                         </div>

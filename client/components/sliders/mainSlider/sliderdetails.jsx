@@ -36,7 +36,7 @@ const SliderDetails = ({ data }) => {
                   setslideHandler(1);
                 }, 1000);
               }}
-              className="bg-white w-10 h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
+              className="bg-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
             />
 
             <FaChevronLeft
@@ -47,12 +47,12 @@ const SliderDetails = ({ data }) => {
                   setslideHandler(1);
                 }, 1000);
               }}
-              className="bg-white w-10 h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
+              className="bg-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
             />
           </div>
           <Link
             href={data[nowSlide].link}
-            className=" flex z-20 justify-center items-center gap-6 "
+            className="mt-12 md:mt-0 flex z-20 justify-center items-center gap-6 "
           >
             <Image
               width={1200}

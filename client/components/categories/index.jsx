@@ -17,7 +17,7 @@ const Categories = async () => {
       {data.length < 1 ? (
         <div></div>
       ) : (
-        <section className="container mx-auto flex justify-between items-center gap-2 flex-wrap">
+        <section className="container mx-auto flex justify-center md:justify-between items-center gap-2 flex-wrap">
           {data.map((da, i) => (
             <CatBox key={i} data={da} />
           ))}
