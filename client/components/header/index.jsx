@@ -56,7 +56,7 @@ const Header = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(-1);
 
   return (
-    <header className="container mx-auto mt-2 h-[10vh] md:h-[28vh] relative z-50 ">
+    <header className="container mx-auto mt-2 h-[8vh] md:h-[28vh] relative z-50 ">
       <div
         className={
           menuIsOpen == -1

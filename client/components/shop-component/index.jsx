@@ -4,8 +4,9 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Slider2box from "../sliders/mainSlider/slider2box";
 import GraphicSliderBox from "../sliders/graphic-slider/graphicSliderBox";
+import { BiFilterAlt } from "react-icons/bi";
+import { AiOutlineClose, AiOutlineFilter } from "react-icons/ai";
 
 const ShopComponent = ({ url }) => {
   const goToTop = () => {
@@ -181,13 +182,22 @@ const ShopComponent = ({ url }) => {
     }
   });
 
+  //FOR RESPONSIVE
+  const [menuIsOpen, setMenuIsOpen] = useState(-1);
+
   return (
     <div className="container mx-auto flex justify-between items-start gap-2">
-      <aside className="w-80  flex flex-col gap-4">
-        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+      <aside
+        className={
+          menuIsOpen == -1
+            ? "z-50 flex flex-col gap-1 md:gap-4 bg-gray-700 md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed top-0 bottom-0 left-[100%] -right-[100%] md:static transition-all duration-500 pt-10 md:pt-0"
+            : "z-50 flex flex-col gap-1 md:gap-4 bg-gray-700 md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed overflow-auto top-0 bottom-0 right-0 left-0 md:static transition-all duration-500 pt-10 md:pt-0"
+        }
+      >
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
           <div>مرتب سازی بر اساس</div>
-          <div className="flex items-center flex-wrap gap-2">
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="date">جدیدترین</label>
               {orderBy == "&orderBy=date" ? (
                 <input
@@ -208,7 +218,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="price">قیمت</label>
               {
                 <input
@@ -221,7 +231,7 @@ const ShopComponent = ({ url }) => {
                 />
               }
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
               {orderBy == "&orderBy=pageView" ? (
                 <input
@@ -242,7 +252,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="buyNumber">پرفروش ترین</label>
               {orderBy == "&orderBy=buyNumber" ? (
                 <input
@@ -265,10 +275,10 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
           <div>نوع محصول</div>
-          <div className="flex items-center flex-wrap gap-2">
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 rounded">
               <label htmlFor="allProducts">همه</label>
               {typeOfProduct == "" ? (
                 <input
@@ -289,7 +299,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="app">اپلیکیشن</label>
               {typeOfProduct == "&type=app" ? (
                 <input
@@ -310,7 +320,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="book">کتاب</label>
               {typeOfProduct == "&type=book" ? (
                 <input
@@ -331,7 +341,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="flex justify-center items-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="gr">فایل گرافیکی</label>
               {typeOfProduct == "&type=gr" ? (
                 <input
@@ -354,12 +364,12 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
           <div>بازه قیمت (تومان)</div>
           <form onSubmit={priceManager} className="flex flex-col gap-4">
-            <div className="flex items-center flex-wrap gap-2">
+            <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
               <input
-                className="inputLtr text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={minPRef}
                 placeholder="حداقل قیمت"
@@ -368,7 +378,7 @@ const ShopComponent = ({ url }) => {
               />
 
               <input
-                className="inputLtr text-center gap-1 w-28 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
+                className="inputLtr text-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 ref={maxPRef}
                 placeholder="حداکثر قیمت"
@@ -376,17 +386,19 @@ const ShopComponent = ({ url }) => {
                 min={0}
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-orange-400 rounded h-10 flex justify-center items-center text-white transition-all duration-200 hover:bg-orange-500"
-            >
-              اعمال فیلتر قیمت
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="w-60 md:w-full bg-orange-400 rounded h-8 md:h-10 flex justify-center items-center text-white transition-all duration-200 hover:bg-orange-500"
+              >
+                اعمال فیلتر قیمت
+              </button>
+            </div>
           </form>
         </div>
-        <div className="flex flex-col gap-4 bg-zinc-100 rounded-lg p-2">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-white md:text-black text-xs md:text-base">
           <div>دسته بندی</div>
-          <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
             {allCategories[0] == -1 ? (
               <div className="flex justify-center items-center p-12 w-full">
                 <Image
@@ -400,11 +412,11 @@ const ShopComponent = ({ url }) => {
               <div>دسته ای موجود نیست!</div>
             ) : (
               <div className="flex justify-center items-center">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex justify-center md:justify-between items-center flex-wrap gap-2">
                   {allCategories.map((da, i) => (
                     <div
                       key={i}
-                      className="flex w-25 justify-center items-center gap-1 p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded"
+                      className="flex w-25 justify-center items-center gap-1 p-1 md:p-2 tesxt-base sm:text-xs border-2 border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded"
                     >
                       <label htmlFor={da.slug}>{da.title}</label>
                       {urlCategoriesIds.length < 1 ? (
@@ -434,7 +446,7 @@ const ShopComponent = ({ url }) => {
       </aside>
       <main className="w-full bg-zinc-100 rounded-lg p-2 flex flex-col gap-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-xl text-indigo-600">
+          <h1 className="text-base md:text-xl text-indigo-600">
             محصولات <span className="text-red-500 p-1">{title}</span> فروشگاه
             فایل اسماعیل
           </h1>
@@ -498,6 +510,24 @@ const ShopComponent = ({ url }) => {
           </section>
         </div>
       </main>
+      <div className="fixed z-50 flex md:hidden top-3 left-3">
+        <BiFilterAlt
+          onClick={() => setMenuIsOpen(menuIsOpen * -1)}
+          className={
+            menuIsOpen == -1
+              ? "w-9 h-9 text-black flex"
+              : "w-9 h-9 text-black hidden"
+          }
+        />
+        <AiOutlineClose
+          onClick={() => setMenuIsOpen(menuIsOpen * -1)}
+          className={
+            menuIsOpen == 1
+              ? "w-10 h-10 text-white flex"
+              : "w-10 h-10 text-black hidden"
+          }
+        />
+      </div>
     </div>
   );
 };

@@ -27,7 +27,7 @@ const SliderDetails = ({ data }) => {
         <></>
       ) : (
         <section className="container mx-auto flex flex-col gap-40 relative p-2">
-          <div className=" btns z-30 absolute left-12 top-4 flex gap-1">
+          <div className="w-full btns z-30 absolute left-1 md:left-0 top-1/2 md:top-1/3 flex justify-between p-4 md:p-10 gap-1">
             <FaChevronRight
               onClick={() => {
                 setslideHandler(0);
@@ -36,7 +36,7 @@ const SliderDetails = ({ data }) => {
                   setslideHandler(1);
                 }, 1000);
               }}
-              className="bg-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
+              className="bg-transparent text-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-400 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
             />
 
             <FaChevronLeft
@@ -47,7 +47,7 @@ const SliderDetails = ({ data }) => {
                   setslideHandler(1);
                 }, 1000);
               }}
-              className="bg-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-800 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
+              className="bg-transparent text-white w-8 h-8 md:w-10 md:h-10 p-2 rounded border-zinc-400 border-[.2rem] cursor-pointer hover:border-zinc-500 transition-all duration-500"
             />
           </div>
           <Link
