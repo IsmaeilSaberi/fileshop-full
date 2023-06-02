@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppContext } from "../app-context";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { ToastContainer } from "react-toastify";
 
 const ContextProvider = ({ children }) => {
   const [auth_cookie, setauth_cookie] = useState(Cookies.get("auth_cookie"));
@@ -19,11 +20,24 @@ const ContextProvider = ({ children }) => {
       .catch((err) => {
         setCartNumber(0);
       });
-  }, [cartNumber]);
+  }, []);
 
   return (
     <AppContext.Provider value={{ cartNumber, setCartNumber }}>
       {children}
+      <ToastContainer
+        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
+        position="top-right"
+        autoClose={3000}
+        theme="colored"
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </AppContext.Provider>
   );
 };

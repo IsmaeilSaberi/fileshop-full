@@ -2,8 +2,6 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 
 const NewCategory = () => {
@@ -159,19 +157,6 @@ const NewCategory = () => {
           ارسال
         </button>
       </form>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

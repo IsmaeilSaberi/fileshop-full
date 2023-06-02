@@ -2,8 +2,6 @@
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineSearch } from "react-icons/ai";
 
 const SearchBlog = () => {
@@ -47,19 +45,6 @@ const SearchBlog = () => {
           <AiOutlineSearch className="w-6 h-6" />
         </button>
       </form>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

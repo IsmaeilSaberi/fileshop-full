@@ -53,7 +53,7 @@ const SingleBlog = async ({ params }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col md:flex-row gap-2 w-full my-8 px-1 md:p-0">
+        <div className="flex flex-col md:flex-row gap-2 w-full my-8 px-1 md:p-1">
           <>
             <title>{data.title}</title>
             <meta name="robots" content="index,follow" />
@@ -63,7 +63,7 @@ const SingleBlog = async ({ params }) => {
               href={`http://localhost:3000/blog/${data.slug}`}
             />
           </>
-          <main className="w-full">
+          <main className="w-full md:w-[60%] lg:w-[75%]">
             <div className="flex flex-col gap-8">
               <BreadCrumb
                 secondTitle={"وبلاگ"}

@@ -811,3 +811,21 @@ const uncheckComment = async (req, res) => {
   }
 };
 module.exports.uncheckComment = uncheckComment;
+
+const getNewItems = async (req, res) => {
+  try {
+    const newUsers = await User.find({ viewed: false });
+    const newPayments = await Payment.find({ viewed: false });
+    const newComments = await Comment.find({ viewed: false });
+    const sendingData = {
+      newUsersNumber: newUsers.length,
+      newPaymentsNumber: newPayments.length,
+      newCommentsNumber: newComments.length,
+    };
+    res.status(200).json(sendingData);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+module.exports.getNewItems = getNewItems;

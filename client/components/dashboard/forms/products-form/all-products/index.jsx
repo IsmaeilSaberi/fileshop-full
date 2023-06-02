@@ -4,8 +4,6 @@ import axios from "axios";
 import Box from "./Box";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 
 const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
@@ -193,19 +191,6 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
           ))
         )}
       </div>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

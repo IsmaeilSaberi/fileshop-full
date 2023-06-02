@@ -12,6 +12,9 @@ import axios from "axios";
 import { ImProfile } from "react-icons/im";
 import { AiOutlineClose } from "react-icons/ai";
 
+// USING CONTEXT
+import { useAppContext } from "../../../context/app-context";
+
 const AccountMainComponent = ({ items }) => {
   const router = useRouter();
 
@@ -78,6 +81,22 @@ const AccountMainComponent = ({ items }) => {
       behavior: "smooth",
     });
   };
+
+  // IF USER LOGED IN OR REGISTERED ITS CART SHOULD BE RESET
+  const { setCartNumber } = useAppContext();
+
+  useEffect(() => {
+    axios
+      .get(`https://fileshop-server.iran.liara.run/api/cart-number`, {
+        headers: { auth_cookie: auth_cookie },
+      })
+      .then((d) => {
+        setCartNumber(d.data.number);
+      })
+      .catch((err) => {
+        setCartNumber(0);
+      });
+  }, []);
 
   return (
     <div className="container mx-auto">

@@ -1,8 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 // USING CONTEXT

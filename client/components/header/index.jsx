@@ -15,8 +15,6 @@ import {
 import { BsPersonBoundingBox, BsCalendar2HeartFill } from "react-icons/bs";
 import { BiMenu } from "react-icons/bi";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // USING CONTEXT
 import { useAppContext } from "../../context/app-context";
@@ -253,19 +251,6 @@ const Header = () => {
           }
         />
       </div>
-      <ToastContainer
-        bodyClassName={() => "font-[shabnam] text-sm flex items-center"}
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </header>
   );
 };

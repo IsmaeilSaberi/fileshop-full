@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 

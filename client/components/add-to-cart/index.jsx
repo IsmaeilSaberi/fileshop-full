@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useState } from "react";
 

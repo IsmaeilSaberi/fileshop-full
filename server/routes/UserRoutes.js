@@ -203,4 +203,7 @@ router.get("/uncheck-payment/:id", isAdmin, UserCtrl.uncheckPayment);
 
 router.get("/uncheck-comment/:id", isAdmin, UserCtrl.uncheckComment);
 
+// FOR DASHBOARD DEFAULT PANNEL
+router.get("/get-new-items", isAdmin, UserCtrl.getNewItems);
+
 module.exports = router;

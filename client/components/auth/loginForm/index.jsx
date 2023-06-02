@@ -3,10 +3,12 @@ import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+// USING CONTEXT
+import { useAppContext } from "../../../context/app-context";
 
 const LoginForm = () => {
   const {
@@ -15,6 +17,10 @@ const LoginForm = () => {
     formState: { errors },
     watch,
   } = useForm({});
+
+  // IF USER WANTS TO LOGED IN OR REGISTERED IT DOSEN'T HAVE TOKEN AND ITS CART SHOULD BE ZERO
+  const { setCartNumber } = useAppContext();
+  setCartNumber(0);
 
   const router = useRouter();
 

@@ -2,13 +2,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import Link from "next/link";
 
 import { FiRefreshCcw } from "react-icons/fi";
-import { MdDeleteForever } from "react-icons/md";
-import { HiShoppingBag } from "react-icons/hi";
 
 const Comments = ({ cookie }) => {
   const [data, setData] = useState([-1]);

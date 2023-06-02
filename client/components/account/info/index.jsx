@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
 import Cookies from "js-cookie";
