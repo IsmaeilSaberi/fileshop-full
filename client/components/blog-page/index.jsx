@@ -12,7 +12,7 @@ const BlogPageComp = ({ url }) => {
   const [pn, setPn] = useState(url.pn ? `&pn=${url.pn}` : "&pn=1");
   const [searchedPostsNumber, setSearchedPostsNumber] = useState(0);
   const [keyword, setKeyword] = useState(
-    url.keyword ? `&keyword=${url.keyword}` : ""
+    url.keyword ? `&keyword=${unescape(url.keyword)}` : ""
   );
 
   const goToTop = () => {
@@ -26,7 +26,9 @@ const BlogPageComp = ({ url }) => {
     setResult([-1]);
     setBtns([-1]);
     setKeyword(
-      url.keyword && url.keyword.length > 0 ? `&keyword=${url.keyword}` : ""
+      url.keyword && url.keyword.length > 0
+        ? `&keyword=${unescape(url.keyword)}`
+        : ""
     );
   }, [url.keyword]);
 

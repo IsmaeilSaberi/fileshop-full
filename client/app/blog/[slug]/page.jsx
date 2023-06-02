@@ -133,7 +133,7 @@ const SingleBlog = async ({ params }) => {
                     <Link
                       key={i}
                       className=" p-2 flex justify-start items-center text-base sm:text-sm bg-zinc-200 hover:bg-zinc-300 transition-all duration-200 rounded-md"
-                      href={`/blog?keyword=${ta}`}
+                      href={`/blog?keyword=${escape(ta)}`}
                     >
                       #{ta}
                     </Link>

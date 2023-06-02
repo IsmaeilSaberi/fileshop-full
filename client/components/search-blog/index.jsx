@@ -11,9 +11,8 @@ const SearchBlog = () => {
   const shopSearcher = (e) => {
     e.preventDefault();
     if (searchRef.current.value.length > 0) {
-      const url = `/blog?keyword=${searchRef.current.value.replace(
-        /\s+/g,
-        "_"
+      const url = `/blog?keyword=${escape(
+        searchRef.current.value.replace(/\s+/g, "_")
       )}`;
       router.push(url);
       searchRef.current.value = "";
