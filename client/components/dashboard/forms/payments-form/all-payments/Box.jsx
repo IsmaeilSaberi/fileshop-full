@@ -28,7 +28,7 @@ const Box = ({ data, setPaymentDetailCtrl, setRandNumForPaymentClick }) => {
         setPaymentDetailCtrl(data._id);
         setRandNumForPaymentClick(Math.random());
       }}
-      className="relative flex justify-start gap-8 items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
+      className="relative flex justify-start gap-8 items-center h-36 w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
       <div className="flex flex-col gap-4">
         <div className="">مبلغ : {priceChanger(data.amount)} تومان</div>

@@ -240,7 +240,7 @@ const PostDetails = ({ postId }) => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm">
               {fullData._id ? fullData._id : ""}
             </div>

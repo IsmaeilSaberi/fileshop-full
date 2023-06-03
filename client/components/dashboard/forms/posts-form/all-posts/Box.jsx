@@ -29,7 +29,7 @@ const Box = ({ data, setPostDetailCtrl, setRandNumForPostClick }) => {
         />
       </div>
       <div className="flex flex-col gap-4 h-40">
-        <div className="">{data.title}</div>
+        <div className="mt-4">{data.title}</div>
         <div className="text-xs absolute top-3 left-3 bg-blue-500 text-white px-2 py-1 rounded">
           {data.updatedAt}
         </div>

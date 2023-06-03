@@ -72,8 +72,8 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
 
   return (
     <div className=" flex flex-col gap-8">
-      <div className="flex justify-between items-center gap-2">
-        <div className="text-sm text-black flex justify-center items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="text-sm text-black flex flex-wrap md:flex-nowrap justify-center items-center gap-4">
           <button
             onClick={() => {
               categoryUrl == "products" ? console.log("") : setProducts([-1]);
@@ -82,8 +82,8 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
             }}
             className={
               categoryUrl == "products"
-                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
-                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+                ? "bg-orange-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
             }
           >
             همه دسته ها
@@ -98,8 +98,8 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
             }}
             className={
               categoryUrl == "get-products-of-type/book"
-                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
-                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+                ? "bg-orange-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
             }
           >
             کتاب ها
@@ -114,8 +114,8 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
             }}
             className={
               categoryUrl == "get-products-of-type/app"
-                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
-                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+                ? "bg-orange-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
             }
           >
             اپلیکیشن ها
@@ -130,8 +130,8 @@ const AllProducts = ({ setProductDetailCtrl, setRandNumForProductClick }) => {
             }}
             className={
               categoryUrl == "get-products-of-type/gr"
-                ? "bg-orange-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
-                : "bg-yellow-300 rounded border-2 py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
+                ? "bg-orange-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-orange-400"
+                : "bg-yellow-300 rounded border-2 text-sm md:text-md py-2 px-2 border-black transition-all duration-200 hover:bg-yellow-400"
             }
           >
             فایل های گرافیکی

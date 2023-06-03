@@ -1,7 +1,9 @@
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import Redirect from "../../components/redirect";
 
 const AccountPage = () => {
-  redirect("/account/info");
+  return <Redirect url={"/account/info"} />;
+  // redirect("/account/info");
 };
 
 export default AccountPage;

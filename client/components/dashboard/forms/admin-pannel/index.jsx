@@ -15,14 +15,6 @@ const AdminPannel = () => {
         headers: { auth_cookie: auth_cookie },
       })
       .then((d) => {
-        toast.success("اطلاعات لود شد!", {
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
         setNewItemsData(d.data);
       })
       .catch((err) => {
@@ -40,7 +32,7 @@ const AdminPannel = () => {
 
   return (
     <div className="p-8 flex flex-col gap-8">
-      <h2 className="text-xl p-4">پیشخوان مدیریتی وبسایت</h2>
+      <h2 className="text-lg md:text-xl p-4">پیشخوان مدیریتی</h2>
       <div>
         {newItemsData == -1 ? (
           <div className="flex justify-center items-center p-12">

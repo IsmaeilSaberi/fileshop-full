@@ -17,9 +17,11 @@ const Box = ({ data, setUserDetailCtrl, setRandNumForUserClick }) => {
       className="relative flex justify-start gap-8 items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
       <div className="flex flex-col gap-4">
-        <div className="">نام کاربری: {data.username}</div>
-        <div className="">نام نمایشی: {data.displayname}</div>
-        <div className="">ایمیل: {data.email}</div>
+        <div className="m-4 w-full flex flex-col gap-2">
+          <div className="">نام کاربری: {data.username}</div>
+          <div className="">نام نمایشی: {data.displayname}</div>
+          <div className="">ایمیل: {data.email}</div>
+        </div>
         <div className="text-xs absolute top-3 left-3 bg-orange-500 text-white px-2 py-1 rounded">
           {data.createdAt}
         </div>

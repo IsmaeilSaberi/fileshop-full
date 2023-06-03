@@ -43,7 +43,7 @@ const Box = ({ data, setProductDetailCtrl, setRandNumForProductClick }) => {
         />
       </div>
       <div className="flex flex-col gap-4 h-40">
-        <div className="">{data.title}</div>
+        <div className="mt-4">{data.title}</div>
 
         <div className="absolute top-3 left-3 flex text-white justify-end items-center gap-2">
           <div className="text-xs  bg-blue-500  px-2 py-1 rounded">

@@ -21,10 +21,10 @@ const CategoryMain = () => {
   }, [randNumForCategoryClick]);
 
   return (
-    <div className="flex flex-col gap-8">
-      <section className="flex justify-between items-center gap-4">
+    <div className="flex flex-col gap-10 relative pt-4 md:pt-8">
+      <section className="flex flex-col md:flex-row justify-between items-center gap-4">
         <h1 className="text-blue-500 text-lg">دسته بندی های محصول</h1>
-        <div className="flex justify-end items-center gap-2">
+        <div className="flex justify-between md:justify-end items-center gap-10 md:gap-2">
           <button
             onClick={() =>
               setDetails(

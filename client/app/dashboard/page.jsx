@@ -37,7 +37,9 @@ const Page = async () => {
         <meta name="description" content="داشبورد مدیریتی" />
         <link rel="canonical" href="http://localhost:3000/dashboard" />
       </>
-      <MainDashboard />
+      <div className="container mx-auto flex justify-center items-center">
+        <MainDashboard />
+      </div>
     </div>
   );
 };

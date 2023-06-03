@@ -182,7 +182,7 @@ const Header = () => {
                   className="w-12 absolute left-0"
                   type="submit"
                 >
-                  <AiOutlineSearch className="w-10 h-10" />
+                  <AiOutlineSearch className="w-8 md:w-10 h-8 mdh-10" />
                 </button>
               </form>
               <div className="flex flex-col md:flex-row gap-4 items-center w-full md:w-[26rem] justify-end">

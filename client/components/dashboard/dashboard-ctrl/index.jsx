@@ -2,17 +2,18 @@
 import { useState } from "react";
 import DCBtn from "./btn";
 
-const DashboardCtrl = ({ setContentChanger }) => {
+const DashboardCtrl = ({ setContentChanger, setMenuIsOpen }) => {
   const [colorChanger, setColorChanger] = useState("admin-pannel");
   return (
-    <div className="w-60 flex justify-center items-center h-[100vh]">
-      <div className="rounded-lg bg-zinc-200 p-2 flex flex-col justify-around items-center h-[99vh]">
+    <div className="flex justify-center items-center mt-12 md:mt-0 ">
+      <div className="flex flex-col justify-center items-center gap-4 w-full">
         <DCBtn
           title={"پیشخوان"}
           content={"admin-pannel"}
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"بنرهای تبلیغاتی"}
@@ -20,6 +21,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"اسلایدرها"}
@@ -27,6 +29,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"پست ها"}
@@ -34,6 +37,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"دسته بندی محصول"}
@@ -41,6 +45,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"محصولات"}
@@ -48,6 +53,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"کاربرها"}
@@ -55,6 +61,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"دیدگاهها"}
@@ -62,6 +69,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
         <DCBtn
           title={"سفارشات"}
@@ -69,6 +77,7 @@ const DashboardCtrl = ({ setContentChanger }) => {
           setContentChanger={setContentChanger}
           colorChanger={colorChanger}
           setColorChanger={setColorChanger}
+          setMenuIsOpen={setMenuIsOpen}
         />
       </div>
     </div>

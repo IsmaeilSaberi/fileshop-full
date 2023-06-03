@@ -82,7 +82,9 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
     }
   }, [searchParams.np_status, searchParams.trans_id]);
 
-  return <div>لطفا صبر کنید ...</div>;
+  return (
+    <div className="flex justify-center items-center">لطفا صبر کنید ...</div>
+  );
 };
 
 export default PaymentResultComponent;

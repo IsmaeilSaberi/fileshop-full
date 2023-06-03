@@ -4,7 +4,7 @@ import Link from "next/link";
 const BlogBox = ({ data }) => {
   return (
     <article className="sliderItem p-2 transition-all duration-200 hover:-translate-y-2">
-      <div className="relative h-[26rem] w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
+      <div className="relative h-[26rem] w-full md:w-72 bg-white rounded-md shadow-[0px_1px_10px_rgba(0,0,0,0.25)] hover:shadow-[0px_2px_10px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-center p-1">
           <Link href={`/blog/${data.slug}`} target="_blank">
             <Image

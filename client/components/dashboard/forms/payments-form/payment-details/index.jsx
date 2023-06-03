@@ -159,8 +159,8 @@ const PaymentDetails = ({ paymentId }) => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            <div className="bg-zinc-200 rounded px-3 py-1 text-sm flex justify-center items-center gap-2">
+          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
+            <div className="bg-zinc-200 rounded p-2 text-sm flex flex-col justify-center items-center gap-2">
               <div> کد پرداختی :</div>
               <div>{fullData.resnumber ? fullData.resnumber : ""}</div>
             </div>

@@ -15,10 +15,10 @@ const Box = ({ data, setCommentDetailCtrl, setRandNumForCommentClick }) => {
         setCommentDetailCtrl(data._id);
         setRandNumForCommentClick(Math.random());
       }}
-      className="relative flex justify-start gap-8 items-center w-full h-24 cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
+      className="relative flex justify-start gap-8 items-center w-full h-32 cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
-      <div className="flex flex-col gap-4">
-        <div className="">ایمیل: {data.email}</div>
+      <div className="flex w-full flex-col gap-4">
+        <div className="m-2">ایمیل: {data.email}</div>
         <div className="text-xs absolute top-3 left-3 bg-orange-500 text-white flex justify-center items-center w-28 h-6 rounded">
           {data.createdAt}
         </div>

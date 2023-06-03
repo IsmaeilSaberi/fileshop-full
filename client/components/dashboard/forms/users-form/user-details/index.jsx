@@ -232,7 +232,7 @@ const UserDetails = ({ userId }) => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
             <div className="bg-zinc-200 rounded px-3 py-1 text-sm flex justify-center items-center gap-2">
               {fullData._id ? fullData._id : ""}
             </div>
@@ -427,7 +427,7 @@ const UserDetails = ({ userId }) => {
                   {fullData.comments.map((da, i) => (
                     <div
                       key={i}
-                      className="flex flex-col justify-between gap-4 bg-zinc-200 rounded-md p-4 w-[48%] min-h-[13rem]"
+                      className="flex flex-col justify-between gap-4 bg-zinc-200 rounded-md p-4 w-full md:w-[48%] min-h-[13rem]"
                     >
                       <div className="flex justify-start items-center gap-2">
                         <div>مرجع :</div>

@@ -1,6 +1,7 @@
 import RegisterForm from "../../components/auth/registerForm";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import Redirect from "../../components/redirect";
 
 const getAuthData = async (cookieValue) => {
   const goalData = await fetch(
@@ -9,7 +10,8 @@ const getAuthData = async (cookieValue) => {
   );
   const data = await goalData.json();
   if (data._id) {
-    redirect("/account");
+    return <Redirect url={"/account"} />;
+    // redirect("/account");
   } else {
     return data;
   }

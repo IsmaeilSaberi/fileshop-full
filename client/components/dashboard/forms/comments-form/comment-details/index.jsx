@@ -197,7 +197,7 @@ const CommentDetails = ({ commentId }) => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between items-center">
             <Link
               href={
                 fullData.typeOfModel == "post"

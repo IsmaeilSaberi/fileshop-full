@@ -74,9 +74,11 @@ const BlogPageComp = ({ url }) => {
               پستی موجود نیست!
             </div>
           ) : (
-            <div className="flex flex-wrap justify-center md:justify-between items-center gap-2">
+            <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 p-4">
               {result.map((post, i) => (
-                <BlogBox key={i} data={post} />
+                <div key={i}>
+                  <BlogBox data={post} />
+                </div>
               ))}
             </div>
           )}

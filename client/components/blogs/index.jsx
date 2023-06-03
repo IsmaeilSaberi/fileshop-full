@@ -31,9 +31,11 @@ const Blogs = async () => {
               </Link>
             </div>
           </header>
-          <div className="flex flex-wrap justify-between items-center gap-2">
+          <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-2 p-2">
             {data.map((bl, i) => (
-              <BlogBox key={i} data={bl} />
+              <div key={i}>
+                <BlogBox data={bl} />
+              </div>
             ))}
           </div>
         </section>

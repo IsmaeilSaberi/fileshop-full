@@ -18,7 +18,7 @@ const Box = ({ data, setCategoryDetailCtrl, setRandNumForCategoryClick }) => {
       }}
       className="relative flex justify-between items-center w-full cursor-pointer p-6 rounded-lg border-2 border-zinc-200 bg-zinc-100 transition-all duration-200 hover:border-orange-500"
     >
-      <div className="flex justify-start items-center">
+      <div className="flex justify-start items-center m-4">
         <Image
           className="rounded-lg"
           alt={data.imageAlt}
