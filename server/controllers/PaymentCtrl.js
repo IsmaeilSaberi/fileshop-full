@@ -153,7 +153,11 @@ const paymentResultCheck = async (req, res) => {
         await Payment.findByIdAndUpdate(thePayment._id, newPaymentData, {
           new: true,
         });
-        res.status(200).json({ msg: "به امید موفقیت روز افزون!" });
+        res
+          .status(200)
+          .json({
+            msg: "خریدتان موفقیت آموز بود و فایل به محصولات شما اضافه خواهد شد!",
+          });
       } else {
         res.status(401).json({ msg: "پرداخت انجام نشده است!" });
       }

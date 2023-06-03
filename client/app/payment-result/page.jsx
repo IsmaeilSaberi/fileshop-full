@@ -25,7 +25,7 @@ const Page = async ({ searchParams }) => {
   return (
     <section className="container mx-auto flex justify-center items-center p-12">
       <>
-        <title>لطفا صیر کنید</title>
+        <title>لطفا صبر کنید</title>
         <meta name="robots" content="noindex,nofollow" />
         <meta name="description" content="لطفا صیر کنید" />
         <link rel="canonical" href="http://localhost:3000/payment-result" />

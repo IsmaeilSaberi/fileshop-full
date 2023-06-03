@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 // USING CONTEXT
 import { useAppContext } from "../../context/app-context";
+import Redirect from "../redirect";
 
 const PaymentResultComponent = ({ searchParams, cookie }) => {
   const router = useRouter();
@@ -61,6 +62,7 @@ const PaymentResultComponent = ({ searchParams, cookie }) => {
             progress: undefined,
           });
           setCartNumber(0);
+          // return <Redirect url={"/account/files"} />;
           router.push("/account/files");
         })
         .catch((err) => {

@@ -189,7 +189,7 @@ const CartPageComponent = ({ cookie }) => {
           draggable: true,
           progress: undefined,
         });
-        window.location.assign(d.data.link);
+        window.location.replace(d.data.link);
       })
       .catch((err) => {
         const message =
