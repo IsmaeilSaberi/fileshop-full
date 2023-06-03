@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import Redirect from "../../components/redirect";
 import PaymentResultComponent from "../../components/payment-result-component";
 import { cookies } from "next/headers";
 
@@ -9,7 +9,7 @@ const getAuthData = async (cookieValue) => {
   );
   const data = await goalData.json();
   if (!data._id) {
-    redirect("/login");
+    return <Redirect url={"/login"} />;
   } else {
     return data;
   }

@@ -1,6 +1,5 @@
 import LoginForm from "../../components/auth/loginForm";
 import { cookies } from "next/headers";
-// import { redirect } from "next/navigation";
 import Redirect from "../../components/redirect";
 
 const getAuthData = async (cookieValue) => {
@@ -11,7 +10,6 @@ const getAuthData = async (cookieValue) => {
   const data = await goalData.json();
   if (data._id) {
     return <Redirect url={"/account/info"} />;
-    // redirect("/account/info");
   } else {
     return data;
   }
