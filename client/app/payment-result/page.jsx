@@ -28,7 +28,7 @@ const Page = async ({ searchParams }) => {
         <title>لطفا صبر کنید</title>
         <meta name="robots" content="noindex,nofollow" />
         <meta name="description" content="لطفا صیر کنید" />
-        <link rel="canonical" href="http://localhost:3000/payment-result" />
+        <link rel="canonical" href="http://ismaeilsaberi.ir/payment-result" />
       </>
       <PaymentResultComponent
         searchParams={searchParams}

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 // USING CONTEXT
 import { useAppContext } from "../../context/app-context";
-import Redirect from "../redirect";
 
 const PaymentResultComponent = ({ searchParams, cookie }) => {
   const router = useRouter();

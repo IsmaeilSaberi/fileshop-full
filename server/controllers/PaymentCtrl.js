@@ -30,7 +30,7 @@ const newPayment = async (req, res) => {
         let data = {
           api_key: process.env.MERCHANT_CODE,
           amount: req.body.amount,
-          callback_uri: "http://localhost:3000/payment-result",
+          callback_uri: "https://ismaeilsaberi.ir/payment-result",
           order_id: orderId,
           payer_desc: "پرداخت فروشگاه فایل اسماعیل",
           // custom_json_fields: req.user.cart,
@@ -153,11 +153,9 @@ const paymentResultCheck = async (req, res) => {
         await Payment.findByIdAndUpdate(thePayment._id, newPaymentData, {
           new: true,
         });
-        res
-          .status(200)
-          .json({
-            msg: "خریدتان موفقیت آموز بود و فایل به محصولات شما اضافه خواهد شد!",
-          });
+        res.status(200).json({
+          msg: "خریدتان موفقیت آموز بود و فایل به محصولات شما اضافه خواهد شد!",
+        });
       } else {
         res.status(401).json({ msg: "پرداخت انجام نشده است!" });
       }
