@@ -219,10 +219,10 @@ const ShopComponent = ({ url }) => {
             : "z-50 md:z-30 flex flex-col gap-1 md:gap-4 backdrop-blur-3xl md:bg-transparent w-full md:w-80 h-[100vh] md:h-auto py-1 md:px-2 fixed overflow-auto top-0 bottom-0 right-0 left-0 md:static transition-all duration-500 pt-10 md:pt-0"
         }
       >
-        <div className=" flex flex-col gap-4 bg-transparent md:bg-zinc-100 rounded-lg p-2">
-          <div className=" text-white md:text-black">مرتب سازی بر اساس</div>
-          <div className=" flex gap-2 items-center flex-wrap justify-center 2xl:justify-between">
-            <div className=" flex gap-1 md:bg-transparent bg-zinc-100  items-center justify-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200 transition-all duration-300 hover:border-blue-400 rounded">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
+          <div className="text-black">مرتب سازی بر اساس</div>
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="date">جدیدترین</label>
               {orderBy == "&orderBy=date" ? (
                 <input
@@ -243,7 +243,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className=" flex gap-1 md:bg-transparent bg-zinc-100  items-center justify-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200  transition-all duration-300 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="price">قیمت</label>
               {
                 <input
@@ -256,7 +256,7 @@ const ShopComponent = ({ url }) => {
                 />
               }
             </div>
-            <div className=" flex gap-1 md:bg-transparent bg-zinc-100  items-center justify-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200  transition-all duration-300 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="pageView">پربازدیدترین</label>
               {orderBy == "&orderBy=pageView" ? (
                 <input
@@ -277,7 +277,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className=" flex gap-1  md:bg-transparent bg-zinc-100 items-center justify-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200  transition-all duration-300 hover:border-blue-400 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="buyNumber">پرفروش ترین</label>
               {orderBy == "&orderBy=buyNumber" ? (
                 <input
@@ -300,10 +300,10 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className=" flex flex-col gap-4 bg-transparent md:bg-zinc-100  rounded-lg p-2">
-          <div className=" text-white md:text-black">نوع محصول</div>
-          <div className=" flex gap-2 items-center flex-wrap justify-center 2xl:justify-between">
-            <div className="md:bg-transparent bg-zinc-100 flex gap-1 items-center justify-center w-28 h-10 text-base  transition-all duration-300 hover:border-blue-400 sm:text-xs border-2 border-zinc-200 rounded">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
+          <div className="text-black">نوع محصول</div>
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="allPros">همه</label>
               {typeOfPro == "" ? (
                 <input
@@ -324,7 +324,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="md:bg-transparent bg-zinc-100 flex gap-1 items-center justify-center w-28 h-10 text-base  transition-all duration-300 hover:border-blue-400 sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="app">اپلیکیشن</label>
               {typeOfPro == "&type=app" ? (
                 <input
@@ -345,7 +345,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="md:bg-transparent bg-zinc-100 flex gap-1 items-center justify-center w-28 h-10 text-base  transition-all duration-300 hover:border-blue-400 sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="book">کتاب</label>
               {typeOfPro == "&type=book" ? (
                 <input
@@ -366,7 +366,7 @@ const ShopComponent = ({ url }) => {
                 />
               )}
             </div>
-            <div className="md:bg-transparent bg-zinc-100 flex gap-1 items-center justify-center w-28 h-10 text-base  transition-all duration-300 hover:border-blue-400 sm:text-xs border-2 border-zinc-200 rounded">
+            <div className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded">
               <label htmlFor="gr">فایل گرافیکی</label>
               {typeOfPro == "&type=gr" ? (
                 <input
@@ -389,12 +389,12 @@ const ShopComponent = ({ url }) => {
             </div>
           </div>
         </div>
-        <div className=" flex flex-col gap-4 bg-transparent md:bg-zinc-100  rounded-lg p-2">
-          <div className=" text-white md:text-black">بازه قیمت (تومان)</div>
-          <form onSubmit={pricemanager} className=" flex gap-4 flex-col">
-            <div className=" flex gap-2 items-center flex-wrap justify-center 2xl:justify-between ">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
+          <div className="text-black">بازه قیمت (تومان)</div>
+          <form onSubmit={pricemanager} className="flex flex-col gap-4">
+            <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
               <input
-                className="inputLtr md:bg-transparent bg-zinc-100 text-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200 rounded  transition-all duration-300 outline-none focus:border-blue-400"
+                className="inputLtr text-center text-black gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 placeholder="حداقل قیمت"
                 ref={minPRef}
@@ -402,7 +402,7 @@ const ShopComponent = ({ url }) => {
                 min={0}
               />
               <input
-                className="inputLtr md:bg-transparent bg-zinc-100 text-center w-28 h-10 text-base sm:text-xs border-2 border-zinc-200 rounded  transition-all duration-300 outline-none focus:border-blue-400"
+                className="inputLtr text-center text-black gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 focus:border-blue-400 rounded"
                 type="number"
                 placeholder="حداکثر قیمت"
                 ref={maxPRef}
@@ -413,16 +413,16 @@ const ShopComponent = ({ url }) => {
             <div className=" flex justify-center">
               <button
                 type="submit"
-                className=" w-60 md:w-full bg-orange-400 p-2 rounded h-10 flex justify-center items-center text-white transition-all duration-300 hover:bg-orange-500"
+                className="w-60 md:w-full bg-orange-400 rounded h-8 md:h-10 flex justify-center items-center text-white transition-all duration-200 hover:bg-orange-500"
               >
                 اعمال فیلتر قیمت
               </button>
             </div>
           </form>
         </div>
-        <div className=" flex flex-col gap-4 bg-transparent md:bg-zinc-100  rounded-lg p-2">
-          <div className=" text-white md:text-black">دسته بندی</div>
-          <div className=" flex gap-2 items-center flex-wrap justify-between">
+        <div className="flex flex-col gap-1 md:gap-4 bg-transparent md:bg-zinc-100 md:rounded-lg p-2 text-black text-xs md:text-base">
+          <div className="text-black">دسته بندی</div>
+          <div className="flex items-center justify-center 2xl:justify-between flex-wrap gap-2">
             {allCats[0] == -1 ? (
               <div className=" w-full flex justify-center items-center p-12">
                 <Image
@@ -440,7 +440,7 @@ const ShopComponent = ({ url }) => {
                   {allCats.map((da, i) => (
                     <div
                       key={i}
-                      className="md:bg-transparent bg-zinc-100 w-28 flex gap-1 items-center justify-center p-2 text-base sm:text-xs border-2 border-zinc-200 rounded  transition-all duration-300 hover:border-blue-400"
+                      className="flex justify-center items-center gap-1 w-28 p-1 md:p-2 tesxt-base sm:text-xs border-2  border-gray-400 md:border-zinc-200 transition-all duration-200 hover:border-blue-400 rounded"
                     >
                       <label htmlFor={da.slug}>{da.title}</label>
                       {urlCatsIds.length < 1 ? (

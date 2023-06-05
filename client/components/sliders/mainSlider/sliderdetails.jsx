@@ -52,11 +52,11 @@ const SliderDetails = ({ data }) => {
           </div>
           <Link
             href={data[nowSlide].link}
-            className="mt-12 md:mt-0 flex z-20 justify-center items-center gap-6 "
+            className="mt-2 md:mt-0 flex z-20 justify-center items-center gap-6 "
           >
             <Image
               width={1200}
-              height={300}
+              height={500}
               className={
                 slideHandler == 1
                   ? "rounded-xl animate__animated  animate__bounceIn animate__slow"

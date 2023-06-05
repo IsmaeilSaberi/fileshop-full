@@ -189,7 +189,7 @@ const Favorites = ({ cookie }) => {
                       className="w-full flex flex-col gap-4 bg-zinc-200 text-sm rounded-md p-4 border-2 border-indigo-400"
                       key={i}
                     >
-                      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                      <div className="flex w-full flex-col md:flex-row justify-center items-center md:justify-between md:items-start gap-4">
                         <div className="flex justify-center items-center">
                           <Image
                             className="p-2"

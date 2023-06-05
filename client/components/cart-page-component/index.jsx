@@ -249,7 +249,7 @@ const CartPageComponent = ({ cookie }) => {
                         key={i}
                       >
                         <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                          <div className="flex justify-center items-center">
+                          <div className="flex w-full justify-center items-center">
                             <Image
                               className="p-2"
                               alt={"product_image"}
@@ -327,7 +327,7 @@ const CartPageComponent = ({ cookie }) => {
                   </div>
                 )}
               </div>
-              <div className="w-80 flex flex-col gap-6 min-w-80 rounded-md bg-zinc-100 p-4">
+              <div className="w-full md:w-80 flex flex-col gap-6 min-w-80 rounded-md bg-zinc-100 p-4">
                 <div className="flex justify-center items-center gap-1">
                   <div>مجموع قیمت :</div>
                   <div className="flex justify-center items-center gap-1">
